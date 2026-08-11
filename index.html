@@ -1,268 +1,131 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#061114">
-<title>MatchPoint</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#020b0d">
+<title>MatchPoint – Trova il tuo compagno di tennis</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#061114}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.app{width:100%;height:100dvh;max-width:520px;margin:auto;position:relative;overflow:hidden;background:#061114}
-.home{position:absolute;inset:0}
-.home img{width:100%;height:100%;display:block;object-fit:contain;object-position:center}
-.tap{position:absolute;border:0;background:transparent;padding:0;margin:0;z-index:10;cursor:pointer}
-.cta{left:9%;top:59%;width:82%;height:7.5%}
-.nav-home{left:0;bottom:0;width:25%;height:8%}
-.nav-history{left:50%;bottom:0;width:25%;height:8%}
-.nav-profile{left:75%;bottom:0;width:25%;height:8%}
-.screen{display:none;position:absolute;inset:0;overflow:auto;padding:28px 20px 92px;background:#061114;color:#fff}
-.screen.active{display:block}
-h2{font-size:28px;margin:4px 0 24px}
-label{font-weight:800;font-size:14px;display:block;margin-top:14px}
-input,select{width:100%;padding:15px;margin:8px 0 17px;border-radius:13px;border:1px solid #344143;background:#101b1d;color:#fff;font-size:16px}
-.action{width:100%;border:0;border-radius:15px;padding:16px;font-weight:900;background:#d9ff19;color:#101414;font-size:16px;margin-top:12px}
-.card{background:#101b1d;border:1px solid #273638;border-radius:18px;padding:18px;margin:14px 0}
-.muted{color:#b9c1c2;line-height:1.45}
-.back{background:#192628;color:#fff}
-.club{margin:12px 0}
-.set{border:1px solid #2b3739;border-radius:15px;padding:14px;margin:12px 0;background:#101b1d}
-.settitle{font-weight:900;margin-bottom:10px;color:#d9ff19}
-.scoreRow{display:grid;grid-template-columns:1fr 80px;gap:10px;align-items:center;margin:8px 0;color:#fff}
-.scoreRow input{margin:0;text-align:center}
-.score{text-align:center;font-size:21px;font-weight:900;margin:18px 0}
+  * { box-sizing: border-box; }
 
-.feature-card{min-height:110px;padding:10px 5px}
-  .feature-card strong{font-size:10px}
-  .feature-card>span:last-child{font-size:9px}
-}
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #020b0d;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
+  body {
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+  }
 
-.feature-hit{
-  position:absolute;z-index:20;display:block;border:0;padding:0;margin:0;
-  background:transparent;appearance:none;-webkit-appearance:none;
-  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-}
-.feature-when{left:6.5%;top:64%;width:21.8%;height:18%}
-.feature-match{left:28.7%;top:64%;width:21.8%;height:18%}
-.feature-club{left:50.9%;top:64%;width:21.8%;height:18%}
-.feature-score{left:73.1%;top:64%;width:21.8%;height:18%}
+  .app {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    min-height: 100vh;
+    background: #020b0d;
+    overflow: hidden;
+  }
 
+  .hero {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+  }
 
-.nav-cover{
-  position:absolute;z-index:25;left:0;right:0;bottom:0;height:9.8%;
-  background:#061114;border-top:1px solid rgba(255,255,255,.12);
-}
-.bottom-nav{
-  position:absolute;z-index:30;left:0;right:0;bottom:0;height:9.8%;
-  display:grid;grid-template-columns:repeat(3,1fr);align-items:center;
-}
-.bottom-item{
-  height:100%;border:0;background:transparent;color:#bfc7c8;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:6px;font:600 12px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  padding:4px 2px;cursor:pointer;touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
-.bottom-item.nav-home{color:#d9ff19}
-.nav-icon{position:relative;width:27px;height:27px;display:block}
-.home-icon:before{
-  content:"";position:absolute;left:4px;top:9px;width:19px;height:14px;
-  border:2px solid currentColor;border-top:0;border-radius:2px;
-}
-.home-icon:after{
-  content:"";position:absolute;left:4px;top:3px;width:15px;height:15px;
-  border-left:2px solid currentColor;border-top:2px solid currentColor;
-  transform:rotate(45deg);
-}
-.calendar-icon:before{
-  content:"";position:absolute;left:3px;top:5px;width:21px;height:19px;
-  border:2px solid currentColor;border-radius:4px;
-}
-.calendar-icon:after{
-  content:"";position:absolute;left:7px;top:11px;width:13px;height:2px;
-  background:currentColor;box-shadow:0 5px 0 currentColor;
-}
-.profile-icon:before{
-  content:"";position:absolute;left:7px;top:2px;width:11px;height:11px;
-  border:2px solid currentColor;border-radius:50%;
-}
-.profile-icon:after{
-  content:"";position:absolute;left:3px;bottom:2px;width:19px;height:10px;
-  border:2px solid currentColor;border-radius:12px 12px 7px 7px;
-}
-@media (max-width:390px){
-  .bottom-item{font-size:11px}
-}
+  .hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
 
+  /* The generated image already contains the complete visual.
+     These transparent hit areas make the visible controls clickable. */
+  .hit {
+    position: absolute;
+    display: block;
+    z-index: 5;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .match-hit {
+    left: 9%;
+    width: 82%;
+    top: 67.5%;
+    height: 8.5%;
+    border-radius: 60px;
+  }
+
+  .home-hit {
+    left: 5%;
+    width: 27%;
+    bottom: 1%;
+    height: 10%;
+  }
+
+  .partite-hit {
+    left: 36%;
+    width: 28%;
+    bottom: 1%;
+    height: 10%;
+  }
+
+  .profilo-hit {
+    right: 5%;
+    width: 27%;
+    bottom: 1%;
+    height: 10%;
+  }
+
+  /* Prevent accidental selection while tapping the UI. */
+  button, a { outline: none; }
 </style>
 </head>
 <body>
-<div class="app">
+<main class="app" aria-label="MatchPoint">
+  <section class="hero">
+    <img src="matchpoint-home.png"
+         alt="MatchPoint – Trova il tuo compagno di tennis">
 
-<section id="home" class="home">
-  <img src="matchpoint-home.png" alt="MatchPoint">
-  <button id="mainCta" class="tap cta" aria-label="Trova il mio match"></button>
-  <div class="nav-cover" aria-hidden="true"></div>
-  <nav class="bottom-nav" aria-label="Navigazione principale">
-    <button class="bottom-item nav-home" aria-label="Home">
-      <span class="nav-icon home-icon"></span><span>Home</span>
-    </button>
-    <button class="bottom-item nav-history" aria-label="Le mie partite">
-      <span class="nav-icon calendar-icon"></span><span>Le mie partite</span>
-    </button>
-    <button class="bottom-item nav-profile" aria-label="Profilo">
-      <span class="nav-icon profile-icon"></span><span>Profilo</span>
-    </button>
-  </nav>
+    <button class="hit match-hit"
+            aria-label="Trova il mio match"
+            onclick="vaiA('match')"></button>
 
-  <button class="feature-hit feature-when" data-feature="create" aria-label="Scegli quando"></button>
-  <button class="feature-hit feature-match" data-feature="create" aria-label="Trova il match"></button>
-  <button class="feature-hit feature-club" data-feature="clubs" aria-label="Scegli il campo"></button>
-  <button class="feature-hit feature-score" data-feature="score" aria-label="Gioca e registra"></button>
+    <button class="hit home-hit"
+            aria-label="Home"
+            onclick="vaiA('home')"></button>
 
-</section>
+    <button class="hit partite-hit"
+            aria-label="Le mie partite"
+            onclick="vaiA('partite')"></button>
 
-<section id="create" class="screen">
-<h2>Crea il tuo Match</h2>
-<label>Quando vuoi giocare?</label><input id="date" type="date">
-<label>Orario</label><input type="time" value="18:00">
-<label>📍 Zona</label><input id="place" placeholder="Es. Pieve di Soligo" autocomplete="off"><div id="suggestions"></div>
-<label>Livello</label><select><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
-<button class="action" id="searchBtn">CERCA IL MIO MATCH</button>
-<button class="action back" data-go="home">INDIETRO</button>
-</section>
-
-<section id="search" class="screen"><h2>🔎 Cerchiamo il tuo Match...</h2><p class="muted">Orario · zona · distanza · livello</p></section>
-
-<section id="found" class="screen">
-<h2>🎉 Match trovato!</h2>
-<p class="muted">Abbiamo trovato un giocatore compatibile con la tua richiesta.</p>
-<div class="card">
-  <b style="font-size:21px">Sandro ↔ Luca</b>
-  <p>🎾 Livello: <b>Intermedio</b></p>
-  <p>📍 Distanza: <b>6 km</b></p>
-  <p>📅 Domani · 🕕 18:00</p>
-  <div class="status"><b style="color:#d9ff19">92% compatibile</b><br><span class="muted">Stessa zona, stesso livello e stesso orario.</span></div>
-</div>
-<button class="action" data-go="clubs">SCEGLI IL CAMPO</button>
-</section>
-
-<section id="clubs" class="screen">
-<h2>📍 Dove giochiamo?</h2><p class="muted">MatchPoint propone 3 campi comodi per entrambi i giocatori. Scegline uno.</p>
-<div class="card club"><b>Tennis Club Pieve di Soligo</b><p class="muted">Campo consigliato · comodo per entrambi</p><button class="action clubBtn" data-club="Tennis Club Pieve di Soligo">PROPONI QUESTO CAMPO</button></div>
-<div class="card club"><b>Tennis Club Vittorio Veneto</b><p class="muted">Comodo per entrambi</p><button class="action clubBtn" data-club="Tennis Club Vittorio Veneto">PROPONI QUESTO CAMPO</button></div>
-<div class="card club"><b>Tennis Club Conegliano</b><p class="muted">Comodo per entrambi</p><button class="action clubBtn" data-club="Tennis Club Conegliano">PROPONI QUESTO CAMPO</button></div>
-</section>
-
-<section id="choice" class="screen">
-<h2>Campo proposto</h2><div class="card"><b id="chosenClub"></b><p class="muted">Hai proposto questo campo a Luca.</p><div class="card">👤 Luca ha accettato il campo.</div></div>
-<button class="action" data-go="booking">CONTINUA</button>
-</section>
-
-<section id="booking" class="screen">
-<h2>Chi prenota?</h2><div class="card"><b id="bookingClub"></b><p>Domani · 18:00</p></div>
-<button class="action" id="sandroBook">SANDRO PRENOTA</button>
-<button class="action back" id="lucaBook">LASCIA PRENOTARE LUCA</button>
-</section>
-
-<section id="waiting" class="screen">
-<h2>📞 Prenotazione in corso</h2><div class="card"><p id="wait" class="muted"></p></div>
-<button class="action" id="confirmBook">CONFERMA PRENOTAZIONE EFFETTUATA</button>
-</section>
-
-<section id="confirmed" class="screen">
-<h2>✅ Partita confermata</h2><div class="card"><b>Sandro vs Luca</b><p id="confirmedClub"></p><p>📅 Domani · 18:00</p><p>🟢 Campo prenotato</p></div>
-<button class="action" data-go="score">INSERISCI RISULTATO</button>
-</section>
-
-<section id="score" class="screen">
-<h2>Inserisci il risultato</h2><p class="muted">Compila solo i set effettivamente giocati.</p><div id="sets"></div>
-<button class="action" id="sendScore">INVIA PER CONFERMA</button>
-</section>
-
-<section id="result" class="screen">
-<h2>Risultato inviato</h2><div class="card"><div id="resultText" class="score"></div><p class="muted">Luca deve confermare il risultato.</p></div>
-<button class="action" data-go="history">SIMULA CONFERMA DI LUCA</button>
-</section>
-
-<section id="history" class="screen">
-<h2>Le mie partite</h2><div class="card"><b>🎾 Sandro vs Luca</b><div id="historyText" class="score"></div><p>✅ Risultato confermato</p></div>
-<button class="action" data-go="home">TORNA ALLA HOME</button>
-</section>
-
-
-<section id="profile" class="screen">
-<h2>Il mio profilo</h2>
-<div class="card">
-  <h3 style="margin:0 0 8px;font-size:21px">🎾 Sandro</h3>
-  <p class="muted">Il tuo profilo MatchPoint</p>
-</div>
-<div class="card">
-  <b>Livello</b>
-  <p class="muted">Intermedio</p>
-</div>
-<div class="card">
-  <b>Zona di gioco</b>
-  <p class="muted">Pieve di Soligo e dintorni</p>
-</div>
-<div class="card">
-  <b>Preferenze</b>
-  <p class="muted">Distanza massima · 10 km</p>
-</div>
-<button class="action" data-go="home">TORNA ALLA HOME</button>
-</section>
+    <button class="hit profilo-hit"
+            aria-label="Profilo"
+            onclick="vaiA('profilo')"></button>
+  </section>
+</main>
 
 <script>
-document.addEventListener('DOMContentLoaded',function(){
-  let chosen='';
-  function go(id){
-    document.querySelectorAll('.home,.screen').forEach(function(x){x.style.display='none'});
-    const el=document.getElementById(id);
-    if(el){el.style.display='block';el.scrollTop=0}
-    window.scrollTo(0,0);
-  }
-  document.getElementById('mainCta').addEventListener('click',function(e){e.preventDefault();go('create')});
-  document.getElementById('mainCta').addEventListener('touchend',function(e){e.preventDefault();go('create')},{passive:false});
-  document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
-  document.querySelector('.nav-home').addEventListener('click',function(){go('home')});
-  document.querySelector('.nav-history').addEventListener('click',function(){go('history')});
-  document.querySelectorAll('.feature-hit').forEach(function(btn){
-    function activate(e){
-      if(e){e.preventDefault();e.stopPropagation();}
-      go(btn.getAttribute('data-feature'));
+  function vaiA(sezione) {
+    // Collega qui le sezioni già presenti nel tuo MatchPoint.
+    // Per ora usiamo hash così puoi verificare subito i click.
+    if (sezione === 'home') {
+      window.location.hash = '';
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    } else {
+      window.location.hash = sezione;
     }
-    btn.addEventListener('click', activate);
-    btn.addEventListener('touchend', activate, {passive:false});
-  });
-
-
-
-
-
-  document.querySelector('.nav-profile').addEventListener('click',function(){go('profile')});
-  document.getElementById('searchBtn').addEventListener('click',function(){go('search');setTimeout(function(){go('found')},700)});
-  document.querySelectorAll('.clubBtn').forEach(function(b){b.addEventListener('click',function(){
-    chosen=b.dataset.club;document.getElementById('chosenClub').textContent=chosen;document.getElementById('bookingClub').textContent=chosen;go('choice');
-  })});
-  function book(who){document.getElementById('wait').textContent=who+' ha preso in carico la prenotazione. Dopo aver prenotato, conferma qui.';go('waiting')}
-  document.getElementById('sandroBook').addEventListener('click',function(){book('Sandro')});
-  document.getElementById('lucaBook').addEventListener('click',function(){book('Luca')});
-  document.getElementById('confirmBook').addEventListener('click',function(){document.getElementById('confirmedClub').textContent='📍 '+chosen;go('confirmed')});
-  const sets=document.getElementById('sets');
-  for(let i=1;i<=5;i++){const s=document.createElement('div');s.className='set';s.innerHTML='<div class="settitle">Set '+i+'</div><div class="scoreRow"><span>Sandro</span><input class="a" type="number" min="0" max="20" placeholder="-"></div><div class="scoreRow"><span>Luca</span><input class="b" type="number" min="0" max="20" placeholder="-"></div>';sets.appendChild(s)}
-  document.getElementById('sendScore').addEventListener('click',function(){
-    const r=[];document.querySelectorAll('.set').forEach(function(s,i){let a=s.querySelector('.a').value,b=s.querySelector('.b').value;if(a!==''||b!=='')r.push('Set '+(i+1)+': '+(a||0)+'-'+(b||0))});
-    if(!r.length){alert('Inserisci almeno un set.');return} const t=r.join(' · ');document.getElementById('resultText').textContent=t;document.getElementById('historyText').textContent=t;go('result');
-  });
-  const d=new Date();d.setDate(d.getDate()+1);document.getElementById('date').value=d.toISOString().slice(0,10);
-  const places=['Pieve di Soligo, TV','Vittorio Veneto, TV','Conegliano, TV','Farra di Soligo, TV'];
-  const p=document.getElementById('place'),s=document.getElementById('suggestions');
-  p.addEventListener('input',function(){const q=p.value.toLowerCase().trim();s.innerHTML='';if(!q)return;places.filter(function(x){return x.toLowerCase().includes(q)}).forEach(function(x){const d=document.createElement('div');d.className='card';d.textContent='📍 '+x;d.onclick=function(){p.value=x;s.innerHTML=''};s.appendChild(d)})});
-  document.getElementById('home').style.display='block';
-});
+  }
 </script>
-</div>
 </body>
 </html>
