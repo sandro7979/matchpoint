@@ -18,6 +18,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 .nav-search{left:25%;bottom:0;width:25%;height:8%}
 .nav-history{left:50%;bottom:0;width:25%;height:8%}
 .nav-profile{left:75%;bottom:0;width:25%;height:8%}
+.feature{position:absolute;border:0;background:transparent;padding:0;margin:0;z-index:11;cursor:pointer}
+.feature-when{left:7%;top:72%;width:21%;height:10%}
+.feature-match{left:28%;top:72%;width:22%;height:10%}
+.feature-court{left:50%;top:72%;width:22%;height:10%}
+.feature-score{left:72%;top:72%;width:21%;height:10%}
+
 .screen{display:none;position:absolute;inset:0;overflow:auto;padding:28px 20px 40px;background:#061114;color:#fff}
 .screen.active{display:block}
 h2{font-size:28px;margin:4px 0 24px}
@@ -42,7 +48,11 @@ input,select{width:100%;padding:15px;margin:8px 0 17px;border-radius:13px;border
   <img src="matchpoint-home.png" alt="MatchPoint">
   <button id="mainCta" class="tap cta" aria-label="Trova il mio match"></button>
   <button class="tap nav-home" aria-label="Home"></button>
-  <button class="tap nav-search" aria-label="Cerca"></button>
+  <button class="tap feature feature-when" data-feature="create" aria-label="Scegli quando"></button>
+  <button class="tap feature feature-match" data-feature="create" aria-label="Trova il match"></button>
+  <button class="tap feature feature-court" data-feature="clubs" aria-label="Scegli il campo"></button>
+  <button class="tap feature feature-score" data-feature="score" aria-label="Gioca e registra"></button>
+
   <button class="tap nav-history" aria-label="Le mie partite"></button>
   <button class="tap nav-profile" aria-label="Profilo"></button>
 </section>
@@ -60,12 +70,20 @@ input,select{width:100%;padding:15px;margin:8px 0 17px;border-radius:13px;border
 <section id="search" class="screen"><h2>🔎 Cerchiamo il tuo Match...</h2><p class="muted">Orario · zona · distanza · livello</p></section>
 
 <section id="found" class="screen">
-<h2>🎉 Match trovato!</h2><div class="card"><b>Sandro ↔ Luca</b><p>Domani · 18:00 · Intermedio</p><p>📍 6 km di distanza</p></div>
+<h2>🎉 Match trovato!</h2>
+<p class="muted">Abbiamo trovato un giocatore compatibile con la tua richiesta.</p>
+<div class="card">
+  <b style="font-size:21px">Sandro ↔ Luca</b>
+  <p>🎾 Livello: <b>Intermedio</b></p>
+  <p>📍 Distanza: <b>6 km</b></p>
+  <p>📅 Domani · 🕕 18:00</p>
+  <div class="status"><b style="color:#d9ff19">92% compatibile</b><br><span class="muted">Stessa zona, stesso livello e stesso orario.</span></div>
+</div>
 <button class="action" data-go="clubs">SCEGLI IL CAMPO</button>
 </section>
 
 <section id="clubs" class="screen">
-<h2>📍 Dove giochiamo?</h2><p class="muted">MatchPoint propone i campi più comodi per entrambi.</p>
+<h2>📍 Dove giochiamo?</h2><p class="muted">MatchPoint propone 3 campi comodi per entrambi i giocatori. Scegline uno.</p>
 <div class="card club"><b>Tennis Club Pieve di Soligo</b><p class="muted">Campo consigliato · comodo per entrambi</p><button class="action clubBtn" data-club="Tennis Club Pieve di Soligo">PROPONI QUESTO CAMPO</button></div>
 <div class="card club"><b>Tennis Club Vittorio Veneto</b><p class="muted">Comodo per entrambi</p><button class="action clubBtn" data-club="Tennis Club Vittorio Veneto">PROPONI QUESTO CAMPO</button></div>
 <div class="card club"><b>Tennis Club Conegliano</b><p class="muted">Comodo per entrambi</p><button class="action clubBtn" data-club="Tennis Club Conegliano">PROPONI QUESTO CAMPO</button></div>
@@ -107,6 +125,28 @@ input,select{width:100%;padding:15px;margin:8px 0 17px;border-radius:13px;border
 <button class="action" data-go="home">NUOVO MATCH</button>
 </section>
 
+
+<section id="profile" class="screen">
+<h2>Il mio profilo</h2>
+<div class="card">
+  <h3 style="margin:0 0 8px;font-size:21px">🎾 Sandro</h3>
+  <p class="muted">Il tuo profilo MatchPoint</p>
+</div>
+<div class="card">
+  <b>Livello</b>
+  <p class="muted">Intermedio</p>
+</div>
+<div class="card">
+  <b>Zona di gioco</b>
+  <p class="muted">Pieve di Soligo e dintorni</p>
+</div>
+<div class="card">
+  <b>Preferenze</b>
+  <p class="muted">Distanza massima · 10 km</p>
+</div>
+<button class="action" data-go="home">TORNA ALLA HOME</button>
+</section>
+
 <script>
 document.addEventListener('DOMContentLoaded',function(){
   let chosen='';
@@ -119,8 +159,17 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('mainCta').addEventListener('click',function(e){e.preventDefault();go('create')});
   document.getElementById('mainCta').addEventListener('touchend',function(e){e.preventDefault();go('create')},{passive:false});
   document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
-  document.querySelector('.nav-search').addEventListener('click',function(){go('create')});
   document.querySelector('.nav-history').addEventListener('click',function(){go('history')});
+  document.querySelectorAll('.feature').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      const target=btn.dataset.feature;
+      if(target==='create'){go('create')}
+      else if(target==='clubs'){go('clubs')}
+      else if(target==='score'){go('score')}
+    });
+  });
+
+  document.querySelector('.nav-profile').addEventListener('click',function(){go('profile')});
   document.getElementById('searchBtn').addEventListener('click',function(){go('search');setTimeout(function(){go('found')},700)});
   document.querySelectorAll('.clubBtn').forEach(function(b){b.addEventListener('click',function(){
     chosen=b.dataset.club;document.getElementById('chosenClub').textContent=chosen;document.getElementById('bookingClub').textContent=chosen;go('choice');
