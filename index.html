@@ -4,128 +4,113 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#020b0d">
-<title>MatchPoint – Trova il tuo compagno di tennis</title>
+<title>MatchPoint</title>
 <style>
-  * { box-sizing: border-box; }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    min-height: 100%;
-    background: #020b0d;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  body {
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
-  }
-
-  .app {
-    position: relative;
-    width: 100%;
-    max-width: 520px;
-    min-height: 100vh;
-    background: #020b0d;
-    overflow: hidden;
-  }
-
-  .hero {
-    position: relative;
-    width: 100%;
-    line-height: 0;
-  }
-
-  .hero img {
-    display: block;
-    width: 100%;
-    height: auto;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-
-  /* The generated image already contains the complete visual.
-     These transparent hit areas make the visible controls clickable. */
-  .hit {
-    position: absolute;
-    display: block;
-    z-index: 5;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .match-hit {
-    left: 9%;
-    width: 82%;
-    top: 67.5%;
-    height: 8.5%;
-    border-radius: 60px;
-  }
-
-  .home-hit {
-    left: 5%;
-    width: 27%;
-    bottom: 1%;
-    height: 10%;
-  }
-
-  .partite-hit {
-    left: 36%;
-    width: 28%;
-    bottom: 1%;
-    height: 10%;
-  }
-
-  .profilo-hit {
-    right: 5%;
-    width: 27%;
-    bottom: 1%;
-    height: 10%;
-  }
-
-  /* Prevent accidental selection while tapping the UI. */
-  button, a { outline: none; }
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  background:#020b0d;
+  overflow:hidden;
+  font-family:Arial,Helvetica,sans-serif;
+}
+.app{
+  position:relative;
+  width:100%;
+  height:100dvh;
+  min-height:100vh;
+  overflow:hidden;
+  background:#020b0d;
+}
+.screen{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.screen img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+.btn{
+  position:absolute;
+  display:block;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  z-index:10;
+}
+/* Main CTA: broad invisible hit area over the whole yellow button */
+.match{
+  left:10%;
+  width:80%;
+  top:72%;
+  height:9%;
+  border-radius:999px;
+}
+/* Bottom navigation: lowered and evenly spaced */
+.home{
+  left:0;
+  width:33.33%;
+  bottom:0;
+  height:13%;
+}
+.partite{
+  left:33.33%;
+  width:33.34%;
+  bottom:0;
+  height:13%;
+}
+.profilo{
+  right:0;
+  width:33.33%;
+  bottom:0;
+  height:13%;
+}
 </style>
 </head>
 <body>
-<main class="app" aria-label="MatchPoint">
-  <section class="hero">
-    <img src="matchpoint-home.png"
-         alt="MatchPoint – Trova il tuo compagno di tennis">
+<main class="app">
+  <section class="screen" aria-label="MatchPoint Home">
+    <img src="matchpoint-home.jpg" alt="MatchPoint - Trova il tuo compagno di tennis">
 
-    <button class="hit match-hit"
-            aria-label="Trova il mio match"
-            onclick="vaiA('match')"></button>
+    <button class="btn match" aria-label="Trova il mio match"
+      onclick="apri('match')"></button>
 
-    <button class="hit home-hit"
-            aria-label="Home"
-            onclick="vaiA('home')"></button>
+    <button class="btn home" aria-label="Home"
+      onclick="apri('home')"></button>
 
-    <button class="hit partite-hit"
-            aria-label="Le mie partite"
-            onclick="vaiA('partite')"></button>
+    <button class="btn partite" aria-label="Le mie partite"
+      onclick="apri('partite')"></button>
 
-    <button class="hit profilo-hit"
-            aria-label="Profilo"
-            onclick="vaiA('profilo')"></button>
+    <button class="btn profilo" aria-label="Profilo"
+      onclick="apri('profilo')"></button>
   </section>
 </main>
 
 <script>
-  function vaiA(sezione) {
-    // Collega qui le sezioni già presenti nel tuo MatchPoint.
-    // Per ora usiamo hash così puoi verificare subito i click.
-    if (sezione === 'home') {
-      window.location.hash = '';
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    } else {
-      window.location.hash = sezione;
-    }
+function apri(sezione){
+  /*
+    Qui non usiamo pagine inventate: il click viene registrato
+    nell'URL così possiamo collegare le sezioni reali della versione
+    precedente senza rompere la Home.
+  */
+  if(sezione === 'home'){
+    history.replaceState(null,'',location.pathname);
+    return;
   }
+  location.hash = sezione;
+}
 </script>
 </body>
 </html>
