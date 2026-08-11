@@ -77,7 +77,7 @@ button.alt{background:#192628;color:#fff}
     <div class="headline">TU SCEGLI<br><span class="green">QUANDO GIOCARE.</span></div>
     <div class="sub"><span class="green">MATCHPOINT</span> TROVA CON CHI.</div>
     <div class="underline"></div>
-    <button class="cta" onclick="show('create')">🎾 &nbsp; TROVA IL MIO MATCH &nbsp; →</button>
+    <button id="mainCta" class="cta" type="button">🎾 &nbsp; TROVA IL MIO MATCH &nbsp; →</button>
     <div class="steps">
       <div class="step"><div class="ico">▣</div><b>SCEGLI QUANDO</b><p>Giorno, ora e livello.</p></div>
       <div class="step"><div class="ico">♙</div><b>MATCHPOINT TROVA IL MATCH</b><p>Un giocatore compatibile.</p></div>
@@ -95,11 +95,11 @@ button.alt{background:#192628;color:#fff}
 <label>Orario</label><input type="time" value="18:00">
 <label>📍 Zona</label><input id="place" placeholder="Es. Pieve di Soligo" autocomplete="off"><div id="suggestions"></div>
 <label>Livello</label><select><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
-<button onclick="show('found')">CERCA IL MIO MATCH</button><button class="alt" onclick="show('home')">INDIETRO</button>
+<button data-go="found">CERCA IL MIO MATCH</button><button class="alt" data-go="home">INDIETRO</button>
 </section>
 
 <section id="found" class="screen">
-<h2>🎉 Match trovato!</h2><div class="card"><b>Sandro ↔ Luca</b><p>Domani · 18:00 · Intermedio</p><p>📍 6 km di distanza</p></div><button onclick="show('clubs')">SCEGLI IL CAMPO</button>
+<h2>🎉 Match trovato!</h2><div class="card"><b>Sandro ↔ Luca</b><p>Domani · 18:00 · Intermedio</p><p>📍 6 km di distanza</p></div><button data-go="clubs">SCEGLI IL CAMPO</button>
 </section>
 
 <section id="clubs" class="screen">
@@ -110,26 +110,131 @@ button.alt{background:#192628;color:#fff}
 <div class="card"><b>Tennis Club Susegana</b><p class="muted">9,4 km · comodo per entrambi</p><button onclick="chooseClub('Tennis Club Susegana')">PROPONI QUESTO CAMPO</button></div>
 </section>
 
-<section id="choice" class="screen"><h2>Campo proposto</h2><div class="card"><b id="chosenClub"></b><p class="muted">Hai proposto questo campo a Luca.</p><div class="status">👤 Luca ha accettato il campo.</div></div><button onclick="show('booking')">CONTINUA</button></section>
+<section id="choice" class="screen"><h2>Campo proposto</h2><div class="card"><b id="chosenClub"></b><p class="muted">Hai proposto questo campo a Luca.</p><div class="status">👤 Luca ha accettato il campo.</div></div><button data-go="booking">CONTINUA</button></section>
 <section id="booking" class="screen"><h2>Chi prenota?</h2><div class="card"><b id="bookingClub"></b><p>Domani · 18:00</p></div><p class="muted">Uno dei due prende in carico la prenotazione.</p><button onclick="book('Sandro')">SANDRO PRENOTA</button><button class="alt" onclick="book('Luca')">LASCIA PRENOTARE LUCA</button></section>
-<section id="waiting" class="screen"><h2>📞 Prenotazione in corso</h2><div class="card"><p id="wait" class="muted"></p><div class="status">🟡 In attesa della conferma del campo</div></div><button onclick="confirmBooking()">CONFERMA PRENOTAZIONE EFFETTUATA</button></section>
-<section id="confirmed" class="screen"><h2>✅ Partita confermata</h2><div class="card"><b>Sandro vs Luca</b><p id="confirmedClub"></p><p>📅 Domani · 18:00</p><div class="status success">🟢 Campo prenotato</div></div><button onclick="show('score')">INSERISCI RISULTATO</button></section>
+<section id="waiting" class="screen"><h2>📞 Prenotazione in corso</h2><div class="card"><p id="wait" class="muted"></p><div class="status">🟡 In attesa della conferma del campo</div></div><button data-go="confirmed">CONFERMA PRENOTAZIONE EFFETTUATA</button></section>
+<section id="confirmed" class="screen"><h2>✅ Partita confermata</h2><div class="card"><b>Sandro vs Luca</b><p id="confirmedClub"></p><p>📅 Domani · 18:00</p><div class="status success">🟢 Campo prenotato</div></div><button data-go="score">INSERISCI RISULTATO</button></section>
 <section id="score" class="screen"><h2>Inserisci il risultato</h2><p class="muted">Spazio per 5 set. Compila solo quelli effettivamente giocati.</p><div id="sets"></div><button onclick="sendScore()">INVIA PER CONFERMA</button></section>
-<section id="result" class="screen"><h2>Risultato inviato</h2><div class="card"><div id="resultText" class="score"></div><p class="muted">Luca deve confermare il risultato.</p></div><button onclick="show('history')">SIMULA CONFERMA DI LUCA</button></section>
-<section id="history" class="screen"><h2>Le mie partite</h2><div class="card"><b>🎾 Sandro vs Luca</b><div id="historyText" class="score"></div><div class="status success">✅ Risultato confermato</div></div><button onclick="show('home')">NUOVO MATCH</button></section>
+<section id="result" class="screen"><h2>Risultato inviato</h2><div class="card"><div id="resultText" class="score"></div><p class="muted">Luca deve confermare il risultato.</p></div><button data-go="history">SIMULA CONFERMA DI LUCA</button></section>
+<section id="history" class="screen"><h2>Le mie partite</h2><div class="card"><b>🎾 Sandro vs Luca</b><div id="historyText" class="score"></div><div class="status success">✅ Risultato confermato</div></div><button data-go="home">NUOVO MATCH</button></section>
 
-<nav><div class="active" onclick="show('home')"><div class="ico">⌂</div>Home</div><div onclick="show('create')"><div class="ico">⌕</div>Cerca</div><div onclick="show('history')"><div class="ico">▣</div>Le mie partite</div><div><div class="ico">◯</div>Profilo</div></nav>
+<nav><div class="active" data-go="home"><div class="ico">⌂</div>Home</div><div onclick="show('create')"><div class="ico">⌕</div>Cerca</div><div data-go="history"><div class="ico">▣</div>Le mie partite</div><div><div class="ico">◯</div>Profilo</div></nav>
 </div>
 <script>
-function show(id){document.querySelectorAll('.home,.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');scrollTo(0,0)}
-let chosen='';
-function chooseClub(c){chosen=c;chosenClub.textContent=c;bookingClub.textContent=c;show('choice')}
-function book(who){wait.textContent=who+' ha preso in carico la prenotazione. Dopo aver prenotato, torna qui e conferma che il campo è stato realmente prenotato.';show('waiting')}
-function confirmBooking(){confirmedClub.textContent='📍 '+chosen;show('confirmed')}
-function sendScore(){let rows=[...document.querySelectorAll('.set')].map((s,i)=>{let a=s.querySelector('.a').value,b=s.querySelector('.b').value;if(a===''&&b==='')return '';return 'Set '+(i+1)+': '+a+'-'+b}).filter(Boolean);if(!rows.length){alert('Inserisci almeno un set.');return}let t=rows.join(' · ');resultText.textContent=t;historyText.textContent=t;show('result')}
-for(let i=1;i<=5;i++){let d=document.createElement('div');d.className='set';d.innerHTML='<div class="settitle">Set '+i+'</div><div class="scoreRow"><span>Sandro</span><input class="a" type="number" min="0" max="20" placeholder="-"></div><div class="scoreRow"><span>Luca</span><input class="b" type="number" min="0" max="20" placeholder="-"></div>';sets.appendChild(d)}
-const places=['Pieve di Soligo, TV','Vittorio Veneto, TV','Conegliano, TV','Farra di Soligo, TV'];place.addEventListener('input',()=>{let q=place.value.toLowerCase();suggestions.innerHTML=q?places.filter(x=>x.toLowerCase().includes(q)).map(x=>'<div class="card" onclick="place.value=\''+x+'\';suggestions.innerHTML=\'\'">📍 '+x+'</div>').join(''):''});
-show('home');
+function show(id){document.querySelectorAll('.home,.screen').forEach<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const screens = document.querySelectorAll('.home,.screen');
+
+  function show(id) {
+    screens.forEach(function (el) { el.classList.remove('active'); });
+    const target = document.getElementById(id);
+    if (target) {
+      target.classList.add('active');
+      target.scrollTop = 0;
+      window.scrollTo(0, 0);
+    }
+  }
+
+  window.show = show;
+
+  let chosen = '';
+
+  window.chooseClub = function(c) {
+    chosen = c;
+    document.getElementById('chosenClub').textContent = c;
+    document.getElementById('bookingClub').textContent = c;
+    show('choice');
+  };
+
+  window.book = function(who) {
+    document.getElementById('wait').textContent =
+      who + ' ha preso in carico la prenotazione. Dopo aver prenotato, torna qui e conferma che il campo è stato realmente prenotato.';
+    show('waiting');
+  };
+
+  window.confirmBooking = function() {
+    document.getElementById('confirmedClub').textContent = '📍 ' + chosen;
+    show('confirmed');
+  };
+
+  window.sendScore = function() {
+    const rows = Array.from(document.querySelectorAll('.set')).map(function(s, i) {
+      const a = s.querySelector('.a').value;
+      const b = s.querySelector('.b').value;
+      if (a === '' && b === '') return '';
+      return 'Set ' + (i + 1) + ': ' + a + '-' + b;
+    }).filter(Boolean);
+
+    if (!rows.length) {
+      alert('Inserisci almeno un set.');
+      return;
+    }
+
+    const text = rows.join(' · ');
+    document.getElementById('resultText').textContent = text;
+    document.getElementById('historyText').textContent = text;
+    show('result');
+  };
+
+  // 5 set, compilabili solo se giocati
+  const sets = document.getElementById('sets');
+  for (let i = 1; i <= 5; i++) {
+    const d = document.createElement('div');
+    d.className = 'set';
+    d.innerHTML =
+      '<div class="settitle">Set ' + i + '</div>' +
+      '<div class="scoreRow"><span>Sandro</span><input class="a" type="number" min="0" max="20" placeholder="-"></div>' +
+      '<div class="scoreRow"><span>Luca</span><input class="b" type="number" min="0" max="20" placeholder="-"></div>';
+    sets.appendChild(d);
+  }
+
+  // Autocompletamento località senza affidarsi a variabili globali create dal browser
+  const placeInput = document.getElementById('place');
+  const suggestions = document.getElementById('suggestions');
+  const places = ['Pieve di Soligo, TV','Vittorio Veneto, TV','Conegliano, TV','Farra di Soligo, TV'];
+
+  placeInput.addEventListener('input', function() {
+    const q = placeInput.value.toLowerCase().trim();
+    if (!q) {
+      suggestions.innerHTML = '';
+      return;
+    }
+    suggestions.innerHTML = places
+      .filter(function(x) { return x.toLowerCase().includes(q); })
+      .map(function(x) {
+        return '<div class="card suggestion">📍 ' + x + '</div>';
+      }).join('');
+
+    suggestions.querySelectorAll('.suggestion').forEach(function(el, index) {
+      el.addEventListener('click', function() {
+        placeInput.value = places.filter(function(x) {
+          return x.toLowerCase().includes(q);
+        })[index];
+        suggestions.innerHTML = '';
+      });
+    });
+  });
+
+  // Eventi touch/click robusti per iPhone e Android.
+  document.querySelectorAll('[data-go]').forEach(function(btn) {
+    btn.addEventListener('click', function() { show(btn.dataset.go); });
+    btn.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      show(btn.dataset.go);
+    }, {passive:false});
+  });
+
+  // Pulsante principale: listener diretto, senza dipendere dall'onclick inline.
+  const mainCta = document.getElementById('mainCta');
+  if (mainCta) {
+    const openCreate = function(e) {
+      if (e) e.preventDefault();
+      show('create');
+    };
+    mainCta.addEventListener('click', openCreate);
+    mainCta.addEventListener('touchend', openCreate, {passive:false});
+  }
+
+  show('home');
+});
 </script>
-</body>
-</html>
