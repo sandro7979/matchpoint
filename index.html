@@ -8,235 +8,33 @@
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;background:#020b0d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-body{overflow:hidden}
-button,input,select{font:inherit}
+body{overflow:hidden}button,input,select{font:inherit}
 .app{width:100%;height:100dvh;max-width:520px;margin:auto;background:#020b0d;position:relative;overflow:hidden}
-.home{position:absolute;inset:0;background:
-linear-gradient(to bottom,rgba(0,0,0,0) 35%,rgba(2,11,13,.08) 47%,rgba(2,11,13,.92) 73%,#020b0d 88%),
-url("matchpoint-home.jpg") center top/cover no-repeat}
+.home{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 35%,rgba(2,11,13,.08) 47%,rgba(2,11,13,.92) 73%,#020b0d 88%),url("matchpoint-home.jpg") center top/cover no-repeat}
 .brand{position:absolute;left:0;right:0;top:48%;text-align:center;padding:0 18px}
-.ball{font-size:43px;line-height:1;margin-bottom:7px}
-.logo{font-size:clamp(42px,10vw,58px);font-weight:900;letter-spacing:-2px;line-height:1}
-.logo span{color:#d9ff00}
-.tagline{font-size:15px;font-weight:700;letter-spacing:.5px;margin-top:10px}
-.line{width:62px;height:3px;background:#d9ff00;border-radius:3px;margin:18px auto 34px}
+.ball{font-size:43px;line-height:1;margin-bottom:7px}.logo{font-size:clamp(42px,10vw,58px);font-weight:900;letter-spacing:-2px;line-height:1}.logo span{color:#d9ff00}
+.tagline{font-size:15px;font-weight:700;letter-spacing:.5px;margin-top:10px}.line{width:62px;height:3px;background:#d9ff00;border-radius:3px;margin:18px auto 34px}
 .cta{position:absolute;left:7%;right:7%;top:69%;height:72px;border:0;border-radius:40px;background:#d9ff00;color:#050909;font-size:18px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:18px;cursor:pointer;touch-action:manipulation}
-.cta:active,.primary:active,.back:active,.nav button:active{transform:scale(.98)}
-.nav{position:absolute;left:0;right:0;bottom:0;height:92px;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(2,11,13,.98);border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom)}
-.nav button{border:0;background:transparent;color:#cbd0d1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:700;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-.nav .ico{font-size:30px;line-height:1}
-.nav .active{color:#d9ff00}
-.view{position:absolute;inset:0;background:#020b0d;overflow:auto;padding:30px 20px 30px;display:none}
-.view.show{display:block}
-.view h1{font-size:31px;margin:12px 0 25px}
-.back,.primary{width:100%;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:900;cursor:pointer;touch-action:manipulation}
-.back{background:#172326;color:#fff;margin-bottom:22px}
-.primary{background:#d9ff00;color:#050909}
-.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}
-label{display:block;font-weight:800;font-size:14px;margin:15px 0 7px}
-input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:16px}
-.muted{color:#b9c1c3;line-height:1.45}
-.result{display:none}
-.result.show{display:block}
-.match-player{font-size:24px;font-weight:900;margin-bottom:5px}
-.match-meta{color:#d9ff00;font-weight:800;margin-bottom:12px}
-.badge{display:inline-block;background:#172326;border:1px solid #34484e;border-radius:20px;padding:7px 11px;margin:3px 3px 0 0;color:#fff;font-size:13px}
-.success{font-size:18px;font-weight:900;margin-bottom:8px}
-.demo-note{color:#b9c1c3;font-size:14px;margin-top:10px}
-.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%) translateY(20px);background:#d9ff00;color:#050909;font-weight:900;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:20;white-space:nowrap}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(max-height:700px){
- .brand{top:43%}.cta{top:64%}.nav{height:82px}
-}
+.cta:active,.primary:active,.back:active,.nav button:active,.choice:active{transform:scale(.98)}
+.nav{position:absolute;left:0;right:0;bottom:0;height:92px;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(2,11,13,.98);border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.nav button{border:0;background:transparent;color:#cbd0d1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:700;cursor:pointer;touch-action:manipulation}.nav .ico{font-size:30px;line-height:1}.nav .active{color:#d9ff00}
+.view{position:absolute;inset:0;background:#020b0d;overflow:auto;padding:30px 20px 30px;display:none;z-index:10}.view.show{display:block}.view h1{font-size:31px;margin:12px 0 25px}
+.back,.primary{width:100%;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:900;cursor:pointer;touch-action:manipulation}.back{background:#172326;color:#fff;margin-bottom:22px}.primary{background:#d9ff00;color:#050909}
+.secondary{width:100%;border:1px solid #34484e;border-radius:14px;padding:14px;background:#0b171a;color:#fff;font-weight:800;cursor:pointer;margin-top:10px}
+.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}label{display:block;font-weight:800;font-size:14px;margin:15px 0 7px}
+input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:16px}.muted{color:#b9c1c3;line-height:1.45}
+.hidden{display:none!important}
+.result{display:none}.result.show{display:block}.match-player{font-size:24px;font-weight:900;margin-bottom:5px}.match-meta{color:#d9ff00;font-weight:800;margin-bottom:12px}
+.badge{display:inline-block;background:#172326;border:1px solid #34484e;border-radius:20px;padding:7px 11px;margin:3px 3px 0 0;color:#fff;font-size:13px}.success{font-size:18px;font-weight:900;margin-bottom:8px}
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:14px;text-align:left;cursor:pointer}.choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.choice strong{display:block;margin-bottom:4px}.choice small{color:#aeb7b9}
+.loading{text-align:center;padding:30px 10px}.spinner{width:58px;height:58px;border:5px solid #26383d;border-top-color:#d9ff00;border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.progress{height:8px;background:#17272b;border-radius:10px;overflow:hidden;margin-top:18px}.progress i{display:block;height:100%;width:0;background:#d9ff00;transition:width .4s}
+.steps{display:flex;gap:7px;margin-bottom:18px}.steps div{flex:1;text-align:center;font-size:11px;color:#879295;font-weight:800}.dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#26383d;margin:0 auto 5px}.steps .on{background:#d9ff00;color:#050909}
+.game{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:15px;margin:10px 0}.game-top{display:flex;justify-content:space-between}.status{color:#d9ff00;font-size:12px;font-weight:900}.profile-avatar{width:82px;height:82px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-size:34px;font-weight:900;margin:auto}.profile-head{text-align:center;margin-bottom:20px}
+.toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%) translateY(20px);background:#d9ff00;color:#050909;font-weight:900;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:30;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-height:700px){.brand{top:43%}.cta{top:64%}.nav{height:82px}}
 </style>
 </head>
 <body>
 <div class="app">
-
 <section id="home" class="home">
-  <div class="brand">
-    <div class="ball">🎾</div>
-    <div class="logo">MATCH<span>POINT</span></div>
-    <div class="tagline">TROVA IL TUO COMPAGNO DI TENNIS</div>
-    <div class="line"></div>
-  </div>
-
-  <button class="cta" type="button" onclick="openView('match')">
-    <span>🎾</span><span>TROVA IL MIO MATCH</span><span>→</span>
-  </button>
-
-  <nav class="nav">
-    <button type="button" class="active" onclick="openView('home')">
-      <span class="ico">⌂</span><span>Home</span>
-    </button>
-    <button type="button" onclick="openView('games')">
-      <span class="ico">▣</span><span>Le mie partite</span>
-    </button>
-    <button type="button" onclick="openView('profile')">
-      <span class="ico">♙</span><span>Profilo</span>
-    </button>
-  </nav>
-</section>
-
-<section id="match" class="view">
-  <button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
-  <h1>Trova il mio match</h1>
-
-  <div class="card">
-    <label>Quando vuoi giocare?</label>
-    <input id="date" type="date">
-    <label>Orario</label>
-    <input id="time" type="time" value="18:00">
-    <label>Zona</label>
-    <input id="zone" type="text" placeholder="Es. Pieve di Soligo">
-    <label>Livello</label>
-    <select id="level">
-      <option>Principiante</option>
-      <option selected>Intermedio</option>
-      <option>Avanzato</option>
-    </select>
-  </div>
-
-  <button class="primary" type="button" onclick="findDemoMatch()">TROVA IL MIO MATCH</button>
-
-  <div id="matchResult" class="card result">
-    <div class="success">🎾 Match trovato!</div>
-    <div class="match-player">Marco</div>
-    <div class="match-meta" id="resultMeta">Oggi · 18:00</div>
-    <div>
-      <span class="badge" id="resultZone">Pieve di Soligo</span>
-      <span class="badge" id="resultLevel">Intermedio</span>
-      <span class="badge">Compatibilità 94%</span>
-    </div>
-    <p class="muted">Questa è la modalità demo: il giocatore viene simulato per mostrarti come funzionerà MatchPoint.</p>
-    <button class="primary" type="button" onclick="confirmMatch()">CONFERMA PARTITA</button>
-  </div>
-</section>
-
-<section id="games" class="view">
-  <button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
-  <h1>Le mie partite</h1>
-  <div id="gameEmpty" class="card">
-    <strong>🎾 Nessuna partita ancora</strong>
-    <p class="muted">Trova un match dalla Home per vedere qui la tua partita.</p>
-  </div>
-  <div id="gameSaved" class="card result">
-    <div class="success">🎾 Partita confermata</div>
-    <div class="match-player">Marco</div>
-    <div class="match-meta" id="savedMeta">Oggi · 18:00</div>
-    <span class="badge" id="savedZone">Pieve di Soligo</span>
-    <span class="badge" id="savedLevel">Intermedio</span>
-    <p class="muted">Modalità demo attiva.</p>
-  </div>
-</section>
-
-<section id="profile" class="view">
-  <button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
-  <h1>Il mio profilo</h1>
-  <div class="card">
-    <label>Nome</label>
-    <input id="profileName" placeholder="Il tuo nome">
-    <label>Livello</label>
-    <select id="profileLevel">
-      <option>Principiante</option>
-      <option selected>Intermedio</option>
-      <option>Avanzato</option>
-    </select>
-    <label>Zona</label>
-    <input id="profileZone" placeholder="Pieve di Soligo">
-  </div>
-  <button class="primary" type="button" onclick="saveProfile()">SALVA PROFILO</button>
-</section>
-
-<div id="toast" class="toast">Profilo salvato</div>
-</div>
-
-<script>
-let selectedMatch=null;
-
-function openView(id){
-  const home=document.getElementById('home');
-  const views=document.querySelectorAll('.view');
-  views.forEach(v=>v.classList.remove('show'));
-
-  if(id==='home'){
-    home.style.display='block';
-    document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-    document.querySelector('.nav button').classList.add('active');
-    return;
-  }
-
-  home.style.display='none';
-  const target=document.getElementById(id);
-  if(target) target.classList.add('show');
-
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
-  if(id==='games') document.querySelectorAll('.nav button')[1].classList.add('active');
-  if(id==='profile') document.querySelectorAll('.nav button')[2].classList.add('active');
-}
-
-function findDemoMatch(){
-  const date=document.getElementById('date').value;
-  const time=document.getElementById('time').value || '18:00';
-  const zone=document.getElementById('zone').value.trim() || 'Pieve di Soligo';
-  const level=document.getElementById('level').value;
-
-  selectedMatch={date,time,zone,level};
-
-  let when='Oggi';
-  if(date){
-    const d=new Date(date+'T12:00:00');
-    if(!isNaN(d)) when=d.toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
-  }
-
-  document.getElementById('resultMeta').textContent=when+' · '+time;
-  document.getElementById('resultZone').textContent=zone;
-  document.getElementById('resultLevel').textContent=level;
-  document.getElementById('matchResult').classList.add('show');
-  document.getElementById('matchResult').scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-function confirmMatch(){
-  if(!selectedMatch) return;
-  const when=selectedMatch.date
-    ? new Date(selectedMatch.date+'T12:00:00').toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'})
-    : 'Oggi';
-
-  document.getElementById('savedMeta').textContent=when+' · '+selectedMatch.time;
-  document.getElementById('savedZone').textContent=selectedMatch.zone;
-  document.getElementById('savedLevel').textContent=selectedMatch.level;
-  document.getElementById('gameEmpty').classList.remove('show');
-  document.getElementById('gameSaved').classList.add('show');
-  openView('games');
-}
-
-function saveProfile(){
-  const name=document.getElementById('profileName').value.trim();
-  localStorage.setItem('matchpointProfile',JSON.stringify({
-    name,
-    level:document.getElementById('profileLevel').value,
-    zone:document.getElementById('profileZone').value
-  }));
-  showToast('Profilo salvato');
-}
-
-function showToast(text){
-  const t=document.getElementById('toast');
-  t.textContent=text;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1800);
-}
-
-(function(){
-  const p=localStorage.getItem('matchpointProfile');
-  if(!p) return;
-  try{
-    const x=JSON.parse(p);
-    document.getElementById('profileName').value=x.name||'';
-    document.getElementById('profileLevel').value=x.level||'Intermedio';
-    document.getElementById('profileZone').value=x.zone||'';
-  }catch(e){}
-})();
-</script>
-</body>
-</html>
