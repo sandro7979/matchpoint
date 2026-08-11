@@ -34,60 +34,21 @@ input,select{width:100%;padding:15px;margin:8px 0 17px;border-radius:13px;border
 .scoreRow input{margin:0;text-align:center}
 .score{text-align:center;font-size:21px;font-weight:900;margin:18px 0}
 
-.feature-grid{
-  position:absolute;
-  left:7%;
-  right:7%;
-  top:72%;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  z-index:12;
-}
-.feature-card{
-  min-width:0;
-  min-height:118px;
-  padding:12px 8px 10px;
-  border:1px solid rgba(217,255,25,.14);
-  border-radius:18px;
-  background:rgba(5,18,20,.78);
-  color:#fff;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  text-align:center;
-  font:inherit;
-  cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-.feature-card:active{transform:scale(.98)}
-.feature-icon{
-  display:block;
-  color:#d9ff19;
-  font-size:29px;
-  line-height:1;
-  margin-bottom:8px;
-}
-.feature-card strong{
-  display:block;
-  font-size:11px;
-  line-height:1.08;
-  letter-spacing:.1px;
-}
-.feature-card>span:last-child{
-  display:block;
-  margin-top:8px;
-  color:#cfd4d6;
-  font-size:10px;
-  line-height:1.25;
-}
-@media (max-width:390px){
-  .feature-grid{gap:5px;left:5%;right:5%}
-  .feature-card{min-height:110px;padding:10px 5px}
+.feature-card{min-height:110px;padding:10px 5px}
   .feature-card strong{font-size:10px}
   .feature-card>span:last-child{font-size:9px}
 }
+
+
+.feature-hit{
+  position:absolute;z-index:20;display:block;border:0;padding:0;margin:0;
+  background:transparent;appearance:none;-webkit-appearance:none;
+  cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+}
+.feature-when{left:7%;top:70%;width:21.5%;height:13%}
+.feature-match{left:28.5%;top:70%;width:21.5%;height:13%}
+.feature-club{left:50%;top:70%;width:21.5%;height:13%}
+.feature-score{left:71.5%;top:70%;width:21.5%;height:13%}
 
 </style>
 </head>
@@ -101,6 +62,12 @@ input,select{width:100%;padding:15px;margin:8px 0 17px;border-radius:13px;border
 
   <button class="tap nav-history" aria-label="Le mie partite"></button>
   <button class="tap nav-profile" aria-label="Profilo"></button>
+
+  <button class="feature-hit feature-when" data-feature="create" aria-label="Scegli quando"></button>
+  <button class="feature-hit feature-match" data-feature="create" aria-label="Trova il match"></button>
+  <button class="feature-hit feature-club" data-feature="clubs" aria-label="Scegli il campo"></button>
+  <button class="feature-hit feature-score" data-feature="score" aria-label="Gioca e registra"></button>
+
 </section>
 
 <section id="create" class="screen">
@@ -206,12 +173,16 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('mainCta').addEventListener('touchend',function(e){e.preventDefault();go('create')},{passive:false});
   document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
   document.querySelector('.nav-history').addEventListener('click',function(){go('history')});
-  document.querySelectorAll('.feature-card').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var target = btn.getAttribute('data-feature');
-      go(target);
-    });
+  document.querySelectorAll('.feature-hit').forEach(function(btn){
+    function activate(e){
+      if(e){e.preventDefault();e.stopPropagation();}
+      go(btn.getAttribute('data-feature'));
+    }
+    btn.addEventListener('click', activate);
+    btn.addEventListener('touchend', activate, {passive:false});
   });
+
+
 
 
 
