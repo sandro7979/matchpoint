@@ -1,8 +1,18 @@
-color:transparent;
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020b0d">
+<title>MatchPoint</title>
+
+<style>
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
 margin:0;
 padding:0;
 width:100%;
@@ -16,9 +26,7 @@ body{
 overflow:hidden;
 }
 
-button,
-input,
-select{
+button,input,select{
 font:inherit;
 }
 
@@ -56,7 +64,7 @@ url("matchpoint-home.jpg") center top/cover no-repeat;
 }
 
 .brand{
-position:
+position:absolute;
 left:0;
 right:0;
 top:45%;
@@ -570,17 +578,12 @@ grid-template-columns:1fr;
 }
 
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="app">
-
-<!-- =========================
-HOME
-========================= -->
 
 <section id="home" class="home">
 
@@ -646,10 +649,6 @@ onclick="openView('profile')">
 </section>
 
 
-<!-- =========================
-TROVA MATCH
-========================= -->
-
 <section id="match" class="view">
 
 <button
@@ -662,7 +661,6 @@ onclick="openView('home')">
 </button>
 
 <h1>Trova il mio match</h1>
-
 
 <div class="steps">
 
@@ -683,31 +681,22 @@ MATCH
 
 </div>
 
-
 <div class="card">
 
-<label>
-Quando vuoi giocare?
-</label>
+<label>Quando vuoi giocare?</label>
 
 <input
 id="date"
 type="date">
 
-
-<label>
-Orario
-</label>
+<label>Orario</label>
 
 <input
 id="time"
 type="time"
 value="18:00">
 
-
-<label>
-Zona
-</label>
+<label>Zona</label>
 
 <input
 id="zone"
@@ -715,29 +704,17 @@ type="text"
 value="Pieve di Soligo"
 placeholder="Es. Pieve di Soligo">
 
-
-<label>
-Livello
-</label>
+<label>Livello</label>
 
 <select id="level">
 
-<option>
-Principiante
-</option>
-
-<option selected>
-Intermedio
-</option>
-
-<option>
-Avanzato
-</option>
+<option>Principiante</option>
+<option selected>Intermedio</option>
+<option>Avanzato</option>
 
 </select>
 
 </div>
-
 
 <button
 class="primary"
@@ -748,18 +725,13 @@ TROVA IL MIO MATCH
 
 </button>
 
-
-<!-- LOADING -->
-
 <div
 id="loading"
 class="card loading hidden">
 
 <div class="spinner"></div>
 
-<h2>
-Stiamo cercando il tuo match...
-</h2>
+<h2>Stiamo cercando il tuo match...</h2>
 
 <p
 class="muted"
@@ -775,8 +747,6 @@ Cerco giocatori nella tua zona
 
 </div>
 
-
-<!-- RISULTATO -->
 
 <div
 id="result"
@@ -837,8 +807,6 @@ SCEGLI IL CAMPO
 </div>
 
 
-<!-- CAMPI -->
-
 <div
 id="courts"
 class="card hidden">
@@ -862,14 +830,11 @@ CAMPO
 
 </div>
 
-<h2>
-Scegli il campo
-</h2>
+<h2>Scegli il campo</h2>
 
 <p class="muted">
 Campi disponibili nella zona.
 </p>
-
 
 <div class="choice-grid">
 
@@ -879,16 +844,11 @@ type="button"
 data-court="Centro Tennis Pieve"
 onclick="pickCourt(this)">
 
-<strong>
-Centro Tennis Pieve
-</strong>
+<strong>Centro Tennis Pieve</strong>
 
-<small>
-2,1 km · Campo 2
-</small>
+<small>2,1 km · Campo 2</small>
 
 </button>
-
 
 <button
 class="choice"
@@ -896,16 +856,11 @@ type="button"
 data-court="Tennis Club Soligo"
 onclick="pickCourt(this)">
 
-<strong>
-Tennis Club Soligo
-</strong>
+<strong>Tennis Club Soligo</strong>
 
-<small>
-3,4 km · Campo 1
-</small>
+<small>3,4 km · Campo 1</small>
 
 </button>
-
 
 <button
 class="choice"
@@ -913,16 +868,11 @@ type="button"
 data-court="Sporting Conegliano"
 onclick="pickCourt(this)">
 
-<strong>
-Sporting Conegliano
-</strong>
+<strong>Sporting Conegliano</strong>
 
-<small>
-8,7 km · Campo 4
-</small>
+<small>8,7 km · Campo 4</small>
 
 </button>
-
 
 <button
 class="choice"
@@ -930,18 +880,13 @@ type="button"
 data-court="Campo Comunale"
 onclick="pickCourt(this)">
 
-<strong>
-Campo Comunale
-</strong>
+<strong>Campo Comunale</strong>
 
-<small>
-5,2 km · Campo 1
-</small>
+<small>5,2 km · Campo 1</small>
 
 </button>
 
 </div>
-
 
 <button
 class="primary"
@@ -954,8 +899,6 @@ CONFERMA PARTITA
 
 </div>
 
-
-<!-- CONFERMA -->
 
 <div
 id="confirmed"
@@ -984,10 +927,6 @@ VEDI LE MIE PARTITE
 </section>
 
 
-<!-- =========================
-LE MIE PARTITE
-========================= -->
-
 <section
 id="games"
 class="view">
@@ -1001,18 +940,13 @@ onclick="openView('home')">
 
 </button>
 
-<h1>
-Le mie partite
-</h1>
-
+<h1>Le mie partite</h1>
 
 <div
 id="empty"
 class="card">
 
-<h2>
-Nessuna partita ancora
-</h2>
+<h2>Nessuna partita ancora</h2>
 
 <p class="muted">
 Trova un match dalla Home per iniziare.
@@ -1029,7 +963,6 @@ TROVA IL MIO MATCH
 
 </div>
 
-
 <div
 id="saved"
 class="hidden">
@@ -1038,9 +971,7 @@ class="hidden">
 
 <div class="game-top">
 
-<strong>
-🎾 Marco
-</strong>
+<strong>🎾 Marco</strong>
 
 <span class="status">
 CONFERMATA
@@ -1065,12 +996,9 @@ id="savedLevel">
 
 </div>
 
-
 <div class="card">
 
-<h2>
-Risultato partita
-</h2>
+<h2>Risultato partita</h2>
 
 <p class="muted">
 Registra il risultato della tua partita.
@@ -1101,10 +1029,6 @@ class="muted hidden">
 </section>
 
 
-<!-- =========================
-PROFILO
-========================= -->
-
 <section
 id="profile"
 class="view">
@@ -1118,7 +1042,6 @@ onclick="openView('home')">
 
 </button>
 
-
 <div class="profile-head">
 
 <div
@@ -1129,9 +1052,7 @@ S
 
 </div>
 
-<h1>
-Il mio profilo
-</h1>
+<h1>Il mio profilo</h1>
 
 <p class="muted">
 I tuoi dati per trovare match migliori.
@@ -1139,74 +1060,42 @@ I tuoi dati per trovare match migliori.
 
 </div>
 
-
 <div class="card">
 
-<label>
-Nome
-</label>
+<label>Nome</label>
 
 <input
 id="name"
 placeholder="Il tuo nome">
 
-
-<label>
-Livello
-</label>
+<label>Livello</label>
 
 <select id="plevel">
 
-<option>
-Principiante
-</option>
-
-<option selected>
-Intermedio
-</option>
-
-<option>
-Avanzato
-</option>
+<option>Principiante</option>
+<option selected>Intermedio</option>
+<option>Avanzato</option>
 
 </select>
 
-
-<label>
-Zona
-</label>
+<label>Zona</label>
 
 <input
 id="pzone"
 value="Pieve di Soligo">
 
-
-<label>
-Disponibilità
-</label>
+<label>Disponibilità</label>
 
 <select id="availability">
 
-<option>
-Mattina
-</option>
-
-<option>
-Pomeriggio
-</option>
-
-<option selected>
-Sera
-</option>
-
-<option>
-Flessibile
-</option>
+<option>Mattina</option>
+<option>Pomeriggio</option>
+<option selected>Sera</option>
+<option>Flessibile</option>
 
 </select>
 
 </div>
-
 
 <button
 class="primary"
@@ -1220,8 +1109,6 @@ SALVA PROFILO
 </section>
 
 
-<!-- TOAST -->
-
 <div
 id="toast"
 class="toast">
@@ -1232,66 +1119,44 @@ class="toast">
 
 <script>
 
-/* =========================
-STATO APP
-========================= */
+let data=null;
+let court="Centro Tennis Pieve";
 
-let data = null;
-
-let court = "Centro Tennis Pieve";
-
-
-/* =========================
-NAVIGAZIONE
-========================= */
 
 function openView(id){
 
 document
 .querySelectorAll(".view")
 .forEach(function(v){
-
 v.classList.remove("show");
-
 });
 
+const home=document.getElementById("home");
 
-const home =
-document.getElementById("home");
+if(id==="home"){
 
-
-if(id === "home"){
-
-home.style.display = "block";
-
+home.style.display="block";
 setNav(0);
-
 return;
 
 }
 
+home.style.display="none";
 
-home.style.display = "none";
-
-
-const target =
-document.getElementById(id);
-
+const target=document.getElementById(id);
 
 if(target){
 
 target.classList.add("show");
-
-target.scrollTop = 0;
+target.scrollTop=0;
 
 }
 
-
-if(id === "games"){
+if(id==="games"){
 
 setNav(1);
 
-}else if(id === "profile"){
+}else if(id==="profile"){
 
 setNav(2);
 
@@ -1304,10 +1169,6 @@ setNav(-1);
 }
 
 
-/* =========================
-NAV ACTIVE
-========================= */
-
 function setNav(n){
 
 document
@@ -1316,7 +1177,7 @@ document
 
 button.classList.toggle(
 "active",
-index === n
+index===n
 );
 
 });
@@ -1324,28 +1185,14 @@ index === n
 }
 
 
-/* =========================
-DATA
-========================= */
-
 function fmtDate(value){
 
-if(!value){
+if(!value)return"Oggi";
 
-return "Oggi";
+const d=
+new Date(value+"T12:00:00");
 
-}
-
-const d =
-new Date(value + "T12:00:00");
-
-
-if(isNaN(d)){
-
-return "Oggi";
-
-}
-
+if(isNaN(d))return"Oggi";
 
 return d.toLocaleDateString(
 "it-IT",
@@ -1359,76 +1206,59 @@ month:"2-digit"
 }
 
 
-/* =========================
-RICERCA MATCH
-========================= */
-
 function startSearch(){
 
-const date =
-document.getElementById("date").value;
+data={
 
-const time =
-document.getElementById("time").value || "18:00";
+date:
+document.getElementById("date").value,
 
-const zone =
-document.getElementById("zone").value.trim()
-|| "Pieve di Soligo";
+time:
+document.getElementById("time").value||"18:00",
 
-const level =
-document.getElementById("level").value;
+zone:
+document.getElementById("zone").value.trim()||
+"Pieve di Soligo",
 
-
-data = {
-
-date:date,
-time:time,
-zone:zone,
-level:level
+level:
+document.getElementById("level").value
 
 };
-
 
 document
 .getElementById("result")
 .classList.remove("show");
 
-
 document
 .getElementById("courts")
 .classList.add("hidden");
-
 
 document
 .getElementById("confirmed")
 .classList.remove("show");
 
-
-const loading =
+const loading=
 document.getElementById("loading");
-
 
 loading.classList.remove("hidden");
 
-
-const bar =
+const bar=
 document.getElementById("bar");
 
-const text =
+const text=
 document.getElementById("loadingText");
 
+bar.style.width="10%";
 
-bar.style.width = "10%";
-
-text.textContent =
+text.textContent=
 "Cerco giocatori nella tua zona";
 
 
 setTimeout(function(){
 
-bar.style.width = "35%";
+bar.style.width="35%";
 
-text.textContent =
+text.textContent=
 "Controllo orari disponibili...";
 
 },450);
@@ -1436,9 +1266,9 @@ text.textContent =
 
 setTimeout(function(){
 
-bar.style.width = "65%";
+bar.style.width="65%";
 
-text.textContent =
+text.textContent=
 "Confronto livelli e distanza...";
 
 },900);
@@ -1446,9 +1276,9 @@ text.textContent =
 
 setTimeout(function(){
 
-bar.style.width = "85%";
+bar.style.width="85%";
 
-text.textContent =
+text.textContent=
 "Sto trovando il miglior match...";
 
 },1250);
@@ -1456,9 +1286,9 @@ text.textContent =
 
 setTimeout(function(){
 
-bar.style.width = "100%";
+bar.style.width="100%";
 
-text.textContent =
+text.textContent=
 "Match trovato!";
 
 },1500);
@@ -1468,32 +1298,25 @@ setTimeout(function(){
 
 loading.classList.add("hidden");
 
-
 document
 .getElementById("resultMeta")
-.textContent =
-fmtDate(data.date) +
-" · " +
-data.time;
-
+.textContent=
+fmtDate(data.date)+" · "+data.time;
 
 document
 .getElementById("resultZone")
-.textContent =
+.textContent=
 data.zone;
-
 
 document
 .getElementById("resultLevel")
-.textContent =
+.textContent=
 data.level;
 
-
-const result =
+const result=
 document.getElementById("result");
 
 result.classList.add("show");
-
 
 setTimeout(function(){
 
@@ -1504,24 +1327,17 @@ block:"start"
 
 },100);
 
-
 },1850);
 
 }
 
 
-/* =========================
-SCELTA CAMPO
-========================= */
-
 function showCourts(){
 
-const courts =
+const courts=
 document.getElementById("courts");
 
-
 courts.classList.remove("hidden");
-
 
 setTimeout(function(){
 
@@ -1535,10 +1351,6 @@ block:"start"
 }
 
 
-/* =========================
-SELEZIONE CAMPO
-========================= */
-
 function pickCourt(button){
 
 document
@@ -1549,86 +1361,59 @@ item.classList.remove("selected");
 
 });
 
-
 button.classList.add("selected");
 
-
-court =
+court=
 button.getAttribute("data-court");
 
 }
 
 
-/* =========================
-CONFERMA PARTITA
-========================= */
-
 function confirmGame(){
 
 if(!data){
 
+showToast("Prima trova un match");
 return;
 
 }
 
-
-const savedInfo =
-fmtDate(data.date) +
-" · " +
-data.time +
-" · " +
-data.zone;
-
-
 document
 .getElementById("savedInfo")
-.textContent =
-savedInfo;
-
+.textContent=
+fmtDate(data.date)+" · "+
+data.time+" · "+
+data.zone;
 
 document
 .getElementById("savedCourt")
-.textContent =
+.textContent=
 court;
-
 
 document
 .getElementById("savedLevel")
-.textContent =
+.textContent=
 data.level;
-
 
 document
 .getElementById("empty")
 .classList.add("hidden");
 
-
 document
 .getElementById("saved")
 .classList.remove("hidden");
 
-
-const confirmation =
-"Marco ti aspetta · " +
-fmtDate(data.date) +
-" · " +
-data.time +
-" · " +
-court;
-
-
 document
 .getElementById("confirmedText")
-.textContent =
-confirmation;
-
+.textContent=
+"Marco ti aspetta · "+
+fmtDate(data.date)+" · "+
+data.time+" · "+
+court;
 
 document
 .getElementById("confirmed")
 .classList.add("show");
-
-
-/* SALVA LA PARTITA */
 
 localStorage.setItem(
 "matchpointGame",
@@ -1644,27 +1429,10 @@ court:court
 })
 );
 
-
 showToast("Partita confermata");
-
-
-setTimeout(function(){
-
-document
-.getElementById("confirmed")
-.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
-
-},100);
 
 }
 
-
-/* =========================
-RISULTATO
-========================= */
 
 function saveResult(){
 
@@ -1673,11 +1441,9 @@ localStorage.setItem(
 "6-4 · 6-3"
 );
 
-
 document
 .getElementById("resultSaved")
 .classList.remove("hidden");
-
 
 showToast(
 "Risultato salvato: 6-4 · 6-3"
@@ -1686,78 +1452,53 @@ showToast(
 }
 
 
-/* =========================
-PROFILO
-========================= */
-
 function saveProfile(){
 
-const name =
-document.getElementById("name")
+const name=
+document
+.getElementById("name")
 .value
 .trim();
 
-
-const level =
-document.getElementById("plevel")
-.value;
-
-
-const zone =
-document.getElementById("pzone")
-.value
-.trim();
-
-
-const availability =
-document.getElementById("availability")
-.value;
-
-
-const profile = {
+const profile={
 
 name:name,
-level:level,
-zone:zone,
-availability:availability
+
+level:
+document.getElementById("plevel").value,
+
+zone:
+document.getElementById("pzone").value.trim(),
+
+availability:
+document.getElementById("availability").value
 
 };
-
 
 localStorage.setItem(
 "matchpointProfile",
 JSON.stringify(profile)
 );
 
-
 document
 .getElementById("avatar")
-.textContent =
-(name ? name.charAt(0) : "S")
+.textContent=
+(name?name.charAt(0):"S")
 .toUpperCase();
-
 
 showToast("Profilo salvato");
 
 }
 
 
-/* =========================
-TOAST
-========================= */
-
 function showToast(message){
 
-const toast =
+const toast=
 document.getElementById("toast");
 
-
-toast.textContent =
-message;
-
+toast.textContent=message;
 
 toast.classList.add("show");
-
 
 setTimeout(function(){
 
@@ -1768,108 +1509,81 @@ toast.classList.remove("show");
 }
 
 
-/* =========================
-CARICAMENTO INIZIALE
-========================= */
-
 (function(){
 
-/* DATA ODIERNA */
+const now=new Date();
 
-const now =
-new Date();
-
-
-const localDate =
+const localDate=
 new Date(
-now.getTime() -
-now.getTimezoneOffset() * 60000
+now.getTime()-
+now.getTimezoneOffset()*60000
 )
 .toISOString()
 .slice(0,10);
 
-
 document
 .getElementById("date")
-.value =
+.value=
 localDate;
 
 
-/* PROFILO */
-
 try{
 
-const profile =
+const profile=
 JSON.parse(
 localStorage.getItem(
 "matchpointProfile"
-) || "null"
+)||"null"
 );
-
 
 if(profile){
 
 document
 .getElementById("name")
-.value =
-profile.name || "";
-
+.value=
+profile.name||"";
 
 document
 .getElementById("plevel")
-.value =
-profile.level || "Intermedio";
-
+.value=
+profile.level||"Intermedio";
 
 document
 .getElementById("pzone")
-.value =
-profile.zone || "Pieve di Soligo";
-
+.value=
+profile.zone||"Pieve di Soligo";
 
 document
 .getElementById("availability")
-.value =
-profile.availability || "Sera";
-
+.value=
+profile.availability||"Sera";
 
 document
 .getElementById("avatar")
-.textContent =
+.textContent=
 (
-profile.name
-?
-profile.name.charAt(0)
-:
+profile.name?
+profile.name.charAt(0):
 "S"
 ).toUpperCase();
 
 }
 
-}catch(error){
+}catch(e){}
 
-console.log(
-"Profilo non disponibile"
-);
-
-}
-
-
-/* PARTITA SALVATA */
 
 try{
 
-const game =
+const game=
 JSON.parse(
 localStorage.getItem(
 "matchpointGame"
-) || "null"
+)||"null"
 );
-
 
 if(game){
 
-data = {
+data={
 
 date:game.date,
 time:game.time,
@@ -1878,54 +1592,41 @@ level:game.level
 
 };
 
-
-court =
-game.court;
-
+court=
+game.court||
+"Centro Tennis Pieve";
 
 document
 .getElementById("empty")
 .classList.add("hidden");
 
-
 document
 .getElementById("saved")
 .classList.remove("hidden");
 
-
 document
 .getElementById("savedInfo")
-.textContent =
-fmtDate(game.date) +
-" · " +
-game.time +
-" · " +
+.textContent=
+fmtDate(game.date)+
+" · "+
+game.time+
+" · "+
 game.zone;
-
 
 document
 .getElementById("savedCourt")
-.textContent =
+.textContent=
 game.court;
-
 
 document
 .getElementById("savedLevel")
-.textContent =
+.textContent=
 game.level;
 
 }
 
-}catch(error){
+}catch(e){}
 
-console.log(
-"Partita non disponibile"
-);
-
-}
-
-
-/* RISULTATO */
 
 if(
 localStorage.getItem(
