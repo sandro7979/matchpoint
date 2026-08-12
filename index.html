@@ -13,9 +13,9 @@ button,input,select{font:inherit}
 button{-webkit-appearance:none;appearance:none}
 .app{width:100%;height:100dvh;max-width:520px;margin:auto;background:#020b0d;position:relative;overflow:hidden}
 
-.home{position:absolute;inset:0;background:url("matchpoint-home.jpg") center top/cover no-repeat}
+.home{position:absolute;inset:0;background:url("matchpoint-home.jpg") center top/cover no-repeat;z-index:1}
 .home:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(2,11,13,0) 42%,rgba(2,11,13,.12) 58%,rgba(2,11,13,.88) 84%,#020b0d 92%);pointer-events:none}
-.brand{position:absolute;left:0;right:0;top:15%;text-align:center;z-index:2;padding:0 16px}
+.brand{position:absolute;left:0;right:0;top:12%;text-align:center;z-index:20;padding:0 16px;display:block;visibility:visible;opacity:1}
 .ball{font-size:54px;line-height:1;margin-bottom:14px}
 .logo{font-size:clamp(44px,11vw,60px);font-weight:900;letter-spacing:-2px;line-height:1}
 .logo span{color:#d9ff00}
@@ -328,7 +328,7 @@ function citySearch(){
 var input=document.getElementById("zone");
 var box=document.getElementById("citySuggestions");
 var q=normalize(input.value);
-if(q.length<2){closeCities();return;}
+if(q.length<1){closeCities();return;}
 var hits=CITIES.filter(function(c){return normalize(c).indexOf(q)===0;}).slice(0,12);
 box.innerHTML="";
 hits.forEach(function(name){
@@ -350,11 +350,13 @@ if(!e.target.closest(".autocomplete-wrap"))closeCities();
 
 function findMatch(){
 var zone=document.getElementById("zone").value.trim();
+
 if(!zone){
 toast("Scrivi o scegli una città");
 document.getElementById("zone").focus();
 return;
 }
+
 data={
 date:document.getElementById("date").value,
 time:document.getElementById("time").value||"18:00",
@@ -362,33 +364,56 @@ zone:zone,
 level:document.getElementById("level").value
 };
 
-document.getElementById("matchResult").classList.remove("show");
-document.getElementById("players").classList.add("hidden");
+var loading=document.getElementById("loading");
+var result=document.getElementById("matchResult");
+var players=document.getElementById("players");
+
+result.classList.remove("show");
+players.classList.add("hidden");
 document.getElementById("courts").classList.add("hidden");
 document.getElementById("booking").classList.add("hidden");
 document.getElementById("bookingRequest").classList.remove("show");
 document.getElementById("confirmed").classList.remove("show");
 
-var loading=document.getElementById("loading");
+loading.classList.remove("hidden");
+
 var bar=document.getElementById("bar");
 var text=document.getElementById("loadingText");
-loading.classList.remove("hidden");
-bar.style.width="10%";
-text.textContent="Cerco giocatori compatibili...";
 
-setTimeout(function(){bar.style.width="35%";text.textContent="Controllo disponibilità...";},400);
-setTimeout(function(){bar.style.width="65%";text.textContent="Confronto livello e distanza...";},800);
-setTimeout(function(){bar.style.width="85%";text.textContent="Ho trovato un compagno...";},1200);
-setTimeout(function(){bar.style.width="100%";text.textContent="Match trovato!";},1500);
+bar.style.width="20%";
+text.textContent="Cerco giocatori nella tua zona...";
+
+setTimeout(function(){
+bar.style.width="50%";
+text.textContent="Confronto orario e livello...";
+},500);
+
+setTimeout(function(){
+bar.style.width="80%";
+text.textContent="Ho trovato un compagno compatibile...";
+},1000);
+
+setTimeout(function(){
+bar.style.width="100%";
+text.textContent="Match trovato!";
+},1400);
 
 setTimeout(function(){
 loading.classList.add("hidden");
-document.getElementById("matchMeta").textContent=fmtDate(data.date)+" · "+data.time;
+
+document.getElementById("matchMeta").textContent=
+fmtDate(data.date)+" · "+data.time;
+
 document.getElementById("matchZone").textContent=data.zone;
 document.getElementById("matchLevel").textContent=data.level;
-document.getElementById("matchResult").classList.add("show");
-document.getElementById("matchResult").scrollIntoView({behavior:"smooth",block:"start"});
-},1800);
+
+result.classList.add("show");
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+},1700);
 }
 
 function showPlayers(){
