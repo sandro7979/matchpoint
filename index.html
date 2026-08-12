@@ -30,6 +30,37 @@ label{display:block;font-weight:800;font-size:14px;margin:14px 0 7px}input,selec
 .set-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.set-grid input{padding:11px 5px;text-align:center}.score-line{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-height:700px){.cta{bottom:105px;height:64px}.nav{height:82px}.view{padding-top:20px}.view h1{font-size:28px;margin-bottom:18px}.card{padding:15px}}
 @media(max-width:360px){.player-grid,.choice-grid{grid-template-columns:1fr}.cta{font-size:15px;gap:8px}}
+
+.autocomplete-wrap{position:relative}
+.city-suggestions{
+position:absolute;
+left:0;
+right:0;
+top:calc(100% + 6px);
+max-height:260px;
+overflow-y:auto;
+background:#081317;
+border:1px solid #34484e;
+border-radius:14px;
+z-index:200;
+box-shadow:0 12px 30px rgba(0,0,0,.45);
+}
+.city-option{
+display:block;
+width:100%;
+padding:13px 15px;
+border:0;
+border-bottom:1px solid #1d3035;
+background:transparent;
+color:#fff;
+text-align:left;
+font-weight:700;
+cursor:pointer;
+}
+.city-option:last-child{border-bottom:0}
+.city-option:active,
+.city-option:hover{background:#172326}
+
 </style>
 </head>
 <body>
@@ -53,11 +84,17 @@ label{display:block;font-weight:800;font-size:14px;margin:14px 0 7px}input,selec
 <div class="card">
 <label>Quando vuoi giocare?</label><input id="date" type="date">
 <label>Orario</label><input id="time" type="time" value="18:00">
-<label>Paese</label><input id="country" type="text" placeholder="Rilevamento automatico..." readonly>
-<label>Città / zona</label><input id="zone" type="text" placeholder="Rilevamento automatico..." readonly>
+<label>Paese</label><label>Paese</label>
+<input id="country" type="text" value="Italia" readonly>
+
+<label>Città / zona</label>
+<input id="zone" type="text"
+placeholder="Inizia a scrivere la città..." autocomplete="off">
+
+
 <label>Livello</label><select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
-<button id="locationButton" class="secondary" type="button" onclick="useLocation()">📍 RILEVA DI NUOVO LA MIA POSIZIONE</button>
-<p id="locationStatus" class="muted">📍 Sto rilevando automaticamente la tua città...</p>
+
+
 </div>
 
 <button class="primary" onclick="findMatch()">TROVA IL MIO MATCH</button>
@@ -185,13 +222,6 @@ const target=document.getElementById(id);
 if(target){target.classList.add("show");target.scrollTop=0}
 setNav(id==="games"?1:id==="profile"?2:-1);
 
-if(id==="match"){
-  const zone=document.getElementById("zone");
-  const country=document.getElementById("country");
-  if(zone && country && (!zone.value || !country.value)){
-    setTimeout(useLocation,180);
-  }
-}
 }
 function setNav(n){document.querySelectorAll(".nav button").forEach((b,i)=>b.classList.toggle("active",i===n))}
 function fmtDate(v){
@@ -205,70 +235,6 @@ const t=document.getElementById("toast");t.textContent=message;t.classList.add("
 clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove("show"),2000);
 }
 
-function useLocation(){
-const status=document.getElementById("locationStatus");
-const button=document.getElementById("locationButton");
-const zone=document.getElementById("zone");
-const country=document.getElementById("country");
-
-if(!navigator.geolocation){
-status.textContent="⚠️ Il browser non supporta la geolocalizzazione.";
-return;
-}
-
-status.textContent="📍 Rilevo automaticamente la tua città...";
-button.disabled=true;
-button.textContent="📍 RILEVAMENTO IN CORSO...";
-
-navigator.geolocation.getCurrentPosition(async pos=>{
-try{
-const lat=pos.coords.latitude;
-const lon=pos.coords.longitude;
-
-/* Reverse geocoding: coordinate GPS → città + Paese */
-const url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+encodeURIComponent(lat)+"&lon="+encodeURIComponent(lon)+"&zoom=10&addressdetails=1&accept-language=it";
-const response=await fetch(url,{headers:{"Accept":"application/json","Accept-Language":"it"}});
-if(!response.ok) throw new Error("Reverse geocoding non disponibile");
-
-const json=await response.json();
-const a=json.address||{};
-
-const city=a.city||a.town||a.village||a.municipality||a.locality||a.county;
-const detectedCountry=a.country;
-
-if(!city || !detectedCountry) throw new Error("Città non trovata");
-
-zone.value=city;
-country.value=detectedCountry;
-
-status.textContent="📍 Posizione rilevata: "+city+", "+detectedCountry;
-button.textContent="📍 POSIZIONE AGGIORNATA";
-showToast("Città rilevata: "+city);
-
-}catch(error){
-zone.value="";
-country.value="";
-status.textContent="⚠️ Non riesco a trasformare la posizione in città. Tocca «RILEVA DI NUOVO».";
-button.textContent="📍 RILEVA DI NUOVO LA MIA POSIZIONE";
-showToast("Riprova il rilevamento");
-}
-button.disabled=false;
-
-},error=>{
-zone.value="";
-country.value="";
-button.disabled=false;
-button.textContent="📍 RILEVA DI NUOVO LA MIA POSIZIONE";
-
-if(error.code===1){
-status.textContent="⚠️ Devi consentire la posizione a Safari per compilare automaticamente la città.";
-}else if(error.code===2){
-status.textContent="⚠️ Posizione non disponibile. Riprova.";
-}else{
-status.textContent="⚠️ Rilevamento scaduto. Riprova.";
-}
-});
-}
 
 function findMatch(){
 data={
@@ -280,8 +246,8 @@ level:document.getElementById("level").value
 };
 
 if(!data.zone || !data.country){
-  showToast("Prima rileva automaticamente la tua città");
-  document.getElementById("locationStatus").textContent="📍 Tocca «RILEVA DI NUOVO LA MIA POSIZIONE» per compilare la città.";
+  showToast("Inserisci la città");
+  
   return;
 }
 
@@ -398,5 +364,104 @@ const result=localStorage.getItem("matchpointResult");
 if(result){document.getElementById("resultSaved").textContent="🏆 Risultato registrato: "+result;document.getElementById("resultSaved").classList.remove("hidden")}
 })();
 </script>
+
+<script>
+(function(){
+  const zone = document.getElementById("zone");
+  if(!zone) return;
+
+  zone.addEventListener("input", function(){
+    const value = this.value.trim();
+    if(value.length >= 2){
+      this.setAttribute("aria-label","Città o zona");
+    }
+  });
+})();
+</script>
+
+
+<script>
+(function(){
+const input=document.getElementById("zone");
+const box=document.getElementById("citySuggestions");
+if(!input||!box)return;
+
+let timer=null;
+let controller=null;
+
+function closeSuggestions(){
+box.classList.add("hidden");
+box.innerHTML="";
+}
+
+function showSuggestions(items){
+box.innerHTML="";
+if(!items.length){closeSuggestions();return;}
+
+items.slice(0,12).forEach(function(item){
+const name=typeof item==="string"?item:item.nome;
+if(!name)return;
+const b=document.createElement("button");
+b.type="button";
+b.className="city-option";
+b.textContent=name;
+b.addEventListener("click",function(){
+input.value=name;
+closeSuggestions();
+});
+box.appendChild(b);
+});
+box.classList.remove("hidden");
+}
+
+input.addEventListener("input",function(){
+const q=input.value.trim();
+
+clearTimeout(timer);
+
+if(controller)controller.abort();
+
+if(q.length<2){
+closeSuggestions();
+return;
+}
+
+timer=setTimeout(async function(){
+try{
+controller=new AbortController();
+
+const url=
+"https://comuni-ita.nicolorebaioli.dev/comuni"+
+"?q="+encodeURIComponent(q)+
+"&sort=nome"+
+"&fields=nome"+
+"&pagesize=12";
+
+const response=await fetch(url,{
+signal:controller.signal,
+headers:{Accept:"application/json"}
+});
+
+if(!response.ok)throw new Error("API");
+
+const data=await response.json();
+
+const items=Array.isArray(data)
+?data
+:(data.data||data.results||data.comuni||[]);
+
+showSuggestions(items);
+}catch(error){
+if(error.name!=="AbortError")closeSuggestions();
+}
+},180);
+});
+
+document.addEventListener("click",function(e){
+if(!e.target.closest(".autocomplete-wrap"))closeSuggestions();
+});
+})();
+</script>
+
 </body>
 </html>
