@@ -61,18 +61,76 @@ cursor:pointer;
 .city-option:active,
 .city-option:hover{background:#172326}
 
+
+.brand{
+position:absolute;
+left:0;
+right:0;
+top:17%;
+text-align:center;
+padding:0 18px;
+z-index:2;
+}
+.ball{font-size:43px;line-height:1;margin-bottom:8px}
+.logo{
+font-size:clamp(42px,10vw,58px);
+font-weight:900;
+letter-spacing:-2px;
+line-height:1;
+text-shadow:0 3px 12px rgba(0,0,0,.45);
+}
+.logo span{color:#d9ff00}
+.tagline{
+font-size:15px;
+font-weight:800;
+letter-spacing:.5px;
+margin-top:11px;
+text-shadow:0 2px 8px rgba(0,0,0,.6);
+}
+.line{
+width:62px;
+height:3px;
+background:#d9ff00;
+border-radius:3px;
+margin:18px auto 0;
+}
+
+
+@media(max-height:700px){
+  .brand{top:12%}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
 
+
 <section id="home" class="home">
-<button class="cta" type="button" onclick="openView('match')"><span>🎾</span><span>TROVA IL MIO MATCH</span><span>→</span></button>
-<nav class="nav">
-<button type="button" class="active" onclick="openView('home')"><span class="ico">⌂</span><span>Home</span></button>
-<button type="button" onclick="openView('games')"><span class="ico">▣</span><span>Le mie partite</span></button>
-<button type="button" onclick="openView('profile')"><span class="ico">♙</span><span>Profilo</span></button>
-</nav>
+  <div class="brand">
+    <div class="ball">🎾</div>
+    <div class="logo">MATCH<span>POINT</span></div>
+    <div class="tagline">TROVA IL TUO COMPAGNO DI TENNIS</div>
+    <div class="line"></div>
+  </div>
+
+  <button class="cta" type="button" onclick="openView('match')">
+    <span>🎾</span>
+    <span>TROVA IL MIO MATCH</span>
+    <span>→</span>
+  </button>
+
+  <nav class="nav">
+    <button type="button" class="active" onclick="openView('home')">
+      <span class="ico">⌂</span><span>Home</span>
+    </button>
+    <button type="button" onclick="openView('games')">
+      <span class="ico">▣</span><span>Le mie partite</span>
+    </button>
+    <button type="button" onclick="openView('profile')">
+      <span class="ico">♙</span><span>Profilo</span>
+    </button>
+  </nav>
 </section>
 
 <section id="match" class="view">
@@ -84,12 +142,12 @@ cursor:pointer;
 <div class="card">
 <label>Quando vuoi giocare?</label><input id="date" type="date">
 <label>Orario</label><input id="time" type="time" value="18:00">
-<label>Paese</label><label>Paese</label>
-<input id="country" type="text" value="Italia" readonly>
-
 <label>Città / zona</label>
+<div class="autocomplete-wrap">
 <input id="zone" type="text"
 placeholder="Inizia a scrivere la città..." autocomplete="off">
+<div id="citySuggestions" class="city-suggestions hidden"></div>
+</div>
 
 
 <label>Livello</label><select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
@@ -190,7 +248,6 @@ placeholder="Inizia a scrivere la città..." autocomplete="off">
 <div class="card">
 <label>Nome</label><input id="name" placeholder="Il tuo nome">
 <label>Livello</label><select id="plevel"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
-<label>Paese</label><input id="pcountry" value="Italia">
 <label>Zona</label><input id="pzone" value="Pieve di Soligo">
 <label>Disponibilità</label><select id="availability"><option>Mattina</option><option>Pomeriggio</option><option selected>Sera</option><option>Flessibile</option></select>
 </div>
@@ -241,7 +298,6 @@ data={
 date:document.getElementById("date").value,
 time:document.getElementById("time").value||"18:00",
 zone:document.getElementById("zone").value.trim()||"Pieve di Soligo",
-country:document.getElementById("country").value.trim(),
 level:document.getElementById("level").value
 };
 
@@ -328,7 +384,7 @@ showToast("Risultato salvato");
 }
 function saveProfile(){
 const name=document.getElementById("name").value.trim();
-const p={name:name,level:document.getElementById("plevel").value,country:document.getElementById("pcountry").value.trim(),zone:document.getElementById("pzone").value.trim(),availability:document.getElementById("availability").value};
+const p={name:name,level:document.getElementById("plevel").value,zone:document.getElementById("pzone").value.trim(),availability:document.getElementById("availability").value};
 localStorage.setItem("matchpointProfile",JSON.stringify(p));
 document.getElementById("avatar").textContent=(name?name.charAt(0):"S").toUpperCase();
 showToast("Profilo salvato");
@@ -382,84 +438,87 @@ if(result){document.getElementById("resultSaved").textContent="🏆 Risultato re
 
 <script>
 (function(){
-const input=document.getElementById("zone");
-const box=document.getElementById("citySuggestions");
-if(!input||!box)return;
+  const input=document.getElementById("zone");
+  const box=document.getElementById("citySuggestions");
+  if(!input || !box) return;
 
-let timer=null;
-let controller=null;
+  let cities=[];
+  let ready=false;
 
-function closeSuggestions(){
-box.classList.add("hidden");
-box.innerHTML="";
-}
+  // Database of Italian municipalities. Loaded once; after that autocomplete
+  // works locally in the browser without GPS or a location permission.
+  fetch("https://cdn.jsdelivr.net/npm/comuni-json@1.0.0/comuni.json")
+    .then(r=>{
+      if(!r.ok) throw new Error("database non disponibile");
+      return r.json();
+    })
+    .then(data=>{
+      cities=(Array.isArray(data)?data:[])
+        .map(x=>typeof x==="string"?x:x.nome)
+        .filter(Boolean)
+        .sort((a,b)=>a.localeCompare(b,"it"));
+      ready=true;
+    })
+    .catch(()=>{
+      // Fallback so the demo still works if the external database is unavailable.
+      cities=[
+        "Pieve di Soligo","Conegliano","Vittorio Veneto","Treviso",
+        "Susegana","Farra di Soligo","Follina","Valdobbiadene",
+        "Montebelluna","Moriago della Battaglia","Sernaglia della Battaglia",
+        "San Pietro di Feletto","Colle Umberto","Refrontolo","Miane",
+        "Milano","Roma","Torino","Genova","Venezia","Padova","Verona",
+        "Bologna","Firenze","Napoli","Palermo","Bari","Trieste","Udine",
+        "Pordenone","Belluno","Vicenza","Rovigo"
+      ];
+      ready=true;
+    });
 
-function showSuggestions(items){
-box.innerHTML="";
-if(!items.length){closeSuggestions();return;}
+  function normalize(s){
+    return s.toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g,"")
+      .trim();
+  }
 
-items.slice(0,12).forEach(function(item){
-const name=typeof item==="string"?item:item.nome;
-if(!name)return;
-const b=document.createElement("button");
-b.type="button";
-b.className="city-option";
-b.textContent=name;
-b.addEventListener("click",function(){
-input.value=name;
-closeSuggestions();
-});
-box.appendChild(b);
-});
-box.classList.remove("hidden");
-}
+  function close(){
+    box.classList.add("hidden");
+    box.innerHTML="";
+  }
 
-input.addEventListener("input",function(){
-const q=input.value.trim();
+  function show(){
+    const q=normalize(input.value);
+    if(q.length<2 || !ready){ close(); return; }
 
-clearTimeout(timer);
+    const results=cities
+      .filter(name=>normalize(name).startsWith(q))
+      .slice(0,12);
 
-if(controller)controller.abort();
+    if(!results.length){
+      close();
+      return;
+    }
 
-if(q.length<2){
-closeSuggestions();
-return;
-}
+    box.innerHTML="";
+    results.forEach(name=>{
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="city-option";
+      b.textContent=name;
+      b.onclick=function(){
+        input.value=name;
+        close();
+      };
+      box.appendChild(b);
+    });
+    box.classList.remove("hidden");
+  }
 
-timer=setTimeout(async function(){
-try{
-controller=new AbortController();
+  input.addEventListener("input",show);
+  input.addEventListener("focus",show);
 
-const url=
-"https://comuni-ita.nicolorebaioli.dev/comuni"+
-"?q="+encodeURIComponent(q)+
-"&sort=nome"+
-"&fields=nome"+
-"&pagesize=12";
-
-const response=await fetch(url,{
-signal:controller.signal,
-headers:{Accept:"application/json"}
-});
-
-if(!response.ok)throw new Error("API");
-
-const data=await response.json();
-
-const items=Array.isArray(data)
-?data
-:(data.data||data.results||data.comuni||[]);
-
-showSuggestions(items);
-}catch(error){
-if(error.name!=="AbortError")closeSuggestions();
-}
-},180);
-});
-
-document.addEventListener("click",function(e){
-if(!e.target.closest(".autocomplete-wrap"))closeSuggestions();
-});
+  document.addEventListener("click",function(e){
+    if(!e.target.closest(".autocomplete-wrap")) close();
+  });
 })();
 </script>
 
