@@ -12,44 +12,110 @@ body{overflow:hidden}
 button,input,select{font:inherit}
 button{-webkit-appearance:none;appearance:none}
 .app{width:100%;height:100dvh;max-width:520px;margin:auto;background:#020b0d;position:relative;overflow:hidden}
-.home{position:absolute;inset:0;background:#020b0d url("matchpoint-home-clean.jpg") center top/cover no-repeat}
-.homeShade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(2,11,13,0) 55%,rgba(2,11,13,.12) 68%,#020b0d 88%)}
-.cta{position:absolute;left:7%;right:7%;bottom:116px;height:70px;border:0;border-radius:40px;background:#d9ff00;color:#050909;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:15px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:3}
+
+.home{position:absolute;inset:0;background:url("matchpoint-home.jpg") center top/cover no-repeat}
+.home:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(2,11,13,0) 42%,rgba(2,11,13,.12) 58%,rgba(2,11,13,.88) 84%,#020b0d 92%);pointer-events:none}
+.brand{position:absolute;left:0;right:0;top:15%;text-align:center;z-index:2;padding:0 16px}
+.ball{font-size:54px;line-height:1;margin-bottom:14px}
+.logo{font-size:clamp(44px,11vw,60px);font-weight:900;letter-spacing:-2px;line-height:1}
+.logo span{color:#d9ff00}
+.tagline{font-size:15px;font-weight:900;letter-spacing:.5px;margin-top:18px}
+.line{width:92px;height:4px;background:#d9ff00;border-radius:5px;margin:22px auto 0}
+
+.cta{position:absolute;left:7%;right:7%;bottom:116px;height:70px;border:0;border-radius:40px;background:#d9ff00;color:#050909;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:15px;box-shadow:0 8px 30px rgba(0,0,0,.35);z-index:4}
+.cta:active,.primary:active,.secondary:active,.back:active,.nav button:active,.choice:active,.player:active{transform:scale(.98)}
+
 .nav{position:absolute;left:0;right:0;bottom:0;height:92px;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(2,11,13,.98);border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom);z-index:50}
 .nav button{border:0;background:transparent;color:#cbd0d1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:700}
 .nav .ico{font-size:27px;line-height:1}.nav .active{color:#d9ff00}
+
 .view{position:absolute;inset:0;background:#020b0d;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(25px + env(safe-area-inset-top)) 20px calc(110px + env(safe-area-inset-bottom));display:none;z-index:20}
 .view.show{display:block}
-.view h1{font-size:31px;line-height:1.05;margin:10px 0 25px}.view h2{margin-top:5px}
+.view h1{font-size:31px;line-height:1.05;margin:10px 0 25px}
+.view h2{margin-top:5px}
 .back,.primary,.secondary{width:100%;border-radius:14px;padding:15px;font-size:16px;font-weight:900;cursor:pointer}
-.back{border:0;background:#172326;color:#fff;margin-bottom:22px}.primary{border:0;background:#d9ff00;color:#050909}.secondary{border:1px solid #34484e;background:#0b171a;color:#fff;margin-top:10px}
-.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}.muted{color:#b9c1c3;line-height:1.5}
+.back{border:0;background:#172326;color:#fff;margin-bottom:22px}
+.primary{border:0;background:#d9ff00;color:#050909}
+.secondary{border:1px solid #34484e;background:#0b171a;color:#fff;margin-top:10px}
+.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}
+.muted{color:#b9c1c3;line-height:1.5}
 label{display:block;font-weight:800;font-size:14px;margin:15px 0 7px}
 input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:16px;outline:none}
 input:focus,select:focus{border-color:#d9ff00}
-.steps{display:flex;gap:7px;margin-bottom:18px}.steps>div{flex:1;text-align:center;font-size:10px;color:#879295;font-weight:800}.dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#26383d;margin:0 auto 5px}.steps .on{background:#d9ff00;color:#050909}
-.loading{text-align:center;padding:30px 15px}.spinner{width:58px;height:58px;border:5px solid #26383d;border-top-color:#d9ff00;border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
-.progress{height:8px;background:#17272b;border-radius:10px;overflow:hidden;margin-top:18px}.progress i{display:block;height:100%;width:0;background:#d9ff00;transition:width .35s}
-.result{display:none}.result.show{display:block}.match-player{font-size:25px;font-weight:900;margin-bottom:5px}.match-meta{color:#d9ff00;font-weight:800;margin-bottom:12px}.success{font-size:19px;font-weight:900;margin-bottom:10px}
+
+.steps{display:flex;gap:7px;margin-bottom:18px}
+.steps>div{flex:1;text-align:center;font-size:10px;color:#879295;font-weight:800}
+.dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#26383d;margin:0 auto 5px}
+.steps .on{background:#d9ff00;color:#050909}
+
+.loading{text-align:center;padding:30px 15px}
+.spinner{width:58px;height:58px;border:5px solid #26383d;border-top-color:#d9ff00;border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.progress{height:8px;background:#17272b;border-radius:10px;overflow:hidden;margin-top:18px}
+.progress i{display:block;height:100%;width:0;background:#d9ff00;transition:width .35s}
+
+.result{display:none}
+.result.show{display:block}
+.match-player{font-size:25px;font-weight:900;margin-bottom:5px}
+.match-meta{color:#d9ff00;font-weight:800;margin-bottom:12px}
+.success{font-size:19px;font-weight:900;margin-bottom:10px}
 .badge{display:inline-block;background:#172326;border:1px solid #34484e;border-radius:20px;padding:7px 11px;margin:3px 3px 0 0;color:#fff;font-size:13px}
-.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:14px;text-align:left;cursor:pointer;min-height:88px}.choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.choice strong{display:block;margin-bottom:6px}.choice small{color:#aeb7b9;line-height:1.3}
-.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}.player.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.avatar{width:52px;height:52px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-weight:900;font-size:22px;flex:none}.player-info strong{display:block;font-size:18px}.player-info small{display:block;color:#aeb7b9;margin-top:4px}
-.game{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:16px;margin:10px 0}.game-top{display:flex;justify-content:space-between;gap:10px}.status{color:#d9ff00;font-size:12px;font-weight:900;white-space:nowrap}
-.profile-head{text-align:center;margin-bottom:20px}.profile-avatar{width:82px;height:82px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-size:34px;font-weight:900;margin:auto}
-.autocomplete-wrap{position:relative}.city-suggestions{position:absolute;left:0;right:0;top:calc(100% + 6px);max-height:250px;overflow-y:auto;background:#081317;border:1px solid #34484e;border-radius:14px;z-index:300;box-shadow:0 12px 30px rgba(0,0,0,.45)}.city-option{display:block;width:100%;padding:14px 15px;border:0;border-bottom:1px solid #1d3035;background:#081317;color:#fff;text-align:left;font-weight:800}.city-option:last-child{border-bottom:0}
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.score-grid input{text-align:center;font-weight:900}
+
+.autocomplete-wrap{position:relative}
+.city-suggestions{position:absolute;left:0;right:0;top:calc(100% + 6px);max-height:250px;overflow-y:auto;background:#081317;border:1px solid #34484e;border-radius:14px;z-index:300;box-shadow:0 12px 30px rgba(0,0,0,.45)}
+.city-option{display:block;width:100%;padding:14px 15px;border:0;border-bottom:1px solid #1d3035;background:#081317;color:#fff;text-align:left;font-weight:800}
+.city-option:last-child{border-bottom:0}
+
+.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
+.player.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}
+.avatar{width:52px;height:52px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-weight:900;font-size:22px;flex:none}
+.player-info strong{display:block;font-size:18px}
+.player-info small{display:block;color:#aeb7b9;margin-top:4px}
+
+.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:14px;text-align:left;cursor:pointer;min-height:88px}
+.choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}
+.choice strong{display:block;margin-bottom:6px}
+.choice small{color:#aeb7b9;line-height:1.3}
+
+.game{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:16px;margin:10px 0}
+.game-top{display:flex;justify-content:space-between;gap:10px}
+.status{color:#d9ff00;font-size:12px;font-weight:900;white-space:nowrap}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.score-grid input{text-align:center;font-weight:900}
+
+.profile-head{text-align:center;margin-bottom:20px}
+.profile-avatar{width:82px;height:82px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-size:34px;font-weight:900;margin:auto}
+
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:#d9ff00;color:#050909;font-weight:900;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:500;white-space:nowrap}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.hidden{display:none!important}
-@media(max-height:700px){.cta{bottom:105px;height:64px}.nav{height:82px}.view{padding-top:20px}.view h1{font-size:28px;margin-bottom:20px}}
-@media(max-width:360px){.choice-grid{grid-template-columns:1fr}.cta{font-size:15px;gap:8px}}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.hidden{display:none!important}
+
+@media(max-height:700px){
+.brand{top:10%}.cta{bottom:105px;height:64px}.nav{height:82px}
+.view{padding-top:20px}.view h1{font-size:28px;margin-bottom:20px}
+}
+@media(max-width:360px){
+.logo{font-size:42px}.tagline{font-size:13px}.choice-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
 <div class="app">
 
 <section id="home" class="home">
-<div class="homeShade"></div>
-<button class="cta" type="button" onclick="openView('match')"><span>🎾</span><span>TROVA IL MIO MATCH</span><span>→</span></button>
+<div class="brand">
+<div class="ball">🎾</div>
+<div class="logo">MATCH<span>POINT</span></div>
+<div class="tagline">TROVA IL TUO COMPAGNO DI TENNIS</div>
+<div class="line"></div>
+</div>
+
+<button class="cta" type="button" onclick="openView('match')">
+<span>🎾</span><span>TROVA IL MIO MATCH</span><span>→</span>
+</button>
+
 <nav class="nav">
 <button type="button" class="active" onclick="openView('home')"><span class="ico">⌂</span><span>Home</span></button>
 <button type="button" onclick="openView('games')"><span class="ico">▣</span><span>Le mie partite</span></button>
@@ -68,52 +134,79 @@ input:focus,select:focus{border-color:#d9ff00}
 </div>
 
 <div class="card">
-<label>Quando vuoi giocare?</label><input id="date" type="date">
-<label>Orario</label><input id="time" type="time" value="18:00">
+<label>Quando vuoi giocare?</label>
+<input id="date" type="date">
+
+<label>Orario</label>
+<input id="time" type="time" value="18:00">
+
 <label>Città / zona</label>
 <div class="autocomplete-wrap">
 <input id="zone" type="text" placeholder="Inizia a scrivere la città..." autocomplete="off">
 <div id="citySuggestions" class="city-suggestions hidden"></div>
 </div>
+
 <label>Livello</label>
-<select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
+<select id="level">
+<option>Principiante</option>
+<option selected>Intermedio</option>
+<option>Avanzato</option>
+</select>
 </div>
 
 <button class="primary" type="button" onclick="findMatch()">TROVA IL MIO MATCH</button>
 
 <div id="loading" class="card loading hidden">
-<div class="spinner"></div><h2 id="loadingTitle">Cerco il tuo match...</h2>
-<p class="muted" id="loadingText">Confronto giocatori compatibili</p><div class="progress"><i id="bar"></i></div>
+<div class="spinner"></div>
+<h2 id="loadingTitle">Cerco il tuo match...</h2>
+<p class="muted" id="loadingText">Confronto giocatori compatibili</p>
+<div class="progress"><i id="bar"></i></div>
 </div>
 
 <div id="matchResult" class="card result">
 <div class="success">🎾 Match trovato!</div>
-<div class="match-player" id="chosenPlayer">Marco</div>
+<div class="match-player">Marco</div>
 <div class="match-meta" id="matchMeta"></div>
 <span class="badge" id="matchZone"></span>
 <span class="badge" id="matchLevel"></span>
 <span class="badge">Compatibilità 94%</span>
 <p class="muted">Abbiamo trovato un giocatore compatibile per orario, città e livello.</p>
-<button class="primary" type="button" onclick="showPlayers()">VEDI IL COMPAGNO</button>
+<button class="primary" type="button" onclick="showPlayers()">SCEGLI IL COMPAGNO</button>
 </div>
 
 <div id="players" class="card hidden">
-<h2>Scegli il compagno</h2><p class="muted">Abbiamo trovato questi giocatori disponibili.</p>
-<div class="player selected" data-player="Marco" onclick="pickPlayer(this)"><div class="avatar">M</div><div class="player-info"><strong>Marco</strong><small>Intermedio · 1,2 km · 94% compatibile</small></div></div>
-<div class="player" data-player="Luca" onclick="pickPlayer(this)"><div class="avatar">L</div><div class="player-info"><strong>Luca</strong><small>Intermedio · 2,8 km · 89% compatibile</small></div></div>
-<div class="player" data-player="Andrea" onclick="pickPlayer(this)"><div class="avatar">A</div><div class="player-info"><strong>Andrea</strong><small>Intermedio · 4,1 km · 84% compatibile</small></div></div>
+<h2>Scegli il compagno</h2>
+<p class="muted">Abbiamo trovato questi giocatori disponibili.</p>
+
+<div class="player selected" data-player="Marco" onclick="pickPlayer(this)">
+<div class="avatar">M</div><div class="player-info"><strong>Marco</strong><small>Intermedio · 1,2 km · 94% compatibile</small></div>
+</div>
+<div class="player" data-player="Luca" onclick="pickPlayer(this)">
+<div class="avatar">L</div><div class="player-info"><strong>Luca</strong><small>Intermedio · 2,8 km · 89% compatibile</small></div>
+</div>
+<div class="player" data-player="Andrea" onclick="pickPlayer(this)">
+<div class="avatar">A</div><div class="player-info"><strong>Andrea</strong><small>Intermedio · 4,1 km · 84% compatibile</small></div>
+</div>
+
 <button class="primary" type="button" onclick="acceptPlayer()">ACCETTA COMPAGNO</button>
 </div>
 
 <div id="courts" class="card hidden">
-<div class="steps"><div><span class="dot on">1</span>QUANDO</div><div><span class="dot on">2</span>COMPAGNO</div><div><span class="dot on">3</span>CAMPO</div></div>
-<h2>Scegli il campo</h2><p class="muted">Campi proposti vicino a <span id="courtCity"></span>.</p>
+<div class="steps">
+<div><span class="dot on">1</span>QUANDO</div>
+<div><span class="dot on">2</span>COMPAGNO</div>
+<div><span class="dot on">3</span>CAMPO</div>
+</div>
+<h2>Scegli il campo</h2>
+<p class="muted">Campi proposti vicino a <span id="courtCity"></span>.</p>
+
 <div class="choice-grid">
 <button class="choice selected" data-court="Centro Tennis Pieve · Campo 2" onclick="pickCourt(this)"><strong>Centro Tennis Pieve</strong><small>2,1 km · Campo 2 · Disponibile</small></button>
 <button class="choice" data-court="Tennis Club Soligo · Campo 1" onclick="pickCourt(this)"><strong>Tennis Club Soligo</strong><small>3,4 km · Campo 1 · Disponibile</small></button>
 <button class="choice" data-court="Sporting Conegliano · Campo 4" onclick="pickCourt(this)"><strong>Sporting Conegliano</strong><small>8,7 km · Campo 4 · Disponibile</small></button>
 <button class="choice" data-court="Campo Comunale · Campo 1" onclick="pickCourt(this)"><strong>Campo Comunale</strong><small>5,2 km · Campo 1 · Disponibile</small></button>
 </div>
+
 <button class="primary" type="button" onclick="proposeCourt()">PROPONI QUESTO CAMPO</button>
 </div>
 
@@ -126,8 +219,8 @@ input:focus,select:focus{border-color:#d9ff00}
 <div id="bookingRequest" class="card result">
 <div class="success">📨 Richiesta inviata</div>
 <p class="muted" id="requestText"></p>
-<p class="muted">Marco deve accettare la proposta prima della prenotazione.</p>
-<button class="primary" type="button" onclick="acceptRequest()">MARCO ACCETTA LA RICHIESTA</button>
+<p class="muted">Il compagno deve accettare la proposta prima della prenotazione.</p>
+<button class="primary" type="button" onclick="acceptRequest()">ACCETTA LA RICHIESTA</button>
 </div>
 
 <div id="confirmed" class="card result">
@@ -141,10 +234,24 @@ input:focus,select:focus{border-color:#d9ff00}
 <section id="games" class="view">
 <button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
 <h1>Le mie partite</h1>
-<div id="empty" class="card"><h2>Nessuna partita ancora</h2><p class="muted">Trova un match dalla Home per iniziare.</p><button class="primary" type="button" onclick="openView('match')">TROVA IL MIO MATCH</button></div>
+
+<div id="empty" class="card">
+<h2>Nessuna partita ancora</h2>
+<p class="muted">Trova un match dalla Home per iniziare.</p>
+<button class="primary" type="button" onclick="openView('match')">TROVA IL MIO MATCH</button>
+</div>
+
 <div id="saved" class="hidden">
-<div class="game"><div class="game-top"><strong>🎾 <span id="savedPlayer">Marco</span></strong><span class="status">CONFERMATA</span></div><p class="muted" id="savedInfo"></p><span class="badge" id="savedCourt"></span><span class="badge" id="savedLevel"></span></div>
-<div class="card"><h2>Risultato partita</h2><p class="muted">Inserisci il risultato dei 5 set.</p>
+<div class="game">
+<div class="game-top"><strong>🎾 <span id="savedPlayer">Marco</span></strong><span class="status">CONFERMATA</span></div>
+<p class="muted" id="savedInfo"></p>
+<span class="badge" id="savedCourt"></span>
+<span class="badge" id="savedLevel"></span>
+</div>
+
+<div class="card">
+<h2>Risultato partita</h2>
+<p class="muted">Inserisci il risultato dei 5 set.</p>
 <div class="score-grid">
 <input id="s1a" inputmode="numeric" placeholder="Set 1"><input id="s1b" inputmode="numeric" placeholder="Set 1">
 <input id="s2a" inputmode="numeric" placeholder="Set 2"><input id="s2b" inputmode="numeric" placeholder="Set 2">
@@ -160,8 +267,17 @@ input:focus,select:focus{border-color:#d9ff00}
 
 <section id="profile" class="view">
 <button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
-<div class="profile-head"><div class="profile-avatar" id="avatar">S</div><h1>Il mio profilo</h1><p class="muted">I tuoi dati per trovare match migliori.</p></div>
-<div class="card"><label>Nome</label><input id="name" placeholder="Il tuo nome"><label>Livello</label><select id="plevel"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select><label>Città / zona</label><input id="pzone" placeholder="La tua città"><label>Disponibilità</label><select id="availability"><option>Mattina</option><option>Pomeriggio</option><option selected>Sera</option><option>Flessibile</option></select></div>
+<div class="profile-head">
+<div class="profile-avatar" id="avatar">S</div>
+<h1>Il mio profilo</h1>
+<p class="muted">I tuoi dati per trovare match migliori.</p>
+</div>
+<div class="card">
+<label>Nome</label><input id="name" placeholder="Il tuo nome">
+<label>Livello</label><select id="plevel"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
+<label>Città / zona</label><input id="pzone" placeholder="La tua città">
+<label>Disponibilità</label><select id="availability"><option>Mattina</option><option>Pomeriggio</option><option selected>Sera</option><option>Flessibile</option></select>
+</div>
 <button class="primary" type="button" onclick="saveProfile()">SALVA PROFILO</button>
 </section>
 
@@ -176,98 +292,221 @@ let selectedCourt="Centro Tennis Pieve · Campo 2";
 let toastTimer=null;
 
 function openView(id){
-document.querySelectorAll(".view").forEach(v=>v.classList.remove("show"));
-const home=document.getElementById("home");
+document.querySelectorAll(".view").forEach(function(v){v.classList.remove("show");});
+var home=document.getElementById("home");
 if(id==="home"){home.style.display="block";setNav(0);return;}
 home.style.display="none";
-const target=document.getElementById(id);
+var target=document.getElementById(id);
 if(target){target.classList.add("show");target.scrollTop=0;}
 setNav(id==="games"?1:id==="profile"?2:-1);
 }
-function setNav(n){document.querySelectorAll(".nav button").forEach((b,i)=>b.classList.toggle("active",i===n));}
-function fmtDate(v){if(!v)return"Oggi";const d=new Date(v+"T12:00:00");return isNaN(d)?"Oggi":d.toLocaleDateString("it-IT",{weekday:"short",day:"2-digit",month:"2-digit"});}
-function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2200);}
-function normalize(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();}
-function closeCities(){const b=document.getElementById("citySuggestions");b.classList.add("hidden");b.innerHTML="";}
-function citySearch(){
-const input=document.getElementById("zone"),box=document.getElementById("citySuggestions"),q=normalize(input.value);
-if(q.length<2){closeCities();return;}
-const hits=CITIES.filter(c=>normalize(c).startsWith(q)).slice(0,12);
-box.innerHTML="";
-hits.forEach(name=>{const b=document.createElement("button");b.type="button";b.className="city-option";b.textContent=name;b.onclick=()=>{input.value=name;closeCities();};box.appendChild(b);});
-if(hits.length)box.classList.remove("hidden");else closeCities();
+function setNav(n){
+document.querySelectorAll(".nav button").forEach(function(b,i){b.classList.toggle("active",i===n);});
 }
+function fmtDate(v){
+if(!v)return"Oggi";
+var d=new Date(v+"T12:00:00");
+if(isNaN(d))return"Oggi";
+return d.toLocaleDateString("it-IT",{weekday:"short",day:"2-digit",month:"2-digit"});
+}
+function toast(msg){
+var t=document.getElementById("toast");
+t.textContent=msg;
+t.classList.add("show");
+clearTimeout(toastTimer);
+toastTimer=setTimeout(function(){t.classList.remove("show");},2200);
+}
+function normalize(s){
+return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+}
+function closeCities(){
+var box=document.getElementById("citySuggestions");
+box.classList.add("hidden");
+box.innerHTML="";
+}
+function citySearch(){
+var input=document.getElementById("zone");
+var box=document.getElementById("citySuggestions");
+var q=normalize(input.value);
+if(q.length<2){closeCities();return;}
+var hits=CITIES.filter(function(c){return normalize(c).indexOf(q)===0;}).slice(0,12);
+box.innerHTML="";
+hits.forEach(function(name){
+var b=document.createElement("button");
+b.type="button";
+b.className="city-option";
+b.textContent=name;
+b.onclick=function(){input.value=name;closeCities();};
+box.appendChild(b);
+});
+if(hits.length){box.classList.remove("hidden");}else{closeCities();}
+}
+
 document.getElementById("zone").addEventListener("input",citySearch);
 document.getElementById("zone").addEventListener("focus",citySearch);
-document.addEventListener("click",e=>{if(!e.target.closest(".autocomplete-wrap"))closeCities();});
+document.addEventListener("click",function(e){
+if(!e.target.closest(".autocomplete-wrap"))closeCities();
+});
 
 function findMatch(){
-const zone=document.getElementById("zone").value.trim();
-if(!zone){toast("Scrivi o scegli una città");document.getElementById("zone").focus();return;}
-data={date:document.getElementById("date").value,time:document.getElementById("time").value||"18:00",zone:zone,level:document.getElementById("level").value};
-["matchResult","players","courts","booking","bookingRequest","confirmed"].forEach(id=>document.getElementById(id).classList.add("hidden"));
+var zone=document.getElementById("zone").value.trim();
+if(!zone){
+toast("Scrivi o scegli una città");
+document.getElementById("zone").focus();
+return;
+}
+data={
+date:document.getElementById("date").value,
+time:document.getElementById("time").value||"18:00",
+zone:zone,
+level:document.getElementById("level").value
+};
+
 document.getElementById("matchResult").classList.remove("show");
-document.getElementById("loading").classList.remove("hidden");
-const bar=document.getElementById("bar"),txt=document.getElementById("loadingText");bar.style.width="10%";txt.textContent="Cerco giocatori compatibili...";
-setTimeout(()=>{bar.style.width="35%";txt.textContent="Controllo disponibilità..."},450);
-setTimeout(()=>{bar.style.width="65%";txt.textContent="Confronto livello e distanza..."},900);
-setTimeout(()=>{bar.style.width="85%";txt.textContent="Ho trovato un compagno..."},1250);
-setTimeout(()=>{bar.style.width="100%";txt.textContent="Match trovato!"},1500);
-setTimeout(()=>{
-document.getElementById("loading").classList.add("hidden");
+document.getElementById("players").classList.add("hidden");
+document.getElementById("courts").classList.add("hidden");
+document.getElementById("booking").classList.add("hidden");
+document.getElementById("bookingRequest").classList.remove("show");
+document.getElementById("confirmed").classList.remove("show");
+
+var loading=document.getElementById("loading");
+var bar=document.getElementById("bar");
+var text=document.getElementById("loadingText");
+loading.classList.remove("hidden");
+bar.style.width="10%";
+text.textContent="Cerco giocatori compatibili...";
+
+setTimeout(function(){bar.style.width="35%";text.textContent="Controllo disponibilità...";},400);
+setTimeout(function(){bar.style.width="65%";text.textContent="Confronto livello e distanza...";},800);
+setTimeout(function(){bar.style.width="85%";text.textContent="Ho trovato un compagno...";},1200);
+setTimeout(function(){bar.style.width="100%";text.textContent="Match trovato!";},1500);
+
+setTimeout(function(){
+loading.classList.add("hidden");
 document.getElementById("matchMeta").textContent=fmtDate(data.date)+" · "+data.time;
 document.getElementById("matchZone").textContent=data.zone;
 document.getElementById("matchLevel").textContent=data.level;
 document.getElementById("matchResult").classList.add("show");
 document.getElementById("matchResult").scrollIntoView({behavior:"smooth",block:"start"});
-},1850);
+},1800);
 }
-function showPlayers(){const p=document.getElementById("players");p.classList.remove("hidden");p.scrollIntoView({behavior:"smooth",block:"start"});}
-function pickPlayer(el){document.querySelectorAll(".player").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");selectedPlayer=el.dataset.player;}
+
+function showPlayers(){
+var p=document.getElementById("players");
+p.classList.remove("hidden");
+p.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function pickPlayer(el){
+document.querySelectorAll(".player").forEach(function(x){x.classList.remove("selected");});
+el.classList.add("selected");
+selectedPlayer=el.getAttribute("data-player");
+}
 function acceptPlayer(){
-document.getElementById("chosenPlayer").textContent=selectedPlayer;
 document.getElementById("step2").classList.add("on");
-const c=document.getElementById("courts");c.classList.remove("hidden");document.getElementById("courtCity").textContent=data.zone;c.scrollIntoView({behavior:"smooth",block:"start"});
+document.getElementById("courtCity").textContent=data.zone;
+var c=document.getElementById("courts");
+c.classList.remove("hidden");
+c.scrollIntoView({behavior:"smooth",block:"start"});
 }
-function pickCourt(el){document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));el.classList.add("selected");selectedCourt=el.dataset.court;}
+function pickCourt(el){
+document.querySelectorAll(".choice").forEach(function(x){x.classList.remove("selected");});
+el.classList.add("selected");
+selectedCourt=el.getAttribute("data-court");
+}
 function proposeCourt(){
-document.getElementById("proposalText").textContent=selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
-document.getElementById("booking").classList.remove("hidden");document.getElementById("booking").scrollIntoView({behavior:"smooth",block:"start"});
+document.getElementById("proposalText").textContent=
+selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
+var b=document.getElementById("booking");
+b.classList.remove("hidden");
+b.scrollIntoView({behavior:"smooth",block:"start"});
 }
 function requestBooking(){
-document.getElementById("requestText").textContent="Hai proposto a "+selectedPlayer+": "+fmtDate(data.date)+" · "+data.time+" · "+selectedCourt+".";
-document.getElementById("bookingRequest").classList.add("show");document.getElementById("bookingRequest").scrollIntoView({behavior:"smooth",block:"start"});toast("Richiesta inviata");
+document.getElementById("requestText").textContent=
+"Hai proposto a "+selectedPlayer+": "+fmtDate(data.date)+" · "+data.time+" · "+selectedCourt+".";
+document.getElementById("bookingRequest").classList.add("show");
+document.getElementById("bookingRequest").scrollIntoView({behavior:"smooth",block:"start"});
+toast("Richiesta inviata");
 }
 function acceptRequest(){
-const text=selectedPlayer+" ha accettato. "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
+var text=selectedPlayer+" ha accettato. "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
 document.getElementById("confirmedText").textContent=text;
 document.getElementById("confirmed").classList.add("show");
+
 document.getElementById("savedPlayer").textContent=selectedPlayer;
 document.getElementById("savedInfo").textContent=fmtDate(data.date)+" · "+data.time+" · "+data.zone;
 document.getElementById("savedCourt").textContent=selectedCourt;
 document.getElementById("savedLevel").textContent=data.level;
-document.getElementById("empty").classList.add("hidden");document.getElementById("saved").classList.remove("hidden");
-localStorage.setItem("matchpointGame",JSON.stringify({player:selectedPlayer,...data,court:selectedCourt}));
+document.getElementById("empty").classList.add("hidden");
+document.getElementById("saved").classList.remove("hidden");
+
+localStorage.setItem("matchpointGame",JSON.stringify({
+player:selectedPlayer,date:data.date,time:data.time,zone:data.zone,level:data.level,court:selectedCourt
+}));
 toast("Prenotazione accettata");
 }
 function saveResult(){
-const vals=[1,2,3,4,5].map(n=>[document.getElementById("s"+n+"a").value.trim(),document.getElementById("s"+n+"b").value.trim()]);
-const good=vals.filter(x=>x[0]!==""||x[1]!=="");
-if(!good.length){toast("Inserisci almeno un set");return;}
-const result=good.map(x=>x[0]+"-"+x[1]).join(" · ");
+var vals=[];
+for(var n=1;n<=5;n++){
+var a=document.getElementById("s"+n+"a").value.trim();
+var b=document.getElementById("s"+n+"b").value.trim();
+if(a!==""||b!=="")vals.push(a+"-"+b);
+}
+if(!vals.length){toast("Inserisci almeno un set");return;}
+var result=vals.join(" · ");
 localStorage.setItem("matchpointResult",result);
 document.getElementById("resultSaved").textContent="✅ Risultato registrato: "+result;
-document.getElementById("resultSaved").classList.remove("hidden");toast("Risultato salvato");
+document.getElementById("resultSaved").classList.remove("hidden");
+toast("Risultato salvato");
 }
 function saveProfile(){
-const name=document.getElementById("name").value.trim(),profile={name:name,level:document.getElementById("plevel").value,zone:document.getElementById("pzone").value.trim(),availability:document.getElementById("availability").value};
-localStorage.setItem("matchpointProfile",JSON.stringify(profile));document.getElementById("avatar").textContent=(name?name.charAt(0):"S").toUpperCase();toast("Profilo salvato");
+var name=document.getElementById("name").value.trim();
+var profile={
+name:name,
+level:document.getElementById("plevel").value,
+zone:document.getElementById("pzone").value.trim(),
+availability:document.getElementById("availability").value
+};
+localStorage.setItem("matchpointProfile",JSON.stringify(profile));
+document.getElementById("avatar").textContent=(name?name.charAt(0):"S").toUpperCase();
+toast("Profilo salvato");
 }
+
 (function(){
-const now=new Date(),local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);document.getElementById("date").value=local;
-try{const p=JSON.parse(localStorage.getItem("matchpointProfile")||"null");if(p){document.getElementById("name").value=p.name||"";document.getElementById("plevel").value=p.level||"Intermedio";document.getElementById("pzone").value=p.zone||"";document.getElementById("availability").value=p.availability||"Sera";document.getElementById("avatar").textContent=(p.name?p.name.charAt(0):"S").toUpperCase();}}catch(e){}
-try{const g=JSON.parse(localStorage.getItem("matchpointGame")||"null");if(g){data={date:g.date,time:g.time,zone:g.zone,level:g.level};selectedPlayer=g.player||"Marco";selectedCourt=g.court||"Centro Tennis Pieve · Campo 2";document.getElementById("empty").classList.add("hidden");document.getElementById("saved").classList.remove("hidden");document.getElementById("savedPlayer").textContent=selectedPlayer;document.getElementById("savedInfo").textContent=fmtDate(g.date)+" · "+g.time+" · "+g.zone;document.getElementById("savedCourt").textContent=g.court;document.getElementById("savedLevel").textContent=g.level;}}catch(e){}
-const r=localStorage.getItem("matchpointResult");if(r){document.getElementById("resultSaved").textContent="✅ Risultato registrato: "+r;document.getElementById("resultSaved").classList.remove("hidden");}
+var now=new Date();
+var localDate=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+document.getElementById("date").value=localDate;
+
+try{
+var p=JSON.parse(localStorage.getItem("matchpointProfile")||"null");
+if(p){
+document.getElementById("name").value=p.name||"";
+document.getElementById("plevel").value=p.level||"Intermedio";
+document.getElementById("pzone").value=p.zone||"";
+document.getElementById("availability").value=p.availability||"Sera";
+document.getElementById("avatar").textContent=(p.name?p.name.charAt(0):"S").toUpperCase();
+}
+}catch(e){}
+
+try{
+var g=JSON.parse(localStorage.getItem("matchpointGame")||"null");
+if(g){
+data={date:g.date,time:g.time,zone:g.zone,level:g.level};
+selectedPlayer=g.player||"Marco";
+selectedCourt=g.court||"Centro Tennis Pieve · Campo 2";
+document.getElementById("empty").classList.add("hidden");
+document.getElementById("saved").classList.remove("hidden");
+document.getElementById("savedPlayer").textContent=selectedPlayer;
+document.getElementById("savedInfo").textContent=fmtDate(g.date)+" · "+g.time+" · "+g.zone;
+document.getElementById("savedCourt").textContent=g.court;
+document.getElementById("savedLevel").textContent=g.level;
+}
+}catch(e){}
+
+var r=localStorage.getItem("matchpointResult");
+if(r){
+document.getElementById("resultSaved").textContent="✅ Risultato registrato: "+r;
+document.getElementById("resultSaved").classList.remove("hidden");
+}
 })();
 </script>
 </body>
