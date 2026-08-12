@@ -14,18 +14,46 @@ button,input,select{font:inherit}button{-webkit-appearance:none;appearance:none}
 
 /* HOME - IMPORTANTE: usa l'immagine HERO, non matchpoint-home.jpg,
    perché matchpoint-home.jpg contiene già logo e slogan e li duplicava. */
-.home{position:absolute;inset:0;background:
-linear-gradient(to bottom,rgba(0,0,0,.05) 25%,rgba(2,11,13,.18) 45%,rgba(2,11,13,.82) 70%,#020b0d 88%),
-url("matchpoint-hero.jpg") center top/cover no-repeat}
-.brand{display:none}
+/* HOME: mostra solo la parte fotografica superiore dell'immagine.
+   Il logo/testi presenti dentro l'immagine originale vengono tagliati fuori,
+   mentre il logo della demo viene gestito dall'HTML. */
+.home{
+position:absolute;
+inset:0;
+background:
+linear-gradient(to bottom,#020b0d 0%,#020b0d 52%,#020b0d 100%);
+overflow:hidden;
+}
+
+.home::before{
+content:"";
+position:absolute;
+left:0;
+right:0;
+top:0;
+height:58%;
+background:
+linear-gradient(to bottom,rgba(0,0,0,.02) 35%,rgba(2,11,13,.18) 72%,rgba(2,11,13,.98) 100%),
+url("matchpoint-hero.jpg") center top/100% auto no-repeat;
+}
+
+.brand{
+position:absolute;
+left:0;
+right:0;
+top:39%;
+text-align:center;
+padding:0 18px;
+z-index:2;
+}
 .ball{font-size:43px;line-height:1;margin-bottom:8px}
 .logo{font-size:clamp(42px,10vw,58px);font-weight:900;letter-spacing:-2px;line-height:1}
 .logo span{color:#d9ff00}
 .tagline{font-size:15px;font-weight:800;letter-spacing:.5px;margin-top:11px}
 .line{width:62px;height:3px;background:#d9ff00;border-radius:3px;margin:18px auto 0}
-.cta{position:absolute;left:7%;right:7%;bottom:116px;height:70px;border:0;border-radius:40px;background:#d9ff00;color:#050909;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:15px;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 30px rgba(0,0,0,.35)}
+.cta{z-index:3;position:absolute;left:7%;right:7%;bottom:116px;height:70px;border:0;border-radius:40px;background:#d9ff00;color:#050909;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:15px;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 30px rgba(0,0,0,.35)}
 .cta:active,.primary:active,.secondary:active,.back:active,.nav button:active,.choice:active{transform:scale(.98)}
-.nav{position:absolute;left:0;right:0;bottom:0;height:92px;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(2,11,13,.98);border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom);z-index:50}
+.nav{z-index:4;position:absolute;left:0;right:0;bottom:0;height:92px;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(2,11,13,.98);border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom);z-index:50}
 .nav button{border:0;background:transparent;color:#cbd0d1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:700;cursor:pointer;touch-action:manipulation}
 .nav .ico{font-size:27px;line-height:1}.nav .active{color:#d9ff00}
 .view{position:absolute;inset:0;background:#020b0d;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(25px + env(safe-area-inset-top)) 20px calc(110px + env(safe-area-inset-bottom));display:none;z-index:20}
