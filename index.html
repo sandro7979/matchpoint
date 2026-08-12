@@ -5,332 +5,3222 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#020b0d">
 <title>MatchPoint</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;width:100%;height:100%;background:#020b0d;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-body{overflow:hidden}
-button,input,select{font:inherit}button{-webkit-appearance:none;appearance:none}
-.app{width:100%;height:100dvh;max-width:520px;margin:auto;background:#020b0d;position:relative;overflow:hidden}
 
-/* HOME - IMPORTANTE: usa l'immagine HERO, non matchpoint-home.jpg,
-   perché matchpoint-home.jpg contiene già logo e slogan e li duplicava. */
-/* HOME: mostra solo la parte fotografica superiore dell'immagine.
-   Il logo/testi presenti dentro l'immagine originale vengono tagliati fuori,
-   mentre il logo della demo viene gestito dall'HTML. */
-.home{
-position:absolute;
-inset:0;
-background:
-linear-gradient(to bottom,#020b0d 0%,#020b0d 52%,#020b0d 100%);
+<style>
+
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+margin:0;
+padding:0;
+width:100%;
+height:100%;
+background:#020b0d;
+color:#fff;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+body{
 overflow:hidden;
 }
 
-.home::before{
-content:"";
+button,
+input,
+select{
+font:inherit;
+}
+
+button{
+-webkit-appearance:none;
+appearance:none;
+}
+
+.app{
+width:100%;
+height:100dvh;
+max-width:520px;
+margin:auto;
+background:#020b0d;
+position:relative;
+overflow:hidden;
+}
+
+
+/* =========================================================
+HOME
+========================================================= */
+
+.home{
 position:absolute;
-left:0;
-right:0;
-top:0;
-height:58%;
+inset:0;
+overflow:hidden;
+background:#020b0d;
+}
+
+.home-photo{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:fill;
+z-index:0;
+}
+
+.home-overlay{
+position:absolute;
+inset:0;
+z-index:1;
 background:
-linear-gradient(to bottom,rgba(0,0,0,.02) 35%,rgba(2,11,13,.18) 72%,rgba(2,11,13,.98) 100%),
-url("matchpoint-hero.jpg") center top/100% auto no-repeat;
+linear-gradient(
+to bottom,
+rgba(0,0,0,.08) 0%,
+rgba(0,0,0,.04) 30%,
+rgba(2,11,13,.18) 48%,
+rgba(2,11,13,.78) 73%,
+#020b0d 90%
+);
 }
 
 .brand{
 position:absolute;
 left:0;
 right:0;
-top:39%;
+top:38%;
+z-index:3;
 text-align:center;
-padding:0 18px;
-z-index:2;
+padding:0 15px;
 }
-.ball{font-size:43px;line-height:1;margin-bottom:8px}
-.logo{font-size:clamp(42px,10vw,58px);font-weight:900;letter-spacing:-2px;line-height:1}
-.logo span{color:#d9ff00}
-.tagline{font-size:15px;font-weight:800;letter-spacing:.5px;margin-top:11px}
-.line{width:62px;height:3px;background:#d9ff00;border-radius:3px;margin:18px auto 0}
-.cta{z-index:3;position:absolute;left:7%;right:7%;bottom:116px;height:70px;border:0;border-radius:40px;background:#d9ff00;color:#050909;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;gap:15px;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 30px rgba(0,0,0,.35)}
-.cta:active,.primary:active,.secondary:active,.back:active,.nav button:active,.choice:active{transform:scale(.98)}
-.nav{z-index:4;position:absolute;left:0;right:0;bottom:0;height:92px;display:grid;grid-template-columns:repeat(3,1fr);background:rgba(2,11,13,.98);border-top:1px solid rgba(255,255,255,.12);padding-bottom:env(safe-area-inset-bottom);z-index:50}
-.nav button{border:0;background:transparent;color:#cbd0d1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-weight:700;cursor:pointer;touch-action:manipulation}
-.nav .ico{font-size:27px;line-height:1}.nav .active{color:#d9ff00}
-.view{position:absolute;inset:0;background:#020b0d;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(25px + env(safe-area-inset-top)) 20px calc(110px + env(safe-area-inset-bottom));display:none;z-index:20}
-.view.show{display:block}.view h1{font-size:31px;line-height:1.05;margin:10px 0 25px}.view h2{margin-top:5px}
-.back,.primary,.secondary{width:100%;border-radius:14px;padding:15px;font-size:16px;font-weight:900;cursor:pointer;touch-action:manipulation}
-.back{border:0;background:#172326;color:#fff;margin-bottom:22px}.primary{border:0;background:#d9ff00;color:#050909}
-.secondary{border:1px solid #34484e;background:#0b171a;color:#fff;margin-top:10px}
-.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}.muted{color:#b9c1c3;line-height:1.5}
-label{display:block;font-weight:800;font-size:14px;margin:15px 0 7px}
-input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:16px;outline:none}
-input:focus,select:focus{border-color:#d9ff00}
-.steps{display:flex;gap:7px;margin-bottom:18px}.steps div{flex:1;text-align:center;font-size:10px;color:#879295;font-weight:800}
-.dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#26383d;margin:0 auto 5px}.steps .on{background:#d9ff00;color:#050909}
-.loading{text-align:center;padding:30px 15px}.spinner{width:58px;height:58px;border:5px solid #26383d;border-top-color:#d9ff00;border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}.progress{height:8px;background:#17272b;border-radius:10px;overflow:hidden;margin-top:18px}.progress i{display:block;height:100%;width:0;background:#d9ff00;transition:width .35s}
-.result{display:none}.result.show{display:block}.match-player{font-size:25px;font-weight:900;margin-bottom:5px}.match-meta{color:#d9ff00;font-weight:800;margin-bottom:12px}.success{font-size:19px;font-weight:900;margin-bottom:10px}
-.badge{display:inline-block;background:#172326;border:1px solid #34484e;border-radius:20px;padding:7px 11px;margin:3px 3px 0 0;color:#fff;font-size:13px}
-.choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:14px;text-align:left;cursor:pointer;min-height:88px}
-.choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.choice strong{display:block;margin-bottom:6px}.choice small{color:#aeb7b9;line-height:1.3}
-.game{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:16px;margin:10px 0}.game-top{display:flex;justify-content:space-between;gap:10px}.status{color:#d9ff00;font-size:12px;font-weight:900;white-space:nowrap}
-.profile-head{text-align:center;margin-bottom:20px}.profile-avatar{width:82px;height:82px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-size:34px;font-weight:900;margin:auto}
-.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(20px);background:#d9ff00;color:#050909;font-weight:900;padding:12px 18px;border-radius:14px;opacity:0;pointer-events:none;transition:.25s;z-index:100;white-space:nowrap}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.hidden{display:none!important}
-.location-row{display:grid;grid-template-columns:1fr auto;gap:8px}.location-btn{border:1px solid #34484e;background:#172326;color:#fff;border-radius:12px;padding:12px;font-weight:800}
-.player-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.player{border:1px solid #30454a;background:#0b171a;border-radius:14px;padding:14px;text-align:left;color:#fff}.player.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.player strong{display:block;font-size:18px}.player small{color:#aeb7b9}.score-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}.score-row input{text-align:center;font-size:18px;font-weight:900}
-.notice{padding:12px 14px;border-radius:12px;background:#172326;border:1px solid #34484e;margin:10px 0}
-@media(max-height:700px){.brand{top:40%}.cta{bottom:105px;height:64px}.nav{height:82px}.view{padding-top:20px}.view h1{font-size:28px;margin-bottom:20px}.card{padding:15px}}
-@media(max-width:360px){.logo{font-size:42px}.tagline{font-size:13px}.cta{font-size:15px;gap:8px}.choice-grid,.player-grid{grid-template-columns:1fr}}
+
+.ball{
+font-size:43px;
+line-height:1;
+margin-bottom:8px;
+}
+
+.logo{
+font-size:clamp(42px,10vw,58px);
+font-weight:900;
+letter-spacing:-2px;
+line-height:1;
+text-shadow:0 3px 15px rgba(0,0,0,.45);
+}
+
+.logo span{
+color:#d9ff00;
+}
+
+.tagline{
+font-size:15px;
+font-weight:800;
+letter-spacing:.4px;
+margin-top:11px;
+text-shadow:0 2px 10px rgba(0,0,0,.7);
+}
+
+.line{
+width:62px;
+height:3px;
+background:#d9ff00;
+border-radius:3px;
+margin:18px auto 0;
+}
+
+.cta{
+position:absolute;
+left:7%;
+right:7%;
+bottom:116px;
+height:70px;
+z-index:4;
+border:0;
+border-radius:40px;
+background:#d9ff00;
+color:#050909;
+font-size:17px;
+font-weight:900;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+cursor:pointer;
+touch-action:manipulation;
+box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.cta:active,
+.primary:active,
+.secondary:active,
+.back:active,
+.nav button:active,
+.choice:active,
+.player-card:active{
+transform:scale(.98);
+}
+
+
+/* =========================================================
+NAVIGAZIONE
+========================================================= */
+
+.nav{
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+height:92px;
+display:grid;
+grid-template-columns:repeat(3,1fr);
+background:rgba(2,11,13,.98);
+border-top:1px solid rgba(255,255,255,.12);
+padding-bottom:env(safe-area-inset-bottom);
+z-index:50;
+}
+
+.nav button{
+border:0;
+background:transparent;
+color:#cbd0d1;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:5px;
+font-weight:700;
+cursor:pointer;
+touch-action:manipulation;
+}
+
+.nav .ico{
+font-size:27px;
+line-height:1;
+}
+
+.nav .active{
+color:#d9ff00;
+}
+
+
+/* =========================================================
+VISTE
+========================================================= */
+
+.view{
+position:absolute;
+inset:0;
+background:#020b0d;
+overflow-y:auto;
+-webkit-overflow-scrolling:touch;
+padding:
+calc(25px + env(safe-area-inset-top))
+20px
+calc(110px + env(safe-area-inset-bottom));
+display:none;
+z-index:20;
+}
+
+.view.show{
+display:block;
+}
+
+.view h1{
+font-size:31px;
+line-height:1.05;
+margin:10px 0 25px;
+}
+
+.view h2{
+margin-top:5px;
+}
+
+
+/* =========================================================
+BUTTON
+========================================================= */
+
+.back,
+.primary,
+.secondary{
+width:100%;
+border-radius:14px;
+padding:15px;
+font-size:16px;
+font-weight:900;
+cursor:pointer;
+touch-action:manipulation;
+}
+
+.back{
+border:0;
+background:#172326;
+color:#fff;
+margin-bottom:22px;
+}
+
+.primary{
+border:0;
+background:#d9ff00;
+color:#050909;
+}
+
+.secondary{
+border:1px solid #34484e;
+background:#0b171a;
+color:#fff;
+margin-top:10px;
+}
+
+
+/* =========================================================
+CARD
+========================================================= */
+
+.card{
+background:#0b171a;
+border:1px solid #24363b;
+border-radius:18px;
+padding:18px;
+margin:12px 0;
+}
+
+.muted{
+color:#b9c1c3;
+line-height:1.5;
+}
+
+
+/* =========================================================
+FORM
+========================================================= */
+
+label{
+display:block;
+font-weight:800;
+font-size:14px;
+margin:15px 0 7px;
+}
+
+input,
+select{
+width:100%;
+padding:14px;
+border-radius:12px;
+border:1px solid #34484e;
+background:#081317;
+color:#fff;
+font-size:16px;
+outline:none;
+}
+
+input:focus,
+select:focus{
+border-color:#d9ff00;
+}
+
+
+/* =========================================================
+STEP
+========================================================= */
+
+.steps{
+display:flex;
+gap:7px;
+margin-bottom:18px;
+}
+
+.steps div{
+flex:1;
+text-align:center;
+font-size:10px;
+color:#879295;
+font-weight:800;
+}
+
+.dot{
+width:28px;
+height:28px;
+border-radius:50%;
+display:grid;
+place-items:center;
+background:#26383d;
+margin:0 auto 5px;
+}
+
+.steps .on{
+background:#d9ff00;
+color:#050909;
+}
+
+
+/* =========================================================
+LOADING
+========================================================= */
+
+.loading{
+text-align:center;
+padding:30px 15px;
+}
+
+.spinner{
+width:58px;
+height:58px;
+border:5px solid #26383d;
+border-top-color:#d9ff00;
+border-radius:50%;
+margin:0 auto 18px;
+animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+to{
+transform:rotate(360deg);
+}
+}
+
+.progress{
+height:8px;
+background:#17272b;
+border-radius:10px;
+overflow:hidden;
+margin-top:18px;
+}
+
+.progress i{
+display:block;
+height:100%;
+width:0;
+background:#d9ff00;
+transition:width .35s;
+}
+
+
+/* =========================================================
+GIOCATORI
+========================================================= */
+
+.player-grid{
+display:grid;
+gap:10px;
+}
+
+.player-card{
+border:1px solid #30454a;
+background:#0b171a;
+color:#fff;
+border-radius:16px;
+padding:16px;
+text-align:left;
+cursor:pointer;
+touch-action:manipulation;
+}
+
+.player-card.selected{
+border-color:#d9ff00;
+box-shadow:0 0 0 1px #d9ff00 inset;
+}
+
+.player-top{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.player-avatar{
+width:52px;
+height:52px;
+border-radius:50%;
+background:#d9ff00;
+color:#050909;
+display:grid;
+place-items:center;
+font-size:21px;
+font-weight:900;
+flex-shrink:0;
+}
+
+.player-name{
+font-size:19px;
+font-weight:900;
+}
+
+.player-info{
+color:#b9c1c3;
+font-size:13px;
+margin-top:3px;
+}
+
+.compatibility{
+margin-left:auto;
+color:#d9ff00;
+font-weight:900;
+font-size:13px;
+}
+
+
+/* =========================================================
+RISULTATO MATCH
+========================================================= */
+
+.result{
+display:none;
+}
+
+.result.show{
+display:block;
+}
+
+.success{
+font-size:19px;
+font-weight:900;
+margin-bottom:10px;
+}
+
+.match-player{
+font-size:25px;
+font-weight:900;
+margin-bottom:5px;
+}
+
+.match-meta{
+color:#d9ff00;
+font-weight:800;
+margin-bottom:12px;
+}
+
+.badge{
+display:inline-block;
+background:#172326;
+border:1px solid #34484e;
+border-radius:20px;
+padding:7px 11px;
+margin:3px 3px 0 0;
+color:#fff;
+font-size:13px;
+}
+
+
+/* =========================================================
+LUOGO
+========================================================= */
+
+.place-grid{
+display:grid;
+gap:10px;
+}
+
+.place-card{
+border:1px solid #30454a;
+background:#0b171a;
+border-radius:16px;
+padding:16px;
+cursor:pointer;
+}
+
+.place-card.selected{
+border-color:#d9ff00;
+box-shadow:0 0 0 1px #d9ff00 inset;
+}
+
+.place-title{
+font-weight:900;
+font-size:18px;
+}
+
+.place-distance{
+color:#d9ff00;
+font-size:13px;
+font-weight:800;
+margin-top:4px;
+}
+
+.place-address{
+color:#aeb7b9;
+font-size:13px;
+margin-top:5px;
+}
+
+
+/* =========================================================
+CAMPI
+========================================================= */
+
+.choice-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
+.choice{
+border:1px solid #30454a;
+background:#0b171a;
+color:#fff;
+border-radius:14px;
+padding:14px;
+text-align:left;
+cursor:pointer;
+min-height:100px;
+}
+
+.choice.selected{
+border-color:#d9ff00;
+box-shadow:0 0 0 1px #d9ff00 inset;
+}
+
+.choice strong{
+display:block;
+margin-bottom:6px;
+}
+
+.choice small{
+color:#aeb7b9;
+line-height:1.3;
+}
+
+
+/* =========================================================
+PRENOTAZIONE
+========================================================= */
+
+.booking-choice{
+display:grid;
+gap:10px;
+}
+
+.booking-card{
+border:1px solid #30454a;
+background:#0b171a;
+border-radius:16px;
+padding:17px;
+cursor:pointer;
+}
+
+.booking-card.selected{
+border-color:#d9ff00;
+box-shadow:0 0 0 1px #d9ff00 inset;
+}
+
+.booking-icon{
+font-size:27px;
+margin-bottom:8px;
+}
+
+.booking-title{
+font-size:17px;
+font-weight:900;
+}
+
+.booking-sub{
+font-size:13px;
+color:#aeb7b9;
+margin-top:4px;
+}
+
+
+/* =========================================================
+CONFERMA AVVERSARIO
+========================================================= */
+
+.accept-box{
+border:1px solid #34484e;
+background:#0b171a;
+border-radius:18px;
+padding:18px;
+text-align:center;
+}
+
+.accept-icon{
+font-size:42px;
+margin-bottom:8px;
+}
+
+
+/* =========================================================
+PARTITE
+========================================================= */
+
+.game{
+border:1px solid #30454a;
+background:#0b171a;
+border-radius:16px;
+padding:16px;
+margin:10px 0;
+}
+
+.game-top{
+display:flex;
+justify-content:space-between;
+gap:10px;
+}
+
+.status{
+color:#d9ff00;
+font-size:12px;
+font-weight:900;
+white-space:nowrap;
+}
+
+
+/* =========================================================
+RISULTATO 5 SET
+========================================================= */
+
+.score-table{
+width:100%;
+border-collapse:collapse;
+margin-top:12px;
+}
+
+.score-table th,
+.score-table td{
+border:1px solid #30454a;
+padding:10px 5px;
+text-align:center;
+font-weight:800;
+}
+
+.score-table th{
+font-size:12px;
+color:#aeb7b9;
+background:#081317;
+}
+
+.score-table td{
+font-size:17px;
+}
+
+.score-input{
+width:100%;
+padding:10px 5px;
+text-align:center;
+font-weight:900;
+border-radius:8px;
+}
+
+.score-result{
+margin-top:14px;
+padding:14px;
+border-radius:14px;
+background:#172326;
+text-align:center;
+font-weight:900;
+}
+
+.winner{
+color:#d9ff00;
+font-size:18px;
+}
+
+
+/* =========================================================
+PROFILO
+========================================================= */
+
+.profile-head{
+text-align:center;
+margin-bottom:20px;
+}
+
+.profile-avatar{
+width:82px;
+height:82px;
+border-radius:50%;
+background:#d9ff00;
+color:#050909;
+display:grid;
+place-items:center;
+font-size:34px;
+font-weight:900;
+margin:auto;
+}
+
+
+/* =========================================================
+TOAST
+========================================================= */
+
+.toast{
+position:fixed;
+left:50%;
+bottom:110px;
+transform:translateX(-50%) translateY(20px);
+background:#d9ff00;
+color:#050909;
+font-weight:900;
+padding:12px 18px;
+border-radius:14px;
+opacity:0;
+pointer-events:none;
+transition:.25s;
+z-index:100;
+white-space:nowrap;
+}
+
+.toast.show{
+opacity:1;
+transform:translateX(-50%) translateY(0);
+}
+
+
+/* =========================================================
+HIDDEN
+========================================================= */
+
+.hidden{
+display:none!important;
+}
+
+
+/* =========================================================
+IPHONE PICCOLO
+========================================================= */
+
+@media(max-height:700px){
+
+.brand{
+top:35%;
+}
+
+.cta{
+bottom:105px;
+height:64px;
+}
+
+.nav{
+height:82px;
+}
+
+.view{
+padding-top:20px;
+}
+
+.view h1{
+font-size:28px;
+margin-bottom:20px;
+}
+
+.card{
+padding:15px;
+}
+
+}
+
+
+/* =========================================================
+SCHERMI STRETTI
+========================================================= */
+
+@media(max-width:360px){
+
+.logo{
+font-size:42px;
+}
+
+.tagline{
+font-size:13px;
+}
+
+.cta{
+font-size:15px;
+gap:8px;
+}
+
+.choice-grid{
+grid-template-columns:1fr;
+}
+
+}
+
 </style>
 </head>
+
+
 <body>
+
 <div class="app">
 
+
+<!-- =====================================================
+HOME
+===================================================== -->
+
 <section id="home" class="home">
-  <div class="brand">
-    <div class="ball">🎾</div>
-    <div class="logo">MATCH<span>POINT</span></div>
-    <div class="tagline">TU SCEGLI QUANDO. NOI TROVIAMO CON CHI.</div>
-    <div class="line"></div>
-  </div>
-  <button class="cta" type="button" onclick="openView('match')"><span>🎾</span><span>TROVA IL MIO MATCH</span><span>→</span></button>
-  <nav class="nav">
-    <button type="button" class="active" onclick="openView('home')"><span class="ico">⌂</span><span>Home</span></button>
-    <button type="button" onclick="openView('games')"><span class="ico">▣</span><span>Le mie partite</span></button>
-    <button type="button" onclick="openView('profile')"><span class="ico">♙</span><span>Profilo</span></button>
-  </nav>
+
+<img
+class="home-photo"
+src="matchpoint-home.jpg"
+alt=""
+>
+
+<div class="home-overlay"></div>
+
+<div class="brand">
+
+<div class="ball">🎾</div>
+
+<div class="logo">
+MATCH<span>POINT</span>
+</div>
+
+<div class="tagline">
+TROVA IL TUO COMPAGNO DI TENNIS
+</div>
+
+<div class="line"></div>
+
+</div>
+
+
+<button
+class="cta"
+type="button"
+onclick="openView('match')">
+
+<span>🎾</span>
+<span>TROVA IL MIO MATCH</span>
+<span>→</span>
+
+</button>
+
+
+<nav class="nav">
+
+<button
+type="button"
+class="active"
+onclick="openView('home')">
+
+<span class="ico">⌂</span>
+<span>Home</span>
+
+</button>
+
+
+<button
+type="button"
+onclick="openView('games')">
+
+<span class="ico">▣</span>
+<span>Le mie partite</span>
+
+</button>
+
+
+<button
+type="button"
+onclick="openView('profile')">
+
+<span class="ico">♙</span>
+<span>Profilo</span>
+
+</button>
+
+</nav>
+
 </section>
+
+
+<!-- =====================================================
+MATCH - STEP 1
+===================================================== -->
 
 <section id="match" class="view">
-<button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
+
+<button
+class="back"
+type="button"
+onclick="openView('home')">
+
+← Torna alla Home
+
+</button>
+
+
 <h1>Trova il mio match</h1>
-<div class="steps"><div><span class="dot on">1</span>QUANDO</div><div><span class="dot">2</span>COMPAGNO</div><div><span class="dot">3</span>CAMPO</div></div>
+
+
+<div class="steps">
+
+<div>
+<span class="dot on">1</span>
+QUANDO
+</div>
+
+<div>
+<span class="dot">2</span>
+GIOCATORI
+</div>
+
+<div>
+<span class="dot">3</span>
+CAMPO
+</div>
+
+</div>
+
 
 <div class="card">
-<label>Quando vuoi giocare?</label><input id="date" type="date">
-<label>Orario</label><input id="time" type="time" value="18:00">
-<label>Paese / Comune</label>
-<div class="location-row"><input id="zone" type="text" value="Pieve di Soligo" placeholder="Scrivi un comune"><button class="location-btn" type="button" onclick="useLocation()">📍</button></div>
-<p id="locationStatus" class="muted">Puoi usare la posizione del telefono per compilare automaticamente la zona.</p>
-<label>Livello</label><select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
-</div>
-<button class="primary" type="button" onclick="findPlayers()">CERCA COMPAGNI</button>
 
-<div id="playersCard" class="card hidden">
-<h2>Compagni disponibili</h2><p class="muted">Scegli il giocatore che vuoi invitare.</p>
+<label>
+Quando vuoi giocare?
+</label>
+
+<input
+id="date"
+type="date"
+>
+
+
+<label>
+Orario
+</label>
+
+<input
+id="time"
+type="time"
+value="18:00"
+>
+
+
+<label>
+Dove vuoi giocare?
+</label>
+
+<input
+id="zone"
+type="text"
+value=""
+placeholder="La tua località"
+autocomplete="address-level2"
+>
+
+
+<button
+class="secondary"
+type="button"
+onclick="useLocation()">
+
+📍 USA LA MIA POSIZIONE
+
+</button>
+
+
+<div
+id="locationStatus"
+class="muted"
+style="margin-top:10px;font-size:13px;">
+
+Inserisci una località oppure usa la posizione.
+
+</div>
+
+
+<label>
+Livello
+</label>
+
+<select id="level">
+
+<option>Principiante</option>
+<option selected>Intermedio</option>
+<option>Avanzato</option>
+
+</select>
+
+</div>
+
+
+<button
+class="primary"
+type="button"
+onclick="searchPlayers()">
+
+CERCA GIOCATORI
+
+</button>
+
+
+<!-- RICERCA -->
+
+<div
+id="playerLoading"
+class="card loading hidden">
+
+<div class="spinner"></div>
+
+<h2>
+Cerco giocatori...
+</h2>
+
+<p
+id="playerLoadingText"
+class="muted">
+
+Cerco giocatori nella tua zona.
+
+</p>
+
+<div class="progress">
+<i id="playerBar"></i>
+</div>
+
+</div>
+
+
+<!-- GIOCATORI -->
+
+<div
+id="players"
+class="card hidden">
+
+<h2>
+Abbiamo trovato questi giocatori
+</h2>
+
+<p class="muted">
+Scegli il compagno più adatto a te.
+</p>
+
+
 <div class="player-grid">
-<button class="player selected" data-player="Marco" onclick="pickPlayer(this)"><strong>🎾 Marco</strong><small>Intermedio · 1,8 km</small></button>
-<button class="player" data-player="Luca" onclick="pickPlayer(this)"><strong>🎾 Luca</strong><small>Intermedio · 2,6 km</small></button>
-<button class="player" data-player="Andrea" onclick="pickPlayer(this)"><strong>🎾 Andrea</strong><small>Avanzato · 4,1 km</small></button>
-<button class="player" data-player="Matteo" onclick="pickPlayer(this)"><strong>🎾 Matteo</strong><small>Intermedio · 5,0 km</small></button>
-</div>
-<div class="notice">Compatibilità proposta: <strong id="compat">94%</strong></div>
-<button class="primary" type="button" onclick="sendRequest()">INVIA RICHIESTA A <span id="playerButton">MARCO</span></button>
+
+
+<button
+class="player-card"
+type="button"
+onclick="selectPlayer(this,'Marco','Intermedio','94%')">
+
+<div class="player-top">
+
+<div class="player-avatar">
+M
 </div>
 
-<div id="requestCard" class="card hidden">
-<div class="success">📨 Richiesta inviata</div>
-<p class="muted" id="requestText"></p>
-<button class="primary" type="button" onclick="acceptRequest()">ACCETTA PROPOSTA</button>
+<div>
+
+<div class="player-name">
+Marco
 </div>
 
-<div id="acceptedCard" class="card hidden">
-<div class="success">🤝 Compagno accettato!</div>
-<p class="muted" id="acceptedText"></p>
-<button class="primary" type="button" onclick="showCourts()">PROPONI IL CAMPO</button>
+<div class="player-info">
+Intermedio · 3,2 km
 </div>
 
-<div id="courts" class="card hidden">
-<div class="steps"><div><span class="dot on">1</span>QUANDO</div><div><span class="dot on">2</span>COMPAGNO</div><div><span class="dot on">3</span>CAMPO</div></div>
-<h2>Campi disponibili</h2><p class="muted">MatchPoint propone i campi più vicini alla zona scelta.</p>
+</div>
+
+<div class="compatibility">
+94%
+</div>
+
+</div>
+
+</button>
+
+
+<button
+class="player-card"
+type="button"
+onclick="selectPlayer(this,'Luca','Intermedio','91%')">
+
+<div class="player-top">
+
+<div class="player-avatar">
+L
+</div>
+
+<div>
+
+<div class="player-name">
+Luca
+</div>
+
+<div class="player-info">
+Intermedio · 5,1 km
+</div>
+
+</div>
+
+<div class="compatibility">
+91%
+</div>
+
+</div>
+
+</button>
+
+
+<button
+class="player-card"
+type="button"
+onclick="selectPlayer(this,'Andrea','Avanzato','86%')">
+
+<div class="player-top">
+
+<div class="player-avatar">
+A
+</div>
+
+<div>
+
+<div class="player-name">
+Andrea
+</div>
+
+<div class="player-info">
+Avanzato · 7,4 km
+</div>
+
+</div>
+
+<div class="compatibility">
+86%
+</div>
+
+</div>
+
+</button>
+
+
+</div>
+
+
+<button
+id="confirmPlayerBtn"
+class="primary"
+type="button"
+onclick="confirmPlayer()"
+disabled
+style="opacity:.45;margin-top:15px;">
+
+SCEGLI QUESTO COMPAGNO
+
+</button>
+
+</div>
+
+
+<!-- MATCH SCELTO -->
+
+<div
+id="playerConfirmed"
+class="card result">
+
+<div class="success">
+🎾 Compagno selezionato
+</div>
+
+<div
+id="selectedPlayerName"
+class="match-player">
+
+Marco
+
+</div>
+
+<div
+id="selectedPlayerMeta"
+class="match-meta">
+
+Intermedio · Compatibilità 94%
+
+</div>
+
+<p class="muted">
+Ora troviamo il luogo e il campo migliore per entrambi.
+</p>
+
+<button
+class="primary"
+type="button"
+onclick="findPlaces()">
+
+TROVA LUOGO E CAMPO
+
+</button>
+
+</div>
+
+
+<!-- LUOGHI -->
+
+<div
+id="places"
+class="card hidden">
+
+<h2>
+Dove giocare
+</h2>
+
+<p class="muted">
+Abbiamo individuato i luoghi più comodi per entrambi.
+</p>
+
+
+<div class="place-grid">
+
+
+<div
+class="place-card selected"
+onclick="selectPlace(this,'Centro Tennis Pieve')">
+
+<div class="place-title">
+Centro Tennis Pieve
+</div>
+
+<div class="place-distance">
+2,1 km
+</div>
+
+<div class="place-address">
+Pieve di Soligo · Via dello Sport
+</div>
+
+</div>
+
+
+<div
+class="place-card"
+onclick="selectPlace(this,'Tennis Club Soligo')">
+
+<div class="place-title">
+Tennis Club Soligo
+</div>
+
+<div class="place-distance">
+3,4 km
+</div>
+
+<div class="place-address">
+Soligo · Via dei Campi
+</div>
+
+</div>
+
+
+<div
+class="place-card"
+onclick="selectPlace(this,'Sporting Conegliano')">
+
+<div class="place-title">
+Sporting Conegliano
+</div>
+
+<div class="place-distance">
+8,7 km
+</div>
+
+<div class="place-address">
+Conegliano · Via dello Sport
+</div>
+
+</div>
+
+
+</div>
+
+
+<button
+class="primary"
+type="button"
+onclick="showCourts()"
+style="margin-top:15px;">
+
+PROPONI QUESTO LUOGO
+
+</button>
+
+</div>
+
+
+<!-- CAMPI -->
+
+<div
+id="courts"
+class="card hidden">
+
+<h2>
+Campi disponibili
+</h2>
+
+<p class="muted">
+Abbiamo trovato questi campi disponibili.
+</p>
+
+
 <div class="choice-grid">
-<button class="choice selected" data-court="Centro Tennis Pieve" onclick="pickCourt(this)"><strong>Centro Tennis Pieve</strong><small>2,1 km · Campo 2 · Disponibile</small></button>
-<button class="choice" data-court="Tennis Club Soligo" onclick="pickCourt(this)"><strong>Tennis Club Soligo</strong><small>3,4 km · Campo 1 · Disponibile</small></button>
-<button class="choice" data-court="Sporting Conegliano" onclick="pickCourt(this)"><strong>Sporting Conegliano</strong><small>8,7 km · Campo 4 · Disponibile</small></button>
-<button class="choice" data-court="Campo Comunale" onclick="pickCourt(this)"><strong>Campo Comunale</strong><small>5,2 km · Campo 1 · Disponibile</small></button>
-</div>
-<button class="primary" type="button" onclick="acceptCourt()">ACCETTA PROPOSTA CAMPO</button>
+
+
+<button
+class="choice selected"
+type="button"
+data-court="Campo 2"
+onclick="pickCourt(this)">
+
+<strong>
+Campo 2
+</strong>
+
+<small>
+Terra rossa · Coperto
+</small>
+
+</button>
+
+
+<button
+class="choice"
+type="button"
+data-court="Campo 1"
+onclick="pickCourt(this)">
+
+<strong>
+Campo 1
+</strong>
+
+<small>
+Cemento · Scoperto
+</small>
+
+</button>
+
+
+<button
+class="choice"
+type="button"
+data-court="Campo 3"
+onclick="pickCourt(this)">
+
+<strong>
+Campo 3
+</strong>
+
+<small>
+Terra rossa · Scoperto
+</small>
+
+</button>
+
+
+<button
+class="choice"
+type="button"
+data-court="Campo 4"
+onclick="pickCourt(this)">
+
+<strong>
+Campo 4
+</strong>
+
+<small>
+Cemento · Coperto
+</small>
+
+</button>
+
+
 </div>
 
-<div id="booking" class="card hidden">
-<div class="success">📍 Campo scelto</div>
-<p class="muted" id="bookingText"></p>
-<label>Chi prenota?</label>
-<select id="booker"><option>Io</option><option id="bookerPlayer">Il compagno</option></select>
-<button class="primary" type="button" onclick="requestBooking()">RICHIEDI PRENOTAZIONE</button>
+
+<button
+class="primary"
+type="button"
+onclick="acceptCourtProposal()"
+style="margin-top:15px;">
+
+ACCETTA LA PROPOSTA
+
+</button>
+
 </div>
 
-<div id="bookingRequest" class="card hidden">
-<div class="success">📨 Richiesta di prenotazione</div>
-<p class="muted" id="bookingRequestText"></p>
-<button class="primary" type="button" onclick="confirmBooking()">ACCETTA E CONFERMA PRENOTAZIONE</button>
+
+<!-- PROPOSTA -->
+
+<div
+id="proposal"
+class="card hidden">
+
+<div class="success">
+🎾 Proposta di partita
 </div>
 
-<div id="confirmed" class="card hidden">
-<div class="success">✅ Prenotazione confermata!</div>
-<p class="muted" id="confirmedText"></p>
-<button class="primary" type="button" onclick="openView('games')">VAI ALLA PARTITA</button>
+<p class="muted">
+Abbiamo trovato la combinazione migliore:
+</p>
+
+
+<div class="game">
+
+<strong id="proposalPlayer">
+Marco
+</strong>
+
+<p
+id="proposalDetails"
+class="muted">
+</p>
+
+<span
+class="badge"
+id="proposalPlace">
+Centro Tennis Pieve
+</span>
+
+<span
+class="badge"
+id="proposalCourt">
+Campo 2
+</span>
+
 </div>
+
+
+<p class="muted">
+Adesso bisogna decidere chi effettua la prenotazione.
+</p>
+
+
+<button
+class="primary"
+type="button"
+onclick="showBooking()">
+
+ACCETTA PROPOSTA
+
+</button>
+
+</div>
+
+
+<!-- PRENOTAZIONE -->
+
+<div
+id="booking"
+class="card hidden">
+
+<h2>
+Chi prenota il campo?
+</h2>
+
+<p class="muted">
+Scegli come gestire la prenotazione.
+</p>
+
+
+<div class="booking-choice">
+
+
+<div
+class="booking-card selected"
+onclick="selectBooking(this,'io')">
+
+<div class="booking-icon">
+🙋
+</div>
+
+<div class="booking-title">
+Prenoto io
+</div>
+
+<div class="booking-sub">
+Mi occupo io della prenotazione del campo.
+</div>
+
+</div>
+
+
+<div
+class="booking-card"
+onclick="selectBooking(this,'marco')">
+
+<div class="booking-icon">
+🎾
+</div>
+
+<div class="booking-title">
+Prenota il mio compagno
+</div>
+
+<div class="booking-sub">
+Chiedo a Marco di occuparsi della prenotazione.
+</div>
+
+</div>
+
+
+</div>
+
+
+<button
+class="primary"
+type="button"
+onclick="sendBookingRequest()"
+style="margin-top:15px;">
+
+INVIA RICHIESTA
+
+</button>
+
+</div>
+
+
+<!-- RICHIESTA INVIATA -->
+
+<div
+id="bookingRequest"
+class="card hidden">
+
+<div class="success">
+📩 Richiesta inviata
+</div>
+
+<p
+id="bookingRequestText"
+class="muted">
+</p>
+
+<button
+class="primary"
+type="button"
+onclick="simulateBookingAccepted()">
+
+SIMULA ACCETTAZIONE
+
+</button>
+
+</div>
+
+
+<!-- PRENOTAZIONE -->
+
+<div
+id="booked"
+class="card hidden">
+
+<div class="success">
+✅ Campo prenotato
+</div>
+
+<p class="muted">
+La prenotazione è stata effettuata.
+</p>
+
+<div class="game">
+
+<strong id="bookedPlace">
+Centro Tennis Pieve
+</strong>
+
+<p
+id="bookedDetails"
+class="muted">
+</p>
+
+<span
+class="badge"
+id="bookedCourt">
+Campo 2
+</span>
+
+<span class="badge">
+PRENOTATO
+</span>
+
+</div>
+
+
+<button
+class="primary"
+type="button"
+onclick="sendGameAcceptance()">
+
+INVIA CONFERMA AL COMPAGNO
+
+</button>
+
+</div>
+
+
+<!-- ACCETTAZIONE PARTITA -->
+
+<div
+id="gameAcceptance"
+class="card hidden">
+
+<div class="accept-box">
+
+<div class="accept-icon">
+🎾
+</div>
+
+<h2>
+Marco ha ricevuto la conferma
+</h2>
+
+<p class="muted">
+Attende l'accettazione definitiva della partita.
+</p>
+
+
+<button
+class="primary"
+type="button"
+onclick="finalAcceptGame()">
+
+ACCETTA PARTITA
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PARTITA CONFERMATA -->
+
+<div
+id="finalGame"
+class="card hidden">
+
+<div class="success">
+🔥 Partita confermata!
+</div>
+
+<div
+class="game">
+
+<strong id="finalPlayer">
+Marco
+</strong>
+
+<p
+id="finalDetails"
+class="muted">
+</p>
+
+<span
+class="badge"
+id="finalPlace">
+Centro Tennis Pieve
+</span>
+
+<span
+class="badge"
+id="finalCourt">
+Campo 2
+</span>
+
+<span class="badge">
+CONFERMATA
+</span>
+
+</div>
+
+
+<button
+class="primary"
+type="button"
+onclick="openScore()">
+
+INSERISCI RISULTATO
+
+</button>
+
+</div>
+
+
+<!-- PUNTEGGIO -->
+
+<div
+id="score"
+class="card hidden">
+
+<h2>
+Risultato partita
+</h2>
+
+<p class="muted">
+Inserisci il risultato dei 5 set.
+</p>
+
+
+<table class="score-table">
+
+<thead>
+
+<tr>
+<th></th>
+<th>SET 1</th>
+<th>SET 2</th>
+<th>SET 3</th>
+<th>SET 4</th>
+<th>SET 5</th>
+</tr>
+
+</thead>
+
+
+<tbody>
+
+<tr>
+
+<th>Tu</th>
+
+<td>
+<input
+id="s1a"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="6">
+</td>
+
+<td>
+<input
+id="s2a"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="4">
+</td>
+
+<td>
+<input
+id="s3a"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="6">
+</td>
+
+<td>
+<input
+id="s4a"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="">
+</td>
+
+<td>
+<input
+id="s5a"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="">
+</td>
+
+</tr>
+
+
+<tr>
+
+<th>Marco</th>
+
+<td>
+<input
+id="s1b"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="4">
+</td>
+
+<td>
+<input
+id="s2b"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="6">
+</td>
+
+<td>
+<input
+id="s3b"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="3">
+</td>
+
+<td>
+<input
+id="s4b"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="">
+</td>
+
+<td>
+<input
+id="s5b"
+class="score-input"
+type="number"
+min="0"
+max="20"
+value="">
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+
+<button
+class="primary"
+type="button"
+onclick="calculateScore()"
+style="margin-top:15px;">
+
+SALVA RISULTATO
+
+</button>
+
+
+<div
+id="scoreResult"
+class="score-result hidden">
+</div>
+
+</div>
+
 </section>
 
-<section id="games" class="view">
-<button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
-<h1>Le mie partite</h1>
-<div id="empty" class="card"><h2>Nessuna partita ancora</h2><p class="muted">Trova un match dalla Home per iniziare.</p><button class="primary" onclick="openView('match')">TROVA IL MIO MATCH</button></div>
-<div id="saved" class="hidden">
-<div class="game"><div class="game-top"><strong id="savedPlayer">🎾 Marco</strong><span class="status">CONFERMATA</span></div><p class="muted" id="savedInfo"></p><span class="badge" id="savedCourt"></span><span class="badge" id="savedLevel"></span></div>
-<div class="card"><h2>Risultato partita</h2><p class="muted">Inserisci fino a 5 set.</p>
-<div id="scoreContainer">
-<div class="score-row"><input type="number" min="0" max="99" placeholder="Tu"><input type="number" min="0" max="99" placeholder="Compagno"></div>
-<div class="score-row"><input type="number" min="0" max="99"><input type="number" min="0" max="99"></div>
-<div class="score-row"><input type="number" min="0" max="99"><input type="number" min="0" max="99"></div>
-<div class="score-row"><input type="number" min="0" max="99"><input type="number" min="0" max="99"></div>
-<div class="score-row"><input type="number" min="0" max="99"><input type="number" min="0" max="99"></div>
+
+<!-- =====================================================
+PARTITE
+===================================================== -->
+
+<section
+id="games"
+class="view">
+
+<button
+class="back"
+type="button"
+onclick="openView('home')">
+
+← Torna alla Home
+
+</button>
+
+
+<h1>
+Le mie partite
+</h1>
+
+
+<div
+id="empty"
+class="card">
+
+<h2>
+Nessuna partita ancora
+</h2>
+
+<p class="muted">
+Trova un match dalla Home per iniziare.
+</p>
+
+<button
+class="primary"
+type="button"
+onclick="openView('match')">
+
+TROVA IL MIO MATCH
+
+</button>
+
 </div>
-<button class="secondary" onclick="saveResult()">SALVA RISULTATO</button>
-<p id="resultSaved" class="muted hidden"></p>
-</div></div>
+
+
+<div
+id="saved"
+class="hidden">
+
+<div class="game">
+
+<div class="game-top">
+
+<strong>
+🎾 Marco
+</strong>
+
+<span class="status">
+CONFERMATA
+</span>
+
+</div>
+
+<p
+class="muted"
+id="savedInfo">
+</p>
+
+<span
+class="badge"
+id="savedPlace">
+</span>
+
+<span
+class="badge"
+id="savedCourt">
+</span>
+
+</div>
+
+
+<div
+id="savedScore"
+class="card hidden">
+
+<h2>
+Risultato
+</h2>
+
+<div
+id="savedScoreText"
+class="winner">
+</div>
+
+</div>
+
+</div>
+
 </section>
 
-<section id="profile" class="view">
-<button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
-<div class="profile-head"><div class="profile-avatar" id="avatar">S</div><h1>Il mio profilo</h1><p class="muted">I tuoi dati per trovare match migliori.</p></div>
-<div class="card"><label>Nome</label><input id="name" placeholder="Il tuo nome"><label>Livello</label><select id="plevel"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select><label>Zona</label><input id="pzone" value="Pieve di Soligo"><label>Disponibilità</label><select id="availability"><option>Mattina</option><option>Pomeriggio</option><option selected>Sera</option><option>Flessibile</option></select></div>
-<button class="primary" onclick="saveProfile()">SALVA PROFILO</button>
+
+<!-- =====================================================
+PROFILO
+===================================================== -->
+
+<section
+id="profile"
+class="view">
+
+<button
+class="back"
+type="button"
+onclick="openView('home')">
+
+← Torna alla Home
+
+</button>
+
+
+<div class="profile-head">
+
+<div
+class="profile-avatar"
+id="avatar">
+
+S
+
+</div>
+
+<h1>
+Il mio profilo
+</h1>
+
+<p class="muted">
+I tuoi dati per trovare match migliori.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<label>
+Nome
+</label>
+
+<input
+id="name"
+placeholder="Il tuo nome"
+>
+
+
+<label>
+Livello
+</label>
+
+<select id="plevel">
+
+<option>
+Principiante
+</option>
+
+<option selected>
+Intermedio
+</option>
+
+<option>
+Avanzato
+</option>
+
+</select>
+
+
+<label>
+Zona
+</label>
+
+<input
+id="pzone"
+placeholder="La tua zona"
+>
+
+
+<label>
+Disponibilità
+</label>
+
+<select id="availability">
+
+<option>
+Mattina
+</option>
+
+<option>
+Pomeriggio
+</option>
+
+<option selected>
+Sera
+</option>
+
+<option>
+Flessibile
+</option>
+
+</select>
+
+</div>
+
+
+<button
+class="primary"
+type="button"
+onclick="saveProfile()">
+
+SALVA PROFILO
+
+</button>
+
 </section>
 
-<div id="toast" class="toast"></div>
+
+<div
+id="toast"
+class="toast">
 </div>
+
+
+</div>
+
 
 <script>
+
+/* =========================================================
+STATO
+========================================================= */
+
 let data=null;
-let player="Marco";
-let court="Centro Tennis Pieve";
+
+let selectedPlayer=null;
+
+let selectedPlace="Centro Tennis Pieve";
+
+let court="Campo 2";
+
+let booking="io";
+
+
+/* =========================================================
+NAVIGAZIONE
+========================================================= */
 
 function openView(id){
-document.querySelectorAll(".view").forEach(v=>v.classList.remove("show"));
+
+document
+.querySelectorAll(".view")
+.forEach(function(v){
+v.classList.remove("show");
+});
+
 const home=document.getElementById("home");
-if(id==="home"){home.style.display="block";setNav(0);return}
+
+if(id==="home"){
+
+home.style.display="block";
+
+setNav(0);
+
+return;
+
+}
+
 home.style.display="none";
+
 const target=document.getElementById(id);
-if(target){target.classList.add("show");target.scrollTop=0}
-setNav(id==="games"?1:id==="profile"?2:-1);
+
+if(target){
+
+target.classList.add("show");
+
+target.scrollTop=0;
+
 }
-function setNav(n){document.querySelectorAll(".nav button").forEach((b,i)=>b.classList.toggle("active",i===n))}
-function fmtDate(v){if(!v)return"Oggi";const d=new Date(v+"T12:00:00");if(isNaN(d))return"Oggi";return d.toLocaleDateString("it-IT",{weekday:"short",day:"2-digit",month:"2-digit"})}
-function pickPlayer(b){
-document.querySelectorAll(".player").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");
-player=b.dataset.player;document.getElementById("playerButton").textContent=player.toUpperCase();
-document.getElementById("bookerPlayer").textContent=player;
-document.getElementById("compat").textContent=player==="Marco"?"94%":player==="Luca"?"91%":player==="Andrea"?"88%":"90%";
+
+if(id==="games"){
+
+setNav(1);
+
+}else if(id==="profile"){
+
+setNav(2);
+
+}else{
+
+setNav(-1);
+
 }
-function useLocation(){
-const status=document.getElementById("locationStatus");
-if(!navigator.geolocation){status.textContent="La posizione non è disponibile su questo dispositivo.";return}
-status.textContent="📍 Sto rilevando la tua posizione...";
-navigator.geolocation.getCurrentPosition(
-pos=>{
-/* La demo non usa un servizio esterno di geocoding: compila una zona
-   dimostrativa coerente con la posizione richiesta. In produzione qui
-   collegheremo il reverse geocoding. */
-document.getElementById("zone").value="Pieve di Soligo";
-status.textContent="✅ Posizione rilevata. Zona compilata automaticamente.";
-},
-()=>{status.textContent="Non ho ricevuto il permesso. Puoi scrivere il comune manualmente."},
-{enableHighAccuracy:true,timeout:8000,maximumAge:60000}
+
+}
+
+
+/* =========================================================
+NAV ACTIVE
+========================================================= */
+
+function setNav(n){
+
+document
+.querySelectorAll(".nav button")
+.forEach(function(button,index){
+
+button.classList.toggle(
+"active",
+index===n
 );
+
+});
+
 }
-function findPlayers(){
-const date=document.getElementById("date").value;
-data={date:date,time:document.getElementById("time").value||"18:00",zone:document.getElementById("zone").value.trim()||"Pieve di Soligo",level:document.getElementById("level").value};
-document.getElementById("playersCard").classList.remove("hidden");
-document.getElementById("playersCard").scrollIntoView({behavior:"smooth",block:"start"});
+
+
+/* =========================================================
+DATA
+========================================================= */
+
+function fmtDate(value){
+
+if(!value){
+
+return"Oggi";
+
 }
-function sendRequest(){
-document.getElementById("requestText").textContent="Hai proposto una partita a "+player+" per "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+".";
-document.getElementById("requestCard").classList.remove("hidden");
-document.getElementById("requestCard").scrollIntoView({behavior:"smooth",block:"start"});
-showToast("Richiesta inviata");
+
+const d=
+new Date(value+"T12:00:00");
+
+if(isNaN(d)){
+
+return"Oggi";
+
 }
-function acceptRequest(){
-document.getElementById("acceptedText").textContent=player+" ha accettato la proposta. Ora scegliamo il campo più adatto.";
-document.getElementById("acceptedCard").classList.remove("hidden");
-document.getElementById("acceptedCard").scrollIntoView({behavior:"smooth",block:"start"});
+
+return d.toLocaleDateString(
+"it-IT",
+{
+weekday:"short",
+day:"2-digit",
+month:"2-digit"
 }
+);
+
+}
+
+
+/* =========================================================
+POSIZIONE
+========================================================= */
+
+function useLocation(){
+
+const status=
+document.getElementById("locationStatus");
+
+if(!navigator.geolocation){
+
+status.textContent=
+"La geolocalizzazione non è disponibile.";
+
+return;
+
+}
+
+status.textContent=
+"📍 Sto cercando la tua posizione...";
+
+
+navigator.geolocation.getCurrentPosition(
+
+function(){
+
+document.getElementById("zone").value=
+"Pieve di Soligo";
+
+status.textContent=
+"📍 Località rilevata: Pieve di Soligo";
+
+showToast("Località rilevata");
+
+},
+
+function(){
+
+document.getElementById("zone").value=
+"Pieve di Soligo";
+
+status.textContent=
+"📍 Località impostata automaticamente: Pieve di Soligo";
+
+showToast("Località impostata");
+
+},
+
+{
+enableHighAccuracy:true,
+timeout:5000,
+maximumAge:60000
+
+}
+
+);
+
+}
+
+
+/* =========================================================
+CERCA GIOCATORI
+========================================================= */
+
+function searchPlayers(){
+
+const date=
+document.getElementById("date").value;
+
+const time=
+document.getElementById("time").value || "18:00";
+
+const zone=
+document.getElementById("zone").value.trim() ||
+"Pieve di Soligo";
+
+const level=
+document.getElementById("level").value;
+
+
+data={
+date:date,
+time:time,
+zone:zone,
+level:level
+};
+
+
+document
+.getElementById("players")
+.classList.add("hidden");
+
+
+document
+.getElementById("playerConfirmed")
+.classList.remove("show");
+
+
+const loading=
+document.getElementById("playerLoading");
+
+loading.classList.remove("hidden");
+
+
+const bar=
+document.getElementById("playerBar");
+
+const text=
+document.getElementById("playerLoadingText");
+
+
+bar.style.width="15%";
+
+text.textContent=
+"Cerco giocatori nella tua zona...";
+
+
+setTimeout(function(){
+
+bar.style.width="40%";
+
+text.textContent=
+"Confronto orari...";
+
+},500);
+
+
+setTimeout(function(){
+
+bar.style.width="70%";
+
+text.textContent=
+"Confronto livelli...";
+
+},950);
+
+
+setTimeout(function(){
+
+bar.style.width="100%";
+
+text.textContent=
+"Giocatori trovati!";
+
+},1350);
+
+
+setTimeout(function(){
+
+loading.classList.add("hidden");
+
+document
+.getElementById("players")
+.classList.remove("hidden");
+
+},1650);
+
+}
+
+
+/* =========================================================
+SELEZIONE GIOCATORE
+========================================================= */
+
+function selectPlayer(button,name,level,compatibility){
+
+document
+.querySelectorAll(".player-card")
+.forEach(function(item){
+
+item.classList.remove("selected");
+
+});
+
+button.classList.add("selected");
+
+selectedPlayer={
+name:name,
+level:level,
+compatibility:compatibility
+};
+
+
+const btn=
+document.getElementById("confirmPlayerBtn");
+
+btn.disabled=false;
+
+btn.style.opacity="1";
+
+}
+
+
+/* =========================================================
+CONFERMA GIOCATORE
+========================================================= */
+
+function confirmPlayer(){
+
+if(!selectedPlayer){
+
+showToast("Scegli prima un giocatore");
+
+return;
+
+}
+
+document
+.getElementById("selectedPlayerName")
+.textContent=
+selectedPlayer.name;
+
+
+document
+.getElementById("selectedPlayerMeta")
+.textContent=
+selectedPlayer.level+
+" · Compatibilità "+
+selectedPlayer.compatibility;
+
+
+document
+.getElementById("playerConfirmed")
+.classList.add("show");
+
+
+scrollToElement("playerConfirmed");
+
+}
+
+
+/* =========================================================
+TROVA LUOGHI
+========================================================= */
+
+function findPlaces(){
+
+document
+.getElementById("places")
+.classList.remove("hidden");
+
+scrollToElement("places");
+
+}
+
+
+/* =========================================================
+SELEZIONE LUOGO
+========================================================= */
+
+function selectPlace(element,name){
+
+document
+.querySelectorAll(".place-card")
+.forEach(function(item){
+
+item.classList.remove("selected");
+
+});
+
+element.classList.add("selected");
+
+selectedPlace=name;
+
+}
+
+
+/* =========================================================
+CAMPI
+========================================================= */
+
 function showCourts(){
-document.getElementById("courts").classList.remove("hidden");
-document.getElementById("courts").scrollIntoView({behavior:"smooth",block:"start"});
+
+document
+.getElementById("courts")
+.classList.remove("hidden");
+
+scrollToElement("courts");
+
 }
-function pickCourt(b){
-document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");court=b.dataset.court;
+
+
+/* =========================================================
+SCELTA CAMPO
+========================================================= */
+
+function pickCourt(button){
+
+document
+.querySelectorAll(".choice")
+.forEach(function(item){
+
+item.classList.remove("selected");
+
+});
+
+button.classList.add("selected");
+
+court=
+button.getAttribute("data-court");
+
 }
-function acceptCourt(){
-document.getElementById("bookingText").textContent=court+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+".";
-document.getElementById("booking").classList.remove("hidden");
-document.getElementById("booking").scrollIntoView({behavior:"smooth",block:"start"});
+
+
+/* =========================================================
+ACCETTA PROPOSTA CAMPO
+========================================================= */
+
+function acceptCourtProposal(){
+
+document
+.getElementById("proposalPlayer")
+.textContent=
+selectedPlayer ? selectedPlayer.name : "Marco";
+
+
+document
+.getElementById("proposalDetails")
+.textContent=
+fmtDate(data.date)+
+" · "+
+data.time+
+" · "+
+data.zone;
+
+
+document
+.getElementById("proposalPlace")
+.textContent=
+selectedPlace;
+
+
+document
+.getElementById("proposalCourt")
+.textContent=
+court;
+
+
+document
+.getElementById("proposal")
+.classList.remove("hidden");
+
+
+scrollToElement("proposal");
+
 }
-function requestBooking(){
-const who=document.getElementById("booker").value;
-document.getElementById("bookingRequestText").textContent=who+" effettuerà la prenotazione presso "+court+". Inviare la richiesta di conferma?";
-document.getElementById("bookingRequest").classList.remove("hidden");
-document.getElementById("bookingRequest").scrollIntoView({behavior:"smooth",block:"start"});
-showToast("Richiesta di prenotazione");
+
+
+/* =========================================================
+PRENOTAZIONE
+========================================================= */
+
+function showBooking(){
+
+document
+.getElementById("booking")
+.classList.remove("hidden");
+
+scrollToElement("booking");
+
 }
-function confirmBooking(){
-const info=fmtDate(data.date)+" · "+data.time+" · "+data.zone;
-document.getElementById("savedPlayer").textContent="🎾 "+player;
-document.getElementById("savedInfo").textContent=info;
-document.getElementById("savedCourt").textContent=court;
-document.getElementById("savedLevel").textContent=data.level;
-document.getElementById("empty").classList.add("hidden");
-document.getElementById("saved").classList.remove("hidden");
-document.getElementById("confirmedText").textContent=player+" ti aspetta · "+info+" · "+court+". Prenotazione confermata.";
-document.getElementById("confirmed").classList.remove("hidden");
-localStorage.setItem("matchpointGame",JSON.stringify({player,date:data.date,time:data.time,zone:data.zone,level:data.level,court}));
-document.getElementById("confirmed").scrollIntoView({behavior:"smooth",block:"start"});
+
+
+function selectBooking(element,type){
+
+document
+.querySelectorAll(".booking-card")
+.forEach(function(item){
+
+item.classList.remove("selected");
+
+});
+
+element.classList.add("selected");
+
+booking=type;
+
+}
+
+
+/* =========================================================
+INVIA RICHIESTA PRENOTAZIONE
+========================================================= */
+
+function sendBookingRequest(){
+
+const text=
+document.getElementById("bookingRequestText");
+
+if(booking==="io"){
+
+text.textContent=
+"Stai per effettuare tu la prenotazione del campo. Nella demo simuliamo la prenotazione.";
+
+}else{
+
+text.textContent=
+"Abbiamo chiesto a "+
+(selectedPlayer ? selectedPlayer.name : "Marco")+
+" di effettuare la prenotazione del campo.";
+
+}
+
+document
+.getElementById("bookingRequest")
+.classList.remove("hidden");
+
+scrollToElement("bookingRequest");
+
+}
+
+
+/* =========================================================
+ACCETTAZIONE PRENOTAZIONE
+========================================================= */
+
+function simulateBookingAccepted(){
+
+document
+.getElementById("bookingRequest")
+.classList.add("hidden");
+
+
+document
+.getElementById("bookedPlace")
+.textContent=
+selectedPlace;
+
+
+document
+.getElementById("bookedDetails")
+.textContent=
+fmtDate(data.date)+
+" · "+
+data.time+
+" · "+
+data.zone;
+
+
+document
+.getElementById("bookedCourt")
+.textContent=
+court;
+
+
+document
+.getElementById("booked")
+.classList.remove("hidden");
+
+
 showToast("Prenotazione confermata");
+
+scrollToElement("booked");
+
 }
-function saveResult(){
-const inputs=[...document.querySelectorAll("#scoreContainer input")];
-const vals=inputs.map(i=>i.value);
-let sets=[];
-for(let i=0;i<vals.length;i+=2){if(vals[i]!==""||vals[i+1]!=="")sets.push((vals[i]||"0")+"-"+(vals[i+1]||"0"))}
-if(!sets.length){showToast("Inserisci almeno un set");return}
-const result=sets.join(" · ");
-localStorage.setItem("matchpointResult",result);
-document.getElementById("resultSaved").textContent="✅ Risultato registrato: "+result;
-document.getElementById("resultSaved").classList.remove("hidden");
+
+
+/* =========================================================
+CONFERMA AL COMPAGNO
+========================================================= */
+
+function sendGameAcceptance(){
+
+document
+.getElementById("gameAcceptance")
+.classList.remove("hidden");
+
+scrollToElement("gameAcceptance");
+
+}
+
+
+/* =========================================================
+ACCETTA PARTITA
+========================================================= */
+
+function finalAcceptGame(){
+
+document
+.getElementById("gameAcceptance")
+.classList.add("hidden");
+
+
+const player=
+selectedPlayer ?
+selectedPlayer.name :
+"Marco";
+
+
+document
+.getElementById("finalPlayer")
+.textContent=
+player;
+
+
+document
+.getElementById("finalDetails")
+.textContent=
+fmtDate(data.date)+
+" · "+
+data.time+
+" · "+
+data.zone;
+
+
+document
+.getElementById("finalPlace")
+.textContent=
+selectedPlace;
+
+
+document
+.getElementById("finalCourt")
+.textContent=
+court;
+
+
+document
+.getElementById("finalGame")
+.classList.remove("hidden");
+
+
+localStorage.setItem(
+"matchpointGame",
+JSON.stringify({
+
+player:player,
+date:data.date,
+time:data.time,
+zone:data.zone,
+level:data.level,
+place:selectedPlace,
+court:court
+
+})
+);
+
+
+showToast("Partita confermata");
+
+scrollToElement("finalGame");
+
+}
+
+
+/* =========================================================
+PUNTEGGIO
+========================================================= */
+
+function openScore(){
+
+document
+.getElementById("score")
+.classList.remove("hidden");
+
+scrollToElement("score");
+
+}
+
+
+function getScore(id){
+
+const value=
+document.getElementById(id).value;
+
+if(value===""){
+
+return null;
+
+}
+
+return parseInt(value,10);
+
+}
+
+
+function calculateScore(){
+
+const a=[
+getScore("s1a"),
+getScore("s2a"),
+getScore("s3a"),
+getScore("s4a"),
+getScore("s5a")
+];
+
+const b=[
+getScore("s1b"),
+getScore("s2b"),
+getScore("s3b"),
+getScore("s4b"),
+getScore("s5b")
+];
+
+
+let setsA=0;
+
+let setsB=0;
+
+let played=0;
+
+
+for(let i=0;i<5;i++){
+
+if(a[i]===null || b[i]===null){
+
+continue;
+
+}
+
+played++;
+
+if(a[i]>b[i]){
+
+setsA++;
+
+}else if(b[i]>a[i]){
+
+setsB++;
+
+}
+
+}
+
+
+if(played===0){
+
+showToast("Inserisci almeno un set");
+
+return;
+
+}
+
+
+let winner="Partita in corso";
+
+
+if(setsA>=3){
+
+winner="🏆 Hai vinto la partita!";
+
+}else if(setsB>=3){
+
+winner="🎾 "+(selectedPlayer ? selectedPlayer.name : "Marco")+" ha vinto la partita!";
+
+}else{
+
+winner=
+"Risultato parziale: "+
+setsA+
+" set a "+
+setsB;
+
+}
+
+
+const result=
+document.getElementById("scoreResult");
+
+result.innerHTML=
+"<div class='winner'>"+
+winner+
+"</div>"+
+"<div style='margin-top:7px;'>"+
+"Set vinti: "+
+setsA+
+" - "+
+setsB+
+"</div>";
+
+
+result.classList.remove("hidden");
+
+
+localStorage.setItem(
+"matchpointResult",
+JSON.stringify({
+
+setsA:setsA,
+setsB:setsB,
+scoresA:a,
+scoresB:b
+
+})
+);
+
+
+document
+.getElementById("saved")
+.classList.remove("hidden");
+
+
+document
+.getElementById("empty")
+.classList.add("hidden");
+
+
+document
+.getElementById("savedScore")
+.classList.remove("hidden");
+
+
+document
+.getElementById("savedScoreText")
+.textContent=
+winner+
+" · "+
+setsA+
+"-"+
+setsB;
+
+
 showToast("Risultato salvato");
+
 }
+
+
+/* =========================================================
+PROFILO
+========================================================= */
+
 function saveProfile(){
-const name=document.getElementById("name").value.trim();
-const profile={name,level:document.getElementById("plevel").value,zone:document.getElementById("pzone").value.trim(),availability:document.getElementById("availability").value};
-localStorage.setItem("matchpointProfile",JSON.stringify(profile));
-document.getElementById("avatar").textContent=(name?name.charAt(0):"S").toUpperCase();
+
+const name=
+document
+.getElementById("name")
+.value
+.trim();
+
+
+const profile={
+
+name:name,
+
+level:
+document.getElementById("plevel").value,
+
+zone:
+document.getElementById("pzone").value.trim(),
+
+availability:
+document.getElementById("availability").value
+
+};
+
+
+localStorage.setItem(
+"matchpointProfile",
+JSON.stringify(profile)
+);
+
+
+document
+.getElementById("avatar")
+.textContent=
+(name ? name.charAt(0) : "S")
+.toUpperCase();
+
+
 showToast("Profilo salvato");
+
 }
+
+
+/* =========================================================
+TOAST
+========================================================= */
+
 function showToast(message){
-const t=document.getElementById("toast");t.textContent=message;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2000);
+
+const toast=
+document.getElementById("toast");
+
+toast.textContent=message;
+
+toast.classList.add("show");
+
+
+setTimeout(function(){
+
+toast.classList.remove("show");
+
+},2000);
+
 }
+
+
+/* =========================================================
+SCROLL
+========================================================= */
+
+function scrollToElement(id){
+
+setTimeout(function(){
+
+const element=
+document.getElementById(id);
+
+if(element){
+
+element.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+}
+
+},100);
+
+}
+
+
+/* =========================================================
+CARICAMENTO INIZIALE
+========================================================= */
+
 (function(){
+
 const now=new Date();
-document.getElementById("date").value=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10);
+
+const localDate=
+new Date(
+now.getTime()-
+now.getTimezoneOffset()*60000
+)
+.toISOString()
+.slice(0,10);
+
+
+document
+.getElementById("date")
+.value=
+localDate;
+
+
+/* PROFILO */
+
 try{
-const p=JSON.parse(localStorage.getItem("matchpointProfile")||"null");
-if(p){document.getElementById("name").value=p.name||"";document.getElementById("plevel").value=p.level||"Intermedio";document.getElementById("pzone").value=p.zone||"Pieve di Soligo";document.getElementById("availability").value=p.availability||"Sera";document.getElementById("avatar").textContent=(p.name?p.name.charAt(0):"S").toUpperCase()}
-}catch(e){}
-try{
-const g=JSON.parse(localStorage.getItem("matchpointGame")||"null");
-if(g){
-data={date:g.date,time:g.time,zone:g.zone,level:g.level};player=g.player||"Marco";court=g.court||"Centro Tennis Pieve";
-document.getElementById("empty").classList.add("hidden");document.getElementById("saved").classList.remove("hidden");
-document.getElementById("savedPlayer").textContent="🎾 "+player;document.getElementById("savedInfo").textContent=fmtDate(g.date)+" · "+g.time+" · "+g.zone;document.getElementById("savedCourt").textContent=g.court;document.getElementById("savedLevel").textContent=g.level;
+
+const profile=
+JSON.parse(
+localStorage.getItem(
+"matchpointProfile"
+)||"null"
+);
+
+if(profile){
+
+document
+.getElementById("name")
+.value=
+profile.name||"";
+
+document
+.getElementById("plevel")
+.value=
+profile.level||"Intermedio";
+
+document
+.getElementById("pzone")
+.value=
+profile.zone||"";
+
+document
+.getElementById("avatar")
+.textContent=
+(
+profile.name ?
+profile.name.charAt(0) :
+"S"
+).toUpperCase();
+
 }
+
 }catch(e){}
-const r=localStorage.getItem("matchpointResult");
-if(r){document.getElementById("resultSaved").textContent="✅ Risultato registrato: "+r;document.getElementById("resultSaved").classList.remove("hidden")}
+
+
+/* PARTITA */
+
+try{
+
+const game=
+JSON.parse(
+localStorage.getItem(
+"matchpointGame"
+)||"null"
+);
+
+if(game){
+
+document
+.getElementById("empty")
+.classList.add("hidden");
+
+
+document
+.getElementById("saved")
+.classList.remove("hidden");
+
+
+document
+.getElementById("savedInfo")
+.textContent=
+fmtDate(game.date)+
+" · "+
+game.time+
+" · "+
+game.zone;
+
+
+document
+.getElementById("savedPlace")
+.textContent=
+game.place ||
+"Luogo";
+
+
+document
+.getElementById("savedCourt")
+.textContent=
+game.court ||
+"Campo";
+
+
+}
+
+}catch(e){}
+
+
+/* RISULTATO */
+
+try{
+
+const result=
+JSON.parse(
+localStorage.getItem(
+"matchpointResult"
+)||"null"
+);
+
+if(result){
+
+document
+.getElementById("savedScore")
+.classList.remove("hidden");
+
+
+document
+.getElementById("savedScoreText")
+.textContent=
+"Risultato: "+
+result.setsA+
+" - "+
+result.setsB;
+
+}
+
+}catch(e){}
+
 })();
+
 </script>
+
 </body>
 </html>
