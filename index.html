@@ -166,7 +166,7 @@ placeholder="Inizia a scrivere la città..." autocomplete="off">
 <div class="success">🎾 Match trovato!</div>
 <div class="match-player" id="chosenPlayer">Marco</div>
 <div class="match-meta" id="matchMeta">Oggi · 18:00</div>
-<span class="badge" id="matchZone">Pieve di Soligo, Italia</span>
+<span class="badge" id="matchZone"></span>
 <span class="badge" id="matchLevel">Intermedio</span>
 <span class="badge" id="matchCompatibility">Compatibilità 94%</span>
 <p class="muted" id="matchDescription">MatchPoint ha trovato il giocatore più compatibile per orario, zona e livello.</p>
@@ -257,7 +257,7 @@ placeholder="Inizia a scrivere la città..." autocomplete="off">
 <div id="toast" class="toast"></div>
 </div>
 
-<script>
+
 let data=null;
 let court="Centro Tennis Pieve";
 let selectedPlayer={name:"Marco",level:"Intermedio",score:94};
@@ -297,13 +297,13 @@ function findMatch(){
 data={
 date:document.getElementById("date").value,
 time:document.getElementById("time").value||"18:00",
-zone:document.getElementById("zone").value.trim()||"Pieve di Soligo",
+zone:document.getElementById("zone").value.trim(),
 level:document.getElementById("level").value
 };
 
-if(!data.zone || !data.country){
+if(!data.zone){
   showToast("Inserisci la città");
-  
+  document.getElementById("zone").focus();
   return;
 }
 
@@ -325,7 +325,7 @@ selectedPlayer=players.find(p=>p.level===data.level)||players[0];
 loading.classList.add("hidden");
 document.getElementById("chosenPlayer").textContent=selectedPlayer.name;
 document.getElementById("matchMeta").textContent=fmtDate(data.date)+" · "+data.time;
-document.getElementById("matchZone").textContent=data.zone+", "+data.country;
+document.getElementById("matchZone").textContent=data.zone;
 document.getElementById("matchLevel").textContent=selectedPlayer.level;
 document.getElementById("matchCompatibility").textContent="Compatibilità "+selectedPlayer.score+"%";
 document.getElementById("matchDescription").textContent="MatchPoint ha abbinato automaticamente "+selectedPlayer.name+" in base a orario, zona e livello.";
@@ -364,7 +364,7 @@ document.getElementById("confirmed").classList.add("show");
 document.getElementById("confirmed").scrollIntoView({behavior:"smooth",block:"start"});
 document.getElementById("savedPlayer").textContent="🎾 "+selectedPlayer.name;
 document.getElementById("opponentLabel").textContent=selectedPlayer.name;
-document.getElementById("savedInfo").textContent=fmtDate(data.date)+" · "+data.time+" · "+data.zone+", "+data.country;
+document.getElementById("savedInfo").textContent=fmtDate(data.date)+" · "+data.time+" · "+data.zone;
 document.getElementById("savedCourt").textContent=court;
 document.getElementById("savedLevel").textContent=selectedPlayer.level;
 document.getElementById("empty").classList.add("hidden");
@@ -398,8 +398,8 @@ const p=JSON.parse(localStorage.getItem("matchpointProfile")||"null");
 if(p){
 document.getElementById("name").value=p.name||"";
 document.getElementById("plevel").value=p.level||"Intermedio";
-document.getElementById("pcountry").value=p.country||"Italia";
-document.getElementById("pzone").value=p.zone||"Pieve di Soligo";
+
+document.getElementById("pzone").value=p.zone||"";
 document.getElementById("availability").value=p.availability||"Sera";
 document.getElementById("avatar").textContent=(p.name?p.name.charAt(0):"S").toUpperCase();
 }
@@ -419,9 +419,9 @@ document.getElementById("savedLevel").textContent=g.playerLevel||g.level;
 const result=localStorage.getItem("matchpointResult");
 if(result){document.getElementById("resultSaved").textContent="🏆 Risultato registrato: "+result;document.getElementById("resultSaved").classList.remove("hidden")}
 })();
-</script>
 
-<script>
+
+
 (function(){
   const zone = document.getElementById("zone");
   if(!zone) return;
@@ -433,92 +433,111 @@ if(result){document.getElementById("resultSaved").textContent="🏆 Risultato re
     }
   });
 })();
-</script>
+
 
 
 <script>
 (function(){
-  const input=document.getElementById("zone");
-  const box=document.getElementById("citySuggestions");
-  if(!input || !box) return;
+const input=document.getElementById("zone");
+const box=document.getElementById("citySuggestions");
+if(!input||!box)return;
 
-  let cities=[];
-  let ready=false;
+let timer=null;
+let controller=null;
 
-  // Database of Italian municipalities. Loaded once; after that autocomplete
-  // works locally in the browser without GPS or a location permission.
-  fetch("https://cdn.jsdelivr.net/npm/comuni-json@1.0.0/comuni.json")
-    .then(r=>{
-      if(!r.ok) throw new Error("database non disponibile");
-      return r.json();
-    })
-    .then(data=>{
-      cities=(Array.isArray(data)?data:[])
-        .map(x=>typeof x==="string"?x:x.nome)
-        .filter(Boolean)
-        .sort((a,b)=>a.localeCompare(b,"it"));
-      ready=true;
-    })
-    .catch(()=>{
-      // Fallback so the demo still works if the external database is unavailable.
-      cities=[
-        "Pieve di Soligo","Conegliano","Vittorio Veneto","Treviso",
-        "Susegana","Farra di Soligo","Follina","Valdobbiadene",
-        "Montebelluna","Moriago della Battaglia","Sernaglia della Battaglia",
-        "San Pietro di Feletto","Colle Umberto","Refrontolo","Miane",
-        "Milano","Roma","Torino","Genova","Venezia","Padova","Verona",
-        "Bologna","Firenze","Napoli","Palermo","Bari","Trieste","Udine",
-        "Pordenone","Belluno","Vicenza","Rovigo"
-      ];
-      ready=true;
-    });
+function normalize(s){
+return String(s||"").toLowerCase()
+.normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+}
 
-  function normalize(s){
-    return s.toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g,"")
-      .trim();
-  }
+function closeSuggestions(){
+box.classList.add("hidden");
+box.innerHTML="";
+}
 
-  function close(){
-    box.classList.add("hidden");
-    box.innerHTML="";
-  }
+function showResults(items){
+box.innerHTML="";
+if(!items.length){closeSuggestions();return;}
 
-  function show(){
-    const q=normalize(input.value);
-    if(q.length<2 || !ready){ close(); return; }
+items.slice(0,10).forEach(function(item){
+const name=typeof item==="string"?item:item.nome;
+if(!name)return;
 
-    const results=cities
-      .filter(name=>normalize(name).startsWith(q))
-      .slice(0,12);
+const b=document.createElement("button");
+b.type="button";
+b.className="city-option";
+b.textContent=name;
+b.onclick=function(){
+input.value=name;
+closeSuggestions();
+};
 
-    if(!results.length){
-      close();
-      return;
-    }
+box.appendChild(b);
+});
 
-    box.innerHTML="";
-    results.forEach(name=>{
-      const b=document.createElement("button");
-      b.type="button";
-      b.className="city-option";
-      b.textContent=name;
-      b.onclick=function(){
-        input.value=name;
-        close();
-      };
-      box.appendChild(b);
-    });
-    box.classList.remove("hidden");
-  }
+box.classList.remove("hidden");
+}
 
-  input.addEventListener("input",show);
-  input.addEventListener("focus",show);
+async function searchCities(query){
+if(controller)controller.abort();
+controller=new AbortController();
 
-  document.addEventListener("click",function(e){
-    if(!e.target.closest(".autocomplete-wrap")) close();
-  });
+const url=
+"https://comuni-ita.nicolorebaioli.dev/comuni"+
+"?q="+encodeURIComponent(query)+
+"&sort=nome"+
+"&fields=nome"+
+"&pagesize=10";
+
+const response=await fetch(url,{
+signal:controller.signal,
+headers:{"Accept":"application/json"}
+});
+
+if(!response.ok)throw new Error("API error");
+
+const json=await response.json();
+
+const items=Array.isArray(json)
+?json
+:(json.data||json.results||json.comuni||[]);
+
+return items;
+}
+
+input.addEventListener("input",function(){
+const query=input.value.trim();
+
+clearTimeout(timer);
+
+if(query.length<2){
+closeSuggestions();
+return;
+}
+
+timer=setTimeout(async function(){
+try{
+const items=await searchCities(query);
+showResults(items);
+}catch(error){
+if(error.name!=="AbortError"){
+closeSuggestions();
+}
+}
+},180);
+});
+
+input.addEventListener("focus",function(){
+if(input.value.trim().length>=2){
+input.dispatchEvent(new Event("input"));
+}
+});
+
+document.addEventListener("click",function(e){
+if(!e.target.closest(".autocomplete-wrap")){
+closeSuggestions();
+}
+});
 })();
 </script>
 
