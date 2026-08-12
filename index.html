@@ -37,7 +37,7 @@ button{-webkit-appearance:none;appearance:none}
 .back{border:0;background:#172326;color:#fff;margin-bottom:22px}
 .primary{border:0;background:#d9ff00;color:#050909}
 .secondary{border:1px solid #34484e;background:#0b171a;color:#fff;margin-top:10px}
-.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}
+.card{background:#0b171a;border:1px solid #24363b;border-radius:18px;padding:18px;margin:12px 0}.screen{min-height:calc(100dvh - 150px)}
 .muted{color:#b9c1c3;line-height:1.5}
 label{display:block;font-weight:800;font-size:14px;margin:15px 0 7px}
 input,select{width:100%;padding:14px;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:16px;outline:none}
@@ -105,13 +105,6 @@ input:focus,select:focus{border-color:#d9ff00}
 <div class="app">
 
 <section id="home" class="home">
-<div class="brand">
-<div class="ball">🎾</div>
-<div class="logo">MATCH<span>POINT</span></div>
-<div class="tagline">TROVA IL TUO COMPAGNO DI TENNIS</div>
-<div class="line"></div>
-</div>
-
 <button class="cta" type="button" onclick="openView('match')">
 <span>🎾</span><span>TROVA IL MIO MATCH</span><span>→</span>
 </button>
@@ -125,109 +118,63 @@ input:focus,select:focus{border-color:#d9ff00}
 
 <section id="match" class="view">
 <button class="back" type="button" onclick="openView('home')">← Torna alla Home</button>
+
+<div id="matchStep1" class="screen">
 <h1>Trova il mio match</h1>
-
-<div class="steps">
-<div><span class="dot on" id="step1">1</span>QUANDO</div>
-<div><span class="dot" id="step2">2</span>COMPAGNO</div>
-<div><span class="dot" id="step3">3</span>CAMPO</div>
-</div>
-
+<div class="steps"><div><span class="dot on">1</span>QUANDO</div><div><span class="dot">2</span>COMPAGNO</div><div><span class="dot">3</span>CAMPO</div></div>
 <div class="card">
-<label>Quando vuoi giocare?</label>
-<input id="date" type="date">
-
-<label>Orario</label>
-<input id="time" type="time" value="18:00">
-
+<label>Quando vuoi giocare?</label><input id="date" type="date">
+<label>Orario</label><input id="time" type="time" value="18:00">
 <label>Città / zona</label>
-<div class="autocomplete-wrap">
-<input id="zone" type="text" placeholder="Inizia a scrivere la città..." autocomplete="off">
-<div id="citySuggestions" class="city-suggestions hidden"></div>
-</div>
-
+<div class="autocomplete-wrap"><input id="zone" type="text" placeholder="Scrivi la città..." autocomplete="off"><div id="citySuggestions" class="city-suggestions hidden"></div></div>
 <label>Livello</label>
-<select id="level">
-<option>Principiante</option>
-<option selected>Intermedio</option>
-<option>Avanzato</option>
-</select>
+<select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
+<label>Distanza massima del compagno</label>
+<select id="radius"><option value="5">Entro 5 km</option><option value="10" selected>Entro 10 km</option><option value="20">Entro 20 km</option><option value="30">Entro 30 km</option><option value="50">Entro 50 km</option></select>
 </div>
-
 <button class="primary" type="button" onclick="findMatch()">TROVA IL MIO MATCH</button>
-
-<div id="loading" class="card loading hidden">
-<div class="spinner"></div>
-<h2 id="loadingTitle">Cerco il tuo match...</h2>
-<p class="muted" id="loadingText">Confronto giocatori compatibili</p>
-<div class="progress"><i id="bar"></i></div>
 </div>
 
-<div id="matchResult" class="card result">
-<div class="success">🎾 Match trovato!</div>
-<div class="match-player">Marco</div>
-<div class="match-meta" id="matchMeta"></div>
-<span class="badge" id="matchZone"></span>
-<span class="badge" id="matchLevel"></span>
-<span class="badge">Compatibilità 94%</span>
-<p class="muted">Abbiamo trovato un giocatore compatibile per orario, città e livello.</p>
-<button class="primary" type="button" onclick="showPlayers()">SCEGLI IL COMPAGNO</button>
+<div id="matchLoading" class="screen hidden">
+<div class="card loading" style="margin-top:45px"><div class="spinner"></div><h2>Sto cercando il tuo match...</h2><p class="muted" id="loadingText">Confronto giocatori compatibili</p><div class="progress"><i id="bar"></i></div></div>
 </div>
 
-<div id="players" class="card hidden">
-<h2>Scegli il compagno</h2>
-<p class="muted">Abbiamo trovato questi giocatori disponibili.</p>
-
-<div class="player selected" data-player="Marco" onclick="pickPlayer(this)">
-<div class="avatar">M</div><div class="player-info"><strong>Marco</strong><small>Intermedio · 1,2 km · 94% compatibile</small></div>
-</div>
-<div class="player" data-player="Luca" onclick="pickPlayer(this)">
-<div class="avatar">L</div><div class="player-info"><strong>Luca</strong><small>Intermedio · 2,8 km · 89% compatibile</small></div>
-</div>
-<div class="player" data-player="Andrea" onclick="pickPlayer(this)">
-<div class="avatar">A</div><div class="player-info"><strong>Andrea</strong><small>Intermedio · 4,1 km · 84% compatibile</small></div>
-</div>
-
+<div id="matchStep2" class="screen hidden">
+<h1>Scegli il compagno</h1>
+<div class="steps"><div><span class="dot on">1</span>QUANDO</div><div><span class="dot on">2</span>COMPAGNO</div><div><span class="dot">3</span>CAMPO</div></div>
+<div class="card"><div class="success">🎾 Match trovato!</div><p class="muted" id="matchSummary"></p></div>
+<div class="player selected" data-player="Marco" onclick="pickPlayer(this)"><div class="avatar">M</div><div class="player-info"><strong>Marco</strong><small>Intermedio · 1,2 km · 94% compatibile</small></div></div>
+<div class="player" data-player="Luca" onclick="pickPlayer(this)"><div class="avatar">L</div><div class="player-info"><strong>Luca</strong><small>Intermedio · 2,8 km · 89% compatibile</small></div></div>
+<div class="player" data-player="Andrea" onclick="pickPlayer(this)"><div class="avatar">A</div><div class="player-info"><strong>Andrea</strong><small>Intermedio · 4,1 km · 84% compatibile</small></div></div>
 <button class="primary" type="button" onclick="acceptPlayer()">ACCETTA COMPAGNO</button>
 </div>
 
-<div id="courts" class="card hidden">
-<div class="steps">
-<div><span class="dot on">1</span>QUANDO</div>
-<div><span class="dot on">2</span>COMPAGNO</div>
-<div><span class="dot on">3</span>CAMPO</div>
-</div>
-<h2>Scegli il campo</h2>
-<p class="muted">Campi proposti vicino a <span id="courtCity"></span>.</p>
-
+<div id="matchStep3" class="screen hidden">
+<h1>Scegli il campo</h1>
+<div class="steps"><div><span class="dot on">1</span>QUANDO</div><div><span class="dot on">2</span>COMPAGNO</div><div><span class="dot on">3</span>CAMPO</div></div>
+<div class="card"><h2>Campi proposti</h2><p class="muted">Proposte vicino a <strong id="courtCity"></strong>.</p></div>
 <div class="choice-grid">
 <button class="choice selected" data-court="Centro Tennis Pieve · Campo 2" onclick="pickCourt(this)"><strong>Centro Tennis Pieve</strong><small>2,1 km · Campo 2 · Disponibile</small></button>
 <button class="choice" data-court="Tennis Club Soligo · Campo 1" onclick="pickCourt(this)"><strong>Tennis Club Soligo</strong><small>3,4 km · Campo 1 · Disponibile</small></button>
 <button class="choice" data-court="Sporting Conegliano · Campo 4" onclick="pickCourt(this)"><strong>Sporting Conegliano</strong><small>8,7 km · Campo 4 · Disponibile</small></button>
 <button class="choice" data-court="Campo Comunale · Campo 1" onclick="pickCourt(this)"><strong>Campo Comunale</strong><small>5,2 km · Campo 1 · Disponibile</small></button>
 </div>
-
 <button class="primary" type="button" onclick="proposeCourt()">PROPONI QUESTO CAMPO</button>
 </div>
 
-<div id="booking" class="card hidden">
-<div class="success">📩 Proposta pronta</div>
-<p class="muted" id="proposalText"></p>
-<button class="primary" type="button" onclick="requestBooking()">INVIA RICHIESTA A MARCO</button>
+<div id="matchStep4" class="screen hidden">
+<h1>Richiesta di prenotazione</h1><div class="card"><div class="success">📩 Proposta pronta</div><p class="muted" id="proposalText"></p></div>
+<button class="primary" type="button" onclick="requestBooking()">INVIA RICHIESTA</button>
 </div>
 
-<div id="bookingRequest" class="card result">
-<div class="success">📨 Richiesta inviata</div>
-<p class="muted" id="requestText"></p>
-<p class="muted">Il compagno deve accettare la proposta prima della prenotazione.</p>
+<div id="matchStep5" class="screen hidden">
+<h1>Attesa accettazione</h1><div class="card"><div class="success">📨 Richiesta inviata</div><p class="muted" id="requestText"></p><p class="muted">Il compagno deve accettare la proposta prima della prenotazione.</p></div>
 <button class="primary" type="button" onclick="acceptRequest()">ACCETTA LA RICHIESTA</button>
 </div>
 
-<div id="confirmed" class="card result">
-<div class="success">✅ Prenotazione accettata!</div>
-<p class="muted" id="confirmedText"></p>
-<p class="muted">La partita è confermata. Buon match!</p>
-<button class="primary" type="button" onclick="openView('games')">VEDI LA PARTITA</button>
+<div id="matchStep6" class="screen hidden">
+<h1>Partita confermata</h1><div class="card"><div class="success">✅ Prenotazione accettata!</div><p class="muted" id="confirmedText"></p><p class="muted">La partita è confermata. Ora puoi registrare il risultato.</p></div>
+<button class="primary" type="button" onclick="openView('games')">VAI ALLA PARTITA</button>
 </div>
 </section>
 
@@ -348,127 +295,49 @@ document.addEventListener("click",function(e){
 if(!e.target.closest(".autocomplete-wrap"))closeCities();
 });
 
+function showOnlyMatchStep(id){
+var ids=["matchStep1","matchLoading","matchStep2","matchStep3","matchStep4","matchStep5","matchStep6"];
+ids.forEach(function(x){var el=document.getElementById(x);if(el)el.classList.add("hidden");});
+document.getElementById(id).classList.remove("hidden");
+document.getElementById("match").scrollTop=0;
+}
+
 function findMatch(){
 var zone=document.getElementById("zone").value.trim();
-
-if(!zone){
-toast("Scrivi o scegli una città");
-document.getElementById("zone").focus();
-return;
-}
-
-data={
-date:document.getElementById("date").value,
-time:document.getElementById("time").value||"18:00",
-zone:zone,
-level:document.getElementById("level").value
-};
-
-var loading=document.getElementById("loading");
-var result=document.getElementById("matchResult");
-var players=document.getElementById("players");
-
-result.classList.remove("show");
-players.classList.add("hidden");
-document.getElementById("courts").classList.add("hidden");
-document.getElementById("booking").classList.add("hidden");
-document.getElementById("bookingRequest").classList.remove("show");
-document.getElementById("confirmed").classList.remove("show");
-
-loading.classList.remove("hidden");
-
-var bar=document.getElementById("bar");
-var text=document.getElementById("loadingText");
-
-bar.style.width="20%";
-text.textContent="Cerco giocatori nella tua zona...";
-
+if(!zone){toast("Scrivi o scegli una città");document.getElementById("zone").focus();return;}
+data={date:document.getElementById("date").value,time:document.getElementById("time").value||"18:00",zone:zone,level:document.getElementById("level").value,radius:document.getElementById("radius").value};
+showOnlyMatchStep("matchLoading");
+var bar=document.getElementById("bar"),text=document.getElementById("loadingText");
+bar.style.width="15%";text.textContent="Cerco giocatori entro "+data.radius+" km...";
+setTimeout(function(){bar.style.width="40%";text.textContent="Controllo disponibilità...";},450);
+setTimeout(function(){bar.style.width="70%";text.textContent="Confronto livello e distanza...";},850);
+setTimeout(function(){bar.style.width="100%";text.textContent="Match trovato!";},1250);
 setTimeout(function(){
-bar.style.width="50%";
-text.textContent="Confronto orario e livello...";
-},500);
-
-setTimeout(function(){
-bar.style.width="80%";
-text.textContent="Ho trovato un compagno compatibile...";
-},1000);
-
-setTimeout(function(){
-bar.style.width="100%";
-text.textContent="Match trovato!";
-},1400);
-
-setTimeout(function(){
-loading.classList.add("hidden");
-
-document.getElementById("matchMeta").textContent=
-fmtDate(data.date)+" · "+data.time;
-
-document.getElementById("matchZone").textContent=data.zone;
-document.getElementById("matchLevel").textContent=data.level;
-
-result.classList.add("show");
-
-result.scrollIntoView({
-behavior:"smooth",
-block:"start"
-});
-},1700);
+document.getElementById("matchSummary").textContent="Disponibile "+fmtDate(data.date)+" alle "+data.time+" · "+data.zone+" · livello "+data.level+" · distanza massima "+data.radius+" km.";
+showOnlyMatchStep("matchStep2");
+},1600);
 }
 
-function showPlayers(){
-var p=document.getElementById("players");
-p.classList.remove("hidden");
-p.scrollIntoView({behavior:"smooth",block:"start"});
-}
-function pickPlayer(el){
-document.querySelectorAll(".player").forEach(function(x){x.classList.remove("selected");});
-el.classList.add("selected");
-selectedPlayer=el.getAttribute("data-player");
-}
-function acceptPlayer(){
-document.getElementById("step2").classList.add("on");
-document.getElementById("courtCity").textContent=data.zone;
-var c=document.getElementById("courts");
-c.classList.remove("hidden");
-c.scrollIntoView({behavior:"smooth",block:"start"});
-}
-function pickCourt(el){
-document.querySelectorAll(".choice").forEach(function(x){x.classList.remove("selected");});
-el.classList.add("selected");
-selectedCourt=el.getAttribute("data-court");
-}
-function proposeCourt(){
-document.getElementById("proposalText").textContent=
-selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
-var b=document.getElementById("booking");
-b.classList.remove("hidden");
-b.scrollIntoView({behavior:"smooth",block:"start"});
-}
-function requestBooking(){
-document.getElementById("requestText").textContent=
-"Hai proposto a "+selectedPlayer+": "+fmtDate(data.date)+" · "+data.time+" · "+selectedCourt+".";
-document.getElementById("bookingRequest").classList.add("show");
-document.getElementById("bookingRequest").scrollIntoView({behavior:"smooth",block:"start"});
-toast("Richiesta inviata");
-}
+function showPlayers(){showOnlyMatchStep("matchStep2");}
+function pickPlayer(el){document.querySelectorAll(".player").forEach(function(x){x.classList.remove("selected");});el.classList.add("selected");selectedPlayer=el.getAttribute("data-player");}
+function acceptPlayer(){document.getElementById("courtCity").textContent=data.zone;showOnlyMatchStep("matchStep3");}
+function pickCourt(el){document.querySelectorAll(".choice").forEach(function(x){x.classList.remove("selected");});el.classList.add("selected");selectedCourt=el.getAttribute("data-court");}
+function proposeCourt(){document.getElementById("proposalText").textContent=selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;showOnlyMatchStep("matchStep4");}
+function requestBooking(){document.getElementById("requestText").textContent="Hai proposto a "+selectedPlayer+": "+fmtDate(data.date)+" · "+data.time+" · "+selectedCourt+".";showOnlyMatchStep("matchStep5");toast("Richiesta inviata");}
 function acceptRequest(){
 var text=selectedPlayer+" ha accettato. "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
 document.getElementById("confirmedText").textContent=text;
-document.getElementById("confirmed").classList.add("show");
-
 document.getElementById("savedPlayer").textContent=selectedPlayer;
 document.getElementById("savedInfo").textContent=fmtDate(data.date)+" · "+data.time+" · "+data.zone;
 document.getElementById("savedCourt").textContent=selectedCourt;
 document.getElementById("savedLevel").textContent=data.level;
 document.getElementById("empty").classList.add("hidden");
 document.getElementById("saved").classList.remove("hidden");
-
-localStorage.setItem("matchpointGame",JSON.stringify({
-player:selectedPlayer,date:data.date,time:data.time,zone:data.zone,level:data.level,court:selectedCourt
-}));
+localStorage.setItem("matchpointGame",JSON.stringify({player:selectedPlayer,date:data.date,time:data.time,zone:data.zone,level:data.level,court:selectedCourt,radius:data.radius}));
+showOnlyMatchStep("matchStep6");
 toast("Prenotazione accettata");
 }
+
 function saveResult(){
 var vals=[];
 for(var n=1;n<=5;n++){
