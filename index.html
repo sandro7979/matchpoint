@@ -53,11 +53,11 @@ label{display:block;font-weight:800;font-size:14px;margin:14px 0 7px}input,selec
 <div class="card">
 <label>Quando vuoi giocare?</label><input id="date" type="date">
 <label>Orario</label><input id="time" type="time" value="18:00">
-<label>Paese</label><input id="country" type="text" value="Italia">
-<label>Città / zona</label><input id="zone" type="text" value="Pieve di Soligo" placeholder="Es. Pieve di Soligo">
+<label>Paese</label><input id="country" type="text" placeholder="Rilevamento automatico..." readonly>
+<label>Città / zona</label><input id="zone" type="text" placeholder="Rilevamento automatico..." readonly>
 <label>Livello</label><select id="level"><option>Principiante</option><option selected>Intermedio</option><option>Avanzato</option></select>
-<button class="secondary" type="button" onclick="useLocation()">📍 USA LA MIA POSIZIONE</button>
-<p id="locationStatus" class="muted">La posizione serve solo per proporre una zona più precisa. La demo funziona anche senza GPS.</p>
+<button id="locationButton" class="secondary" type="button" onclick="useLocation()">📍 RILEVA DI NUOVO LA MIA POSIZIONE</button>
+<p id="locationStatus" class="muted">📍 Sto rilevando automaticamente la tua città...</p>
 </div>
 
 <button class="primary" onclick="findMatch()">TROVA IL MIO MATCH</button>
@@ -184,6 +184,14 @@ home.style.display="none";
 const target=document.getElementById(id);
 if(target){target.classList.add("show");target.scrollTop=0}
 setNav(id==="games"?1:id==="profile"?2:-1);
+
+if(id==="match"){
+  const zone=document.getElementById("zone");
+  const country=document.getElementById("country");
+  if(zone && country && (!zone.value || !country.value)){
+    setTimeout(useLocation,180);
+  }
+}
 }
 function setNav(n){document.querySelectorAll(".nav button").forEach((b,i)=>b.classList.toggle("active",i===n))}
 function fmtDate(v){
@@ -199,32 +207,67 @@ clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.rem
 
 function useLocation(){
 const status=document.getElementById("locationStatus");
-if(!navigator.geolocation){status.textContent="GPS non disponibile: uso Pieve di Soligo, Italia.";return}
-status.textContent="Cerco la tua posizione...";
+const button=document.getElementById("locationButton");
+const zone=document.getElementById("zone");
+const country=document.getElementById("country");
+
+if(!navigator.geolocation){
+status.textContent="⚠️ Il browser non supporta la geolocalizzazione.";
+return;
+}
+
+status.textContent="📍 Rilevo automaticamente la tua città...";
+button.disabled=true;
+button.textContent="📍 RILEVAMENTO IN CORSO...";
+
 navigator.geolocation.getCurrentPosition(async pos=>{
 try{
-const lat=pos.coords.latitude,lon=pos.coords.longitude;
-const r=await fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+lat+"&lon="+lon+"&zoom=10&addressdetails=1",{headers:{"Accept-Language":"it"}});
-if(!r.ok)throw new Error();
-const j=await r.json(),a=j.address||{};
-const city=a.city||a.town||a.village||a.municipality||a.county||"Pieve di Soligo";
-const country=a.country||"Italia";
-document.getElementById("zone").value=city;
-document.getElementById("country").value=country;
-status.textContent="📍 Posizione trovata: "+city+", "+country;
-showToast("Posizione trovata");
-}catch(e){
-document.getElementById("zone").value="Pieve di Soligo";
-document.getElementById("country").value="Italia";
-status.textContent="📍 Posizione non decodificata: uso Pieve di Soligo, Italia.";
-showToast("Zona impostata automaticamente");
+const lat=pos.coords.latitude;
+const lon=pos.coords.longitude;
+
+/* Reverse geocoding: coordinate GPS → città + Paese */
+const url="https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat="+encodeURIComponent(lat)+"&lon="+encodeURIComponent(lon)+"&zoom=10&addressdetails=1&accept-language=it";
+const response=await fetch(url,{headers:{"Accept":"application/json","Accept-Language":"it"}});
+if(!response.ok) throw new Error("Reverse geocoding non disponibile");
+
+const json=await response.json();
+const a=json.address||{};
+
+const city=a.city||a.town||a.village||a.municipality||a.locality||a.county;
+const detectedCountry=a.country;
+
+if(!city || !detectedCountry) throw new Error("Città non trovata");
+
+zone.value=city;
+country.value=detectedCountry;
+
+status.textContent="📍 Posizione rilevata: "+city+", "+detectedCountry;
+button.textContent="📍 POSIZIONE AGGIORNATA";
+showToast("Città rilevata: "+city);
+
+}catch(error){
+zone.value="";
+country.value="";
+status.textContent="⚠️ Non riesco a trasformare la posizione in città. Tocca «RILEVA DI NUOVO».";
+button.textContent="📍 RILEVA DI NUOVO LA MIA POSIZIONE";
+showToast("Riprova il rilevamento");
 }
-},()=>{
-document.getElementById("zone").value="Pieve di Soligo";
-document.getElementById("country").value="Italia";
-status.textContent="📍 GPS non autorizzato: uso Pieve di Soligo, Italia.";
-showToast("Zona impostata automaticamente");
-},{enableHighAccuracy:true,timeout:8000,maximumAge:600000});
+button.disabled=false;
+
+},error=>{
+zone.value="";
+country.value="";
+button.disabled=false;
+button.textContent="📍 RILEVA DI NUOVO LA MIA POSIZIONE";
+
+if(error.code===1){
+status.textContent="⚠️ Devi consentire la posizione a Safari per compilare automaticamente la città.";
+}else if(error.code===2){
+status.textContent="⚠️ Posizione non disponibile. Riprova.";
+}else{
+status.textContent="⚠️ Rilevamento scaduto. Riprova.";
+}
+});
 }
 
 function findMatch(){
@@ -232,9 +275,16 @@ data={
 date:document.getElementById("date").value,
 time:document.getElementById("time").value||"18:00",
 zone:document.getElementById("zone").value.trim()||"Pieve di Soligo",
-country:document.getElementById("country").value.trim()||"Italia",
+country:document.getElementById("country").value.trim(),
 level:document.getElementById("level").value
 };
+
+if(!data.zone || !data.country){
+  showToast("Prima rileva automaticamente la tua città");
+  document.getElementById("locationStatus").textContent="📍 Tocca «RILEVA DI NUOVO LA MIA POSIZIONE» per compilare la città.";
+  return;
+}
+
 document.getElementById("matchResult").classList.remove("show");
 document.getElementById("players").classList.add("hidden");
 document.getElementById("courts").classList.add("hidden");
