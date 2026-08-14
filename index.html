@@ -301,10 +301,50 @@ let selectedPlayer="Marco";
 let selectedCourt="Centro Tennis Pieve · Campo 2";
 let toastTimer=null;
 
+function resetMatchFlow(){
+data=null;
+court="Centro Tennis Pieve";
+selectedPlayer="Marco";
+selectedCourt="Centro Tennis Pieve · Campo 2";
+booker="me";
+scoreData={};
+
+var ids=["matchStep1","matchLoading","matchStep2","matchStep3","matchStep4","matchStep5","matchStep6","matchStep7","matchStep8"];
+ids.forEach(function(x){
+var el=document.getElementById(x);
+if(el)el.classList.add("hidden");
+});
+var first=document.getElementById("matchStep1");
+if(first)first.classList.remove("hidden");
+
+var bar=document.getElementById("bar");
+if(bar)bar.style.width="0%";
+var text=document.getElementById("loadingText");
+if(text)text.textContent="Confronto giocatori compatibili";
+
+var zone=document.getElementById("zone");
+if(zone)zone.value="";
+var time=document.getElementById("time");
+if(time)time.value="18:00";
+var level=document.getElementById("level");
+if(level)level.value="Intermedio";
+var radius=document.getElementById("radius");
+if(radius)radius.value="10";
+
+document.querySelectorAll(".score-picker").forEach(function(x){x.remove();});
+document.querySelectorAll(".choice").forEach(function(x){x.classList.remove("selected");});
+var defaultCourt=document.querySelector('.choice[data-court="Centro Tennis Pieve · Campo 2"]');
+if(defaultCourt)defaultCourt.classList.add("selected");
+}
+
 function openView(id){
 document.querySelectorAll(".view").forEach(function(v){v.classList.remove("show");});
 var home=document.getElementById("home");
 if(id==="home"){home.style.display="block";setNav(0);return;}
+
+if(id==="match"){
+resetMatchFlow();
+}
 home.style.display="none";
 var target=document.getElementById(id);
 if(target){target.classList.add("show");target.scrollTop=0;}
