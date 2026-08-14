@@ -66,7 +66,7 @@ input:focus,select:focus{border-color:#d9ff00}
 .city-option{display:block;width:100%;padding:14px 15px;border:0;border-bottom:1px solid #1d3035;background:#081317;color:#fff;text-align:left;font-weight:800}
 .city-option:last-child{border-bottom:0}
 
-.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
+.booking-choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:16px;margin:10px 0;text-align:left;cursor:pointer}.booking-choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.booking-choice strong{display:block;font-size:17px;margin-bottom:5px}.booking-choice small{color:#aeb7b9;line-height:1.35}.booking-icon{font-size:25px;margin-right:8px}.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
 .player.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}
 .avatar{width:52px;height:52px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-weight:900;font-size:22px;flex:none}
 .player-info strong{display:block;font-size:18px}
@@ -163,18 +163,61 @@ input:focus,select:focus{border-color:#d9ff00}
 </div>
 
 <div id="matchStep4" class="screen hidden">
-<h1>Richiesta di prenotazione</h1><div class="card"><div class="success">📩 Proposta pronta</div><p class="muted" id="proposalText"></p></div>
-<button class="primary" type="button" onclick="requestBooking()">INVIA RICHIESTA</button>
+<h1>Chi prenota il campo?</h1>
+<div class="card">
+<div class="success">🎾 Ultimo passo prima del match</div>
+<p class="muted">Scegli chi si occuperà della prenotazione del campo.</p>
+</div>
+
+<div id="bookMe" class="booking-choice selected" onclick="pickBooker('me')">
+<strong><span class="booking-icon">👤</span>Prenoto io</strong>
+<small>Tu prenoti il campo per entrambi e invii a Marco la conferma.</small>
+</div>
+
+<div id="bookPartner" class="booking-choice" onclick="pickBooker('partner')">
+<strong><span class="booking-icon">👤</span>Prenota il mio compagno</strong>
+<small>Invii la richiesta a Marco. Sarà lui a occuparsi della prenotazione.</small>
+</div>
+
+<button class="primary" type="button" onclick="continueBooking()">CONTINUA</button>
 </div>
 
 <div id="matchStep5" class="screen hidden">
-<h1>Attesa accettazione</h1><div class="card"><div class="success">📨 Richiesta inviata</div><p class="muted" id="requestText"></p><p class="muted">Il compagno deve accettare la proposta prima della prenotazione.</p></div>
-<button class="primary" type="button" onclick="acceptRequest()">ACCETTA LA RICHIESTA</button>
+<h1>Riepilogo prenotazione</h1>
+<div class="card">
+<div class="success">📋 Controlla i dati</div>
+<p class="muted" id="bookingSummary"></p>
+</div>
+<button class="primary" type="button" onclick="sendBookingRequest()">INVIA RICHIESTA DI PRENOTAZIONE</button>
 </div>
 
 <div id="matchStep6" class="screen hidden">
-<h1>Partita confermata</h1><div class="card"><div class="success">✅ Prenotazione accettata!</div><p class="muted" id="confirmedText"></p><p class="muted">La partita è confermata. Ora puoi registrare il risultato.</p></div>
-<button class="primary" type="button" onclick="openView('games')">VAI ALLA PARTITA</button>
+<h1>Richiesta inviata</h1>
+<div class="card">
+<div class="success">📨 Richiesta di prenotazione</div>
+<p class="muted" id="bookingRequestText"></p>
+<p class="muted" id="bookingWaitingText"></p>
+</div>
+<button class="primary" type="button" onclick="completeBooking()">CONFERMA PRENOTAZIONE</button>
+</div>
+
+<div id="matchStep7" class="screen hidden">
+<h1>Prenotazione effettuata</h1>
+<div class="card">
+<div class="success">✅ Campo prenotato</div>
+<p class="muted" id="bookedText"></p>
+</div>
+<button class="primary" type="button" onclick="confirmFinalMatch()">CONFERMA MATCH</button>
+</div>
+
+<div id="matchStep8" class="screen hidden">
+<h1>Match confermato</h1>
+<div class="card">
+<div class="success">🎾 MATCH CONFERMATO!</div>
+<p class="muted" id="finalMatchText"></p>
+<p class="muted">Il campo è prenotato. Ci vediamo in campo! 🎾</p>
+</div>
+<button class="primary" type="button" onclick="openView('games')">VAI ALLE MIE PARTITE</button>
 </div>
 </section>
 
@@ -296,7 +339,7 @@ if(!e.target.closest(".autocomplete-wrap"))closeCities();
 });
 
 function showOnlyMatchStep(id){
-var ids=["matchStep1","matchLoading","matchStep2","matchStep3","matchStep4","matchStep5","matchStep6"];
+var ids=["matchStep1","matchLoading","matchStep2","matchStep3","matchStep4","matchStep5","matchStep6","matchStep7","matchStep8"];
 ids.forEach(function(x){var el=document.getElementById(x);if(el)el.classList.add("hidden");});
 document.getElementById(id).classList.remove("hidden");
 document.getElementById("match").scrollTop=0;
@@ -322,20 +365,68 @@ function showPlayers(){showOnlyMatchStep("matchStep2");}
 function pickPlayer(el){document.querySelectorAll(".player").forEach(function(x){x.classList.remove("selected");});el.classList.add("selected");selectedPlayer=el.getAttribute("data-player");}
 function acceptPlayer(){document.getElementById("courtCity").textContent=data.zone;showOnlyMatchStep("matchStep3");}
 function pickCourt(el){document.querySelectorAll(".choice").forEach(function(x){x.classList.remove("selected");});el.classList.add("selected");selectedCourt=el.getAttribute("data-court");}
-function proposeCourt(){document.getElementById("proposalText").textContent=selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;showOnlyMatchStep("matchStep4");}
-function requestBooking(){document.getElementById("requestText").textContent="Hai proposto a "+selectedPlayer+": "+fmtDate(data.date)+" · "+data.time+" · "+selectedCourt+".";showOnlyMatchStep("matchStep5");toast("Richiesta inviata");}
-function acceptRequest(){
-var text=selectedPlayer+" ha accettato. "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
-document.getElementById("confirmedText").textContent=text;
+let booker="me";
+
+function proposeCourt(){
+document.getElementById("courtCity").textContent=data.zone;
+showOnlyMatchStep("matchStep4");
+}
+
+function pickBooker(type){
+booker=type;
+document.getElementById("bookMe").classList.toggle("selected",type==="me");
+document.getElementById("bookPartner").classList.toggle("selected",type==="partner");
+}
+
+function continueBooking(){
+var who=booker==="me"?"Tu":"Il tuo compagno ("+selectedPlayer+")";
+document.getElementById("bookingSummary").textContent=
+selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt+" · Prenota: "+who;
+showOnlyMatchStep("matchStep5");
+}
+
+function sendBookingRequest(){
+var who=booker==="me"?"Tu prenoti il campo per entrambi.":"La richiesta viene inviata a "+selectedPlayer+" perché prenoti il campo.";
+document.getElementById("bookingRequestText").textContent=
+selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt;
+document.getElementById("bookingWaitingText").textContent=who;
+showOnlyMatchStep("matchStep6");
+toast("Richiesta inviata");
+}
+
+function completeBooking(){
+var who=booker==="me"?"Hai prenotato il campo per entrambi.":selectedPlayer+" ha prenotato il campo.";
+document.getElementById("bookedText").textContent=
+who+" · "+selectedCourt+" · "+fmtDate(data.date)+" · "+data.time;
+showOnlyMatchStep("matchStep7");
+}
+
+function confirmFinalMatch(){
+var who=booker==="me"?"Prenotazione effettuata da te.":"Prenotazione effettuata da "+selectedPlayer+".";
+var text=
+"Sandro vs "+selectedPlayer+" · "+fmtDate(data.date)+" · "+data.time+" · "+data.zone+" · "+selectedCourt+". "+who;
+document.getElementById("finalMatchText").textContent=text;
+
 document.getElementById("savedPlayer").textContent=selectedPlayer;
 document.getElementById("savedInfo").textContent=fmtDate(data.date)+" · "+data.time+" · "+data.zone;
 document.getElementById("savedCourt").textContent=selectedCourt;
 document.getElementById("savedLevel").textContent=data.level;
 document.getElementById("empty").classList.add("hidden");
 document.getElementById("saved").classList.remove("hidden");
-localStorage.setItem("matchpointGame",JSON.stringify({player:selectedPlayer,date:data.date,time:data.time,zone:data.zone,level:data.level,court:selectedCourt,radius:data.radius}));
-showOnlyMatchStep("matchStep6");
-toast("Prenotazione accettata");
+
+localStorage.setItem("matchpointGame",JSON.stringify({
+player:selectedPlayer,
+date:data.date,
+time:data.time,
+zone:data.zone,
+level:data.level,
+court:selectedCourt,
+radius:data.radius,
+booker:booker
+}));
+
+showOnlyMatchStep("matchStep8");
+toast("Match confermato");
 }
 
 function saveResult(){
