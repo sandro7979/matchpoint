@@ -66,7 +66,7 @@ input:focus,select:focus{border-color:#d9ff00}
 .city-option{display:block;width:100%;padding:14px 15px;border:0;border-bottom:1px solid #1d3035;background:#081317;color:#fff;text-align:left;font-weight:800}
 .city-option:last-child{border-bottom:0}
 
-.scoreboard{background:#0b171a;border:1px solid #24363b;border-radius:18px;overflow:visible;margin:12px 0}.score-head,.score-row{display:grid;grid-template-columns:1fr 64px 64px;align-items:center}.score-head{background:#172326;color:#aeb7b9;font-size:12px;font-weight:900;padding:10px 12px}.score-row{padding:9px 12px;border-top:1px solid #24363b}.score-name{font-weight:900}.score-cell{position:relative}.score-select{width:56px;height:48px;padding:0;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:20px;font-weight:900;text-align:center;cursor:pointer}.score-picker{position:absolute;left:50%;top:54px;transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,42px);gap:5px;background:#172326;border:1px solid #34484e;border-radius:14px;padding:8px;z-index:250;box-shadow:0 10px 25px rgba(0,0,0,.5)}.score-picker button{height:38px;border:0;border-radius:9px;background:#0b171a;color:#fff;font-weight:900}.score-result{font-size:20px;font-weight:900;text-align:center;margin:16px 0}.approval{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:16px;margin:10px 0}.approval.ok{border-color:#d9ff00}.approved-badge{display:inline-block;border-radius:20px;padding:7px 11px;background:#172326;color:#d9ff00;font-size:13px;font-weight:900}.booking-choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:16px;margin:10px 0;text-align:left;cursor:pointer}.booking-choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.booking-choice strong{display:block;font-size:17px;margin-bottom:5px}.booking-choice small{color:#aeb7b9;line-height:1.35}.booking-icon{font-size:25px;margin-right:8px}.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
+.scoreboard{background:linear-gradient(180deg,#102a31,#081317);border:1px solid #50686f;border-radius:18px;overflow:visible;margin:14px 0;width:100%;box-shadow:0 12px 30px rgba(0,0,0,.32)}.score-head,.score-row{display:grid;grid-template-columns:minmax(82px,1fr) repeat(5,44px) 44px;align-items:center}.score-head{background:linear-gradient(90deg,#1d3b42,#172326);color:#d9ff00;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.4px;padding:9px 7px}.score-head span:nth-child(n+2){text-align:center}.score-row{padding:8px 7px;border-top:1px solid #30484e}.score-row:nth-child(3){background:rgba(217,255,0,.035)}.score-name{font-weight:900;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.score-cell{position:relative;text-align:center}.score-select{width:38px;height:40px;padding:0;border-radius:10px;border:1px solid #47636a;background:#0a1b20;color:#fff;font-size:18px;font-weight:900;text-align:center;cursor:pointer;transition:.15s}.score-select:hover,.score-select:focus{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.score-picker{position:absolute;left:50%;top:45px;transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,40px);gap:5px;background:#17333a;border:1px solid #607980;border-radius:14px;padding:7px;z-index:250;box-shadow:0 14px 30px rgba(0,0,0,.6)}.score-picker button{height:36px;border:0;border-radius:9px;background:#0b1c20;color:#fff;font-weight:900}.score-picker button:active{background:#d9ff00;color:#050909}.score-result{font-size:18px;font-weight:900;text-align:center;margin:14px 0}.approval{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:16px;margin:10px 0}.approval.ok{border-color:#d9ff00}.approved-badge{display:inline-block;border-radius:20px;padding:7px 11px;background:#172326;color:#d9ff00;font-size:13px;font-weight:900}.booking-choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:16px;margin:10px 0;text-align:left;cursor:pointer}.booking-choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.booking-choice strong{display:block;font-size:17px;margin-bottom:5px}.booking-choice small{color:#aeb7b9;line-height:1.35}.booking-icon{font-size:25px;margin-right:8px}.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
 .player.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}
 .avatar{width:52px;height:52px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-weight:900;font-size:22px;flex:none}
 .player-info strong{display:block;font-size:18px}
@@ -240,40 +240,33 @@ input:focus,select:focus{border-color:#d9ff00}
 </div>
 
 <div class="card">
-<h2>Tabellone</h2>
-<p class="muted">Tocca una casella per scegliere il punteggio da 0 a 7.</p>
+<h2>🎾 Tabellone</h2>
+<p class="muted">Inserisci il tuo punteggio, poi quello dell’avversario. Si passa automaticamente al set successivo.</p>
 
 <div class="scoreboard">
-<div class="score-head"><span>Giocatore</span><span>Set 1</span><span>Set 2</span></div>
-<div class="score-row"><span class="score-name" id="scoreNameA">Sandro</span>
+<div class="score-head"><span>Giocatore</span><span>1°</span><span>2°</span><span>3°</span><span>4°</span><span>5°</span><span>V</span></div>
+<div class="score-row">
+<span class="score-name" id="scoreNameA">Sandro</span>
 <div class="score-cell"><button class="score-select" data-set="1" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
-<div class="score-cell"><button class="score-select" data-set="2" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div></div>
-<div class="score-row"><span class="score-name" id="scoreNameB">Marco</span>
-<div class="score-cell"><button class="score-select" data-set="1" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
-<div class="score-cell"><button class="score-select" data-set="2" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div></div>
-</div>
-
-<div class="scoreboard">
-<div class="score-head"><span>Giocatore</span><span>Set 3</span><span>Set 4</span></div>
-<div class="score-row"><span class="score-name">Punteggio</span>
+<div class="score-cell"><button class="score-select" data-set="2" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
 <div class="score-cell"><button class="score-select" data-set="3" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
-<div class="score-cell"><button class="score-select" data-set="4" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div></div>
-<div class="score-row"><span class="score-name">Avversario</span>
-<div class="score-cell"><button class="score-select" data-set="3" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
-<div class="score-cell"><button class="score-select" data-set="4" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div></div>
+<div class="score-cell"><button class="score-select" data-set="4" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="5" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
+<strong id="winsA">0</strong>
 </div>
-
-<div class="scoreboard">
-<div class="score-head"><span>Giocatore</span><span>Set 5</span><span></span></div>
-<div class="score-row"><span class="score-name">Punteggio</span>
-<div class="score-cell"><button class="score-select" data-set="5" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div><span></span></div>
-<div class="score-row"><span class="score-name">Avversario</span>
-<div class="score-cell"><button class="score-select" data-set="5" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div><span></span></div>
+<div class="score-row">
+<span class="score-name" id="scoreNameB">Marco</span>
+<div class="score-cell"><button class="score-select" data-set="1" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="2" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="3" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="4" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="5" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<strong id="winsB">0</strong>
+</div>
 </div>
 
 <div id="scoreSummary" class="score-result">Inserisci almeno un set</div>
 <button class="secondary" type="button" onclick="submitScore()">CONFERMA IL MIO RISULTATO</button>
-
 <div id="myApproval" class="approval hidden"><strong>✅ Hai confermato il risultato.</strong><p class="muted">Ora aspettiamo la conferma di <span id="opponentApprovalName">Marco</span>.</p></div>
 <div id="opponentApproval" class="approval hidden"><strong>📩 Conferma di <span id="opponentApprovalName2">Marco</span></strong><p class="muted">Il tuo avversario ha ricevuto il risultato.</p><button class="primary" type="button" onclick="opponentConfirmScore()">CONFERMA RISULTATO</button></div>
 <div id="officialResult" class="approval ok hidden"><div class="success">🏆 RISULTATO OMOLOGATO</div><p class="muted" id="officialText"></p><span class="approved-badge">CONFERMATO DA ENTRAMBI</span></div>
@@ -460,22 +453,57 @@ var scoreData={};
 
 function openScorePicker(button){
 document.querySelectorAll(".score-picker").forEach(function(x){x.remove();});
+
 var picker=document.createElement("div");
 picker.className="score-picker";
+
+var clear=document.createElement("button");
+clear.type="button";
+clear.textContent="×";
+clear.title="Cancella";
+clear.style.background="#3a2025";
+clear.onclick=function(){
+button.textContent="—";
+delete scoreData[button.getAttribute("data-set")+button.getAttribute("data-player")];
+picker.remove();
+updateScoreSummary();
+button.focus();
+};
+picker.appendChild(clear);
+
 for(var n=0;n<=7;n++){
 var b=document.createElement("button");
-b.type="button"; b.textContent=n;
+b.type="button";
+b.textContent=n;
 b.onclick=(function(value){
 return function(){
 button.textContent=value;
 scoreData[button.getAttribute("data-set")+button.getAttribute("data-player")]=value;
+
+/* Il menu sparisce immediatamente dopo la scelta. */
 picker.remove();
+
 updateScoreSummary();
+
+/* Passa automaticamente alla casella successiva:
+   Sandro S1 -> Marco S1 -> Sandro S2 -> Marco S2 ... */
+/* Il selettore resta chiuso.
+   Il prossimo punteggio si apre solo quando l'utente tocca la relativa casella. */
 };
 })(n);
 picker.appendChild(b);
 }
+
 button.parentElement.appendChild(picker);
+}
+
+function findNextScoreButton(current){
+var set=Number(current.getAttribute("data-set"));
+var player=current.getAttribute("data-player");
+var nextPlayer=player==="a"?"b":"a";
+var nextSet=player==="a"?set:set+1;
+var next=document.querySelector('.score-select[data-set="'+nextSet+'"][data-player="'+nextPlayer+'"]');
+return next||null;
 }
 
 function updateScoreSummary(){
@@ -488,8 +516,11 @@ if(a>b)aWins++;else bWins++;
 sets.push(a+"-"+b);
 }
 }
+document.getElementById("winsA").textContent=aWins;
+document.getElementById("winsB").textContent=bWins;
 if(!sets.length){document.getElementById("scoreSummary").textContent="Inserisci almeno un set";return;}
-document.getElementById("scoreSummary").textContent="Sandro "+aWins+" — "+bWins+" Marco · "+sets.join(" · ");
+document.getElementById("scoreSummary").textContent=
+"Sandro "+aWins+" — "+bWins+" Marco · "+sets.join(" · ");
 }
 
 function submitScore(){
