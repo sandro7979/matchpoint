@@ -66,7 +66,7 @@ input:focus,select:focus{border-color:#d9ff00}
 .city-option{display:block;width:100%;padding:14px 15px;border:0;border-bottom:1px solid #1d3035;background:#081317;color:#fff;text-align:left;font-weight:800}
 .city-option:last-child{border-bottom:0}
 
-.booking-choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:16px;margin:10px 0;text-align:left;cursor:pointer}.booking-choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.booking-choice strong{display:block;font-size:17px;margin-bottom:5px}.booking-choice small{color:#aeb7b9;line-height:1.35}.booking-icon{font-size:25px;margin-right:8px}.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
+.scoreboard{background:#0b171a;border:1px solid #24363b;border-radius:18px;overflow:visible;margin:12px 0}.score-head,.score-row{display:grid;grid-template-columns:1fr 64px 64px;align-items:center}.score-head{background:#172326;color:#aeb7b9;font-size:12px;font-weight:900;padding:10px 12px}.score-row{padding:9px 12px;border-top:1px solid #24363b}.score-name{font-weight:900}.score-cell{position:relative}.score-select{width:56px;height:48px;padding:0;border-radius:12px;border:1px solid #34484e;background:#081317;color:#fff;font-size:20px;font-weight:900;text-align:center;cursor:pointer}.score-picker{position:absolute;left:50%;top:54px;transform:translateX(-50%);display:grid;grid-template-columns:repeat(4,42px);gap:5px;background:#172326;border:1px solid #34484e;border-radius:14px;padding:8px;z-index:250;box-shadow:0 10px 25px rgba(0,0,0,.5)}.score-picker button{height:38px;border:0;border-radius:9px;background:#0b171a;color:#fff;font-weight:900}.score-result{font-size:20px;font-weight:900;text-align:center;margin:16px 0}.approval{border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:16px;margin:10px 0}.approval.ok{border-color:#d9ff00}.approved-badge{display:inline-block;border-radius:20px;padding:7px 11px;background:#172326;color:#d9ff00;font-size:13px;font-weight:900}.booking-choice{border:1px solid #30454a;background:#0b171a;color:#fff;border-radius:14px;padding:16px;margin:10px 0;text-align:left;cursor:pointer}.booking-choice.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}.booking-choice strong{display:block;font-size:17px;margin-bottom:5px}.booking-choice small{color:#aeb7b9;line-height:1.35}.booking-icon{font-size:25px;margin-right:8px}.player{display:flex;align-items:center;gap:14px;border:1px solid #30454a;background:#0b171a;border-radius:16px;padding:14px;margin:10px 0;cursor:pointer}
 .player.selected{border-color:#d9ff00;box-shadow:0 0 0 1px #d9ff00 inset}
 .avatar{width:52px;height:52px;border-radius:50%;background:#d9ff00;color:#050909;display:grid;place-items:center;font-weight:900;font-size:22px;flex:none}
 .player-info strong{display:block;font-size:18px}
@@ -240,16 +240,43 @@ input:focus,select:focus{border-color:#d9ff00}
 </div>
 
 <div class="card">
-<h2>Risultato partita</h2>
-<p class="muted">Inserisci il risultato dei 5 set.</p>
-<div class="score-grid">
-<input id="s1a" inputmode="numeric" placeholder="Set 1"><input id="s1b" inputmode="numeric" placeholder="Set 1">
-<input id="s2a" inputmode="numeric" placeholder="Set 2"><input id="s2b" inputmode="numeric" placeholder="Set 2">
-<input id="s3a" inputmode="numeric" placeholder="Set 3"><input id="s3b" inputmode="numeric" placeholder="Set 3">
-<input id="s4a" inputmode="numeric" placeholder="Set 4"><input id="s4b" inputmode="numeric" placeholder="Set 4">
-<input id="s5a" inputmode="numeric" placeholder="Set 5"><input id="s5b" inputmode="numeric" placeholder="Set 5">
+<h2>Tabellone</h2>
+<p class="muted">Tocca una casella per scegliere il punteggio da 0 a 7.</p>
+
+<div class="scoreboard">
+<div class="score-head"><span>Giocatore</span><span>Set 1</span><span>Set 2</span></div>
+<div class="score-row"><span class="score-name" id="scoreNameA">Sandro</span>
+<div class="score-cell"><button class="score-select" data-set="1" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="2" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div></div>
+<div class="score-row"><span class="score-name" id="scoreNameB">Marco</span>
+<div class="score-cell"><button class="score-select" data-set="1" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="2" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div></div>
 </div>
-<button class="secondary" type="button" onclick="saveResult()">SALVA RISULTATO</button>
+
+<div class="scoreboard">
+<div class="score-head"><span>Giocatore</span><span>Set 3</span><span>Set 4</span></div>
+<div class="score-row"><span class="score-name">Punteggio</span>
+<div class="score-cell"><button class="score-select" data-set="3" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="4" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div></div>
+<div class="score-row"><span class="score-name">Avversario</span>
+<div class="score-cell"><button class="score-select" data-set="3" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div>
+<div class="score-cell"><button class="score-select" data-set="4" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div></div>
+</div>
+
+<div class="scoreboard">
+<div class="score-head"><span>Giocatore</span><span>Set 5</span><span></span></div>
+<div class="score-row"><span class="score-name">Punteggio</span>
+<div class="score-cell"><button class="score-select" data-set="5" data-player="a" type="button" onclick="openScorePicker(this)">—</button></div><span></span></div>
+<div class="score-row"><span class="score-name">Avversario</span>
+<div class="score-cell"><button class="score-select" data-set="5" data-player="b" type="button" onclick="openScorePicker(this)">—</button></div><span></span></div>
+</div>
+
+<div id="scoreSummary" class="score-result">Inserisci almeno un set</div>
+<button class="secondary" type="button" onclick="submitScore()">CONFERMA IL MIO RISULTATO</button>
+
+<div id="myApproval" class="approval hidden"><strong>✅ Hai confermato il risultato.</strong><p class="muted">Ora aspettiamo la conferma di <span id="opponentApprovalName">Marco</span>.</p></div>
+<div id="opponentApproval" class="approval hidden"><strong>📩 Conferma di <span id="opponentApprovalName2">Marco</span></strong><p class="muted">Il tuo avversario ha ricevuto il risultato.</p><button class="primary" type="button" onclick="opponentConfirmScore()">CONFERMA RISULTATO</button></div>
+<div id="officialResult" class="approval ok hidden"><div class="success">🏆 RISULTATO OMOLOGATO</div><p class="muted" id="officialText"></p><span class="approved-badge">CONFERMATO DA ENTRAMBI</span></div>
 <p id="resultSaved" class="muted hidden"></p>
 </div>
 </div>
@@ -429,20 +456,72 @@ showOnlyMatchStep("matchStep8");
 toast("Match confermato");
 }
 
-function saveResult(){
-var vals=[];
-for(var n=1;n<=5;n++){
-var a=document.getElementById("s"+n+"a").value.trim();
-var b=document.getElementById("s"+n+"b").value.trim();
-if(a!==""||b!=="")vals.push(a+"-"+b);
+var scoreData={};
+
+function openScorePicker(button){
+document.querySelectorAll(".score-picker").forEach(function(x){x.remove();});
+var picker=document.createElement("div");
+picker.className="score-picker";
+for(var n=0;n<=7;n++){
+var b=document.createElement("button");
+b.type="button"; b.textContent=n;
+b.onclick=(function(value){
+return function(){
+button.textContent=value;
+scoreData[button.getAttribute("data-set")+button.getAttribute("data-player")]=value;
+picker.remove();
+updateScoreSummary();
+};
+})(n);
+picker.appendChild(b);
 }
-if(!vals.length){toast("Inserisci almeno un set");return;}
-var result=vals.join(" · ");
-localStorage.setItem("matchpointResult",result);
-document.getElementById("resultSaved").textContent="✅ Risultato registrato: "+result;
-document.getElementById("resultSaved").classList.remove("hidden");
-toast("Risultato salvato");
+button.parentElement.appendChild(picker);
 }
+
+function updateScoreSummary(){
+var aWins=0,bWins=0,sets=[];
+for(var i=1;i<=5;i++){
+var a=scoreData[i+"a"],b=scoreData[i+"b"];
+if(a!==undefined&&b!==undefined){
+if(a===b)continue;
+if(a>b)aWins++;else bWins++;
+sets.push(a+"-"+b);
+}
+}
+if(!sets.length){document.getElementById("scoreSummary").textContent="Inserisci almeno un set";return;}
+document.getElementById("scoreSummary").textContent="Sandro "+aWins+" — "+bWins+" Marco · "+sets.join(" · ");
+}
+
+function submitScore(){
+var count=0;
+for(var i=1;i<=5;i++){
+var a=scoreData[i+"a"],b=scoreData[i+"b"];
+if(a!==undefined||b!==undefined){
+if(a===undefined||b===undefined){toast("Completa entrambi i punteggi del set");return;}
+if(a===b){toast("Un set non può finire pari");return;}
+count++;
+}}
+if(!count){toast("Inserisci almeno un set");return;}
+document.getElementById("myApproval").classList.remove("hidden");
+document.getElementById("opponentApproval").classList.remove("hidden");
+toast("Risultato inviato per conferma");
+}
+
+function opponentConfirmScore(){
+var aWins=0,bWins=0,sets=[];
+for(var i=1;i<=5;i++){
+var a=scoreData[i+"a"],b=scoreData[i+"b"];
+if(a!==undefined&&b!==undefined){if(a>b)aWins++;else if(b>a)bWins++;sets.push(a+"-"+b);}
+}
+var official="Sandro "+aWins+" — "+bWins+" Marco · "+sets.join(" · ");
+document.getElementById("officialText").textContent=official;
+document.getElementById("officialResult").classList.remove("hidden");
+document.getElementById("opponentApproval").classList.add("hidden");
+document.getElementById("myApproval").classList.add("hidden");
+localStorage.setItem("matchpointResult",official);
+toast("Risultato omologato");
+}
+
 function saveProfile(){
 var name=document.getElementById("name").value.trim();
 var profile={
@@ -483,7 +562,7 @@ document.getElementById("saved").classList.remove("hidden");
 document.getElementById("savedPlayer").textContent=selectedPlayer;
 document.getElementById("savedInfo").textContent=fmtDate(g.date)+" · "+g.time+" · "+g.zone;
 document.getElementById("savedCourt").textContent=g.court;
-document.getElementById("savedLevel").textContent=g.level;
+document.getElementById("savedLevel").textContent=g.level;document.getElementById("scoreNameB").textContent=g.player||"Marco";document.getElementById("opponentApprovalName").textContent=g.player||"Marco";document.getElementById("opponentApprovalName2").textContent=g.player||"Marco";
 }
 }catch(e){}
 
