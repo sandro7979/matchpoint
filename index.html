@@ -659,6 +659,31 @@ padding:6px 5px 7px;
     height:44%;
   }
 }
+
+/* V75: hide only the baked-in label area of the artwork and render the
+   navigation labels as real text. Icons remain untouched above it. */
+.home-hotnav .hotnav-btn::after{
+  left:0;
+  right:0;
+  bottom:0;
+  height:48%;
+  background:#061317;
+  color:#d3dddf;
+  z-index:5;
+  overflow:visible;
+  box-sizing:border-box;
+  padding:0 2px;
+}
+.home-hotnav .hotnav-btn:nth-child(2)::after{
+  font-size:10px;
+  letter-spacing:-.1px;
+}
+@media (max-width:700px){
+  .home-hotnav .hotnav-btn:nth-child(2)::after{
+    font-size:10px;
+    letter-spacing:-.2px;
+  }
+}
 </style>
 </head>
 
