@@ -594,35 +594,35 @@ padding:6px 5px 7px;
   white-space:nowrap;
 }
 
-/* V91 — iPhone-only correction based on V72.
-   Desktop/tablet: untouched. Original V72 icons are preserved. */
+/* V95 — V72 base: on iPhone only, cover the baked-in middle label
+   and replace it with the single word "Partite". */
+.mobile-games-label{
+  display:none;
+}
 @media (max-width:700px){
-  .home-hotnav{
+  .home-hotnav .hotnav-btn:nth-child(2){
+    position:relative !important;
+  }
+  .home-hotnav .hotnav-btn:nth-child(2) .mobile-games-label{
+    display:flex !important;
+    position:absolute !important;
     left:0 !important;
     right:0 !important;
     bottom:0 !important;
-    width:100% !important;
-    height:15% !important;
-    display:grid !important;
-    grid-template-columns:repeat(3,1fr) !important;
-    overflow:visible !important;
+    height:48px !important;
+    z-index:100 !important;
+    align-items:center !important;
+    justify-content:center !important;
     box-sizing:border-box !important;
-  }
-  .home-hotnav .hotnav-btn{
-    position:relative !important;
-    width:100% !important;
-    min-width:0 !important;
-    box-sizing:border-box !important;
+    background:#00151b !important;
+    color:#d3dddf !important;
+    font-family:inherit !important;
+    font-size:12px !important;
+    line-height:1 !important;
+    font-weight:800 !important;
+    white-space:nowrap !important;
     padding:0 !important;
     margin:0 !important;
-    display:block !important;
-    overflow:visible !important;
-  }
-  /* The artwork already contains the icons. Keep them untouched.
-     Only prevent any HTML label from wrapping/cropping. */
-  .home-hotnav .hotnav-btn::after{
-    white-space:nowrap !important;
-    overflow:visible !important;
   }
 }
 </style>
@@ -647,7 +647,9 @@ padding:6px 5px 7px;
 
   <nav class="home-hotnav" aria-label="Navigazione principale">
     <button type="button" class="hotnav-btn active" aria-label="Home" onclick="openView('home')"></button>
-    <button type="button" class="hotnav-btn" aria-label="Le mie partite" onclick="openView('games')"></button>
+    <button type="button" class="hotnav-btn" aria-label="Partite" onclick="openView('games')">
+      <span class="mobile-games-label">Partite</span>
+    </button>
     <button type="button" class="hotnav-btn" aria-label="Profilo" onclick="openView('profile')"></button>
   </nav>
 </section>
