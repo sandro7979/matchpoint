@@ -593,6 +593,72 @@ padding:6px 5px 7px;
 .home-hotnav .hotnav-btn{
   white-space:nowrap;
 }
+
+.home-hotnav{
+  background:rgba(4,14,17,.96);
+  align-items:center;
+}
+.home-hotnav .hotnav-btn{
+  color:#d3dddf;
+  font-size:12px;
+  line-height:1;
+  font-weight:800;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  padding:0 4px;
+  font-family:inherit;
+}
+.home-hotnav .hotnav-btn:nth-child(1)::after{content:"Home";}
+.home-hotnav .hotnav-btn:nth-child(2)::after{content:"Le mie partite";}
+.home-hotnav .hotnav-btn:nth-child(3)::after{content:"Profilo";}
+@media (max-width:700px){
+  .home-hotnav .hotnav-btn{font-size:11px;}
+}
+
+/* V74: keep the original navigation icons from the Home artwork,
+   while replacing only the lower text area with responsive HTML labels. */
+.home-hotnav{
+  background:transparent;
+  align-items:stretch;
+}
+.home-hotnav .hotnav-btn{
+  position:relative;
+  color:transparent;
+  font-size:0;
+  display:block;
+  padding:0;
+}
+.home-hotnav .hotnav-btn::after{
+  position:absolute;
+  content:"";
+  left:7%;
+  right:7%;
+  bottom:0;
+  height:44%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(4,14,17,.96);
+  color:#d3dddf;
+  font-size:12px;
+  line-height:1;
+  font-weight:800;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.home-hotnav .hotnav-btn:nth-child(1)::after{content:"Home";}
+.home-hotnav .hotnav-btn:nth-child(2)::after{content:"Le mie partite";}
+.home-hotnav .hotnav-btn:nth-child(3)::after{content:"Profilo";}
+.home-hotnav .hotnav-btn.active::after{color:#dfff00;}
+@media (max-width:700px){
+  .home-hotnav .hotnav-btn::after{
+    font-size:11px;
+    height:44%;
+  }
+}
 </style>
 </head>
 
