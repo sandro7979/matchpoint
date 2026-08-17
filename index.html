@@ -684,6 +684,34 @@ padding:6px 5px 7px;
     letter-spacing:-.2px;
   }
 }
+
+/* V76 — bottom navigation aligned to the original icons */
+.home-hotnav .hotnav-btn::after{
+  height:42%;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#061317;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-sizing:border-box;
+  padding:0 2px;
+  color:#d3dddf;
+  font-size:12px;
+  line-height:1;
+  font-weight:800;
+  white-space:nowrap;
+}
+.home-hotnav .hotnav-btn:nth-child(2)::after{font-size:11px;letter-spacing:-.1px;}
+.home-hotnav .hotnav-btn:nth-child(1)::after{content:"Home";}
+.home-hotnav .hotnav-btn:nth-child(2)::after{content:"Le mie partite";}
+.home-hotnav .hotnav-btn:nth-child(3)::after{content:"Profilo";}
+.home-hotnav .hotnav-btn.active::after{color:#dfff00;}
+@media (max-width:700px){
+  .home-hotnav .hotnav-btn::after{height:42%;font-size:11px;}
+  .home-hotnav .hotnav-btn:nth-child(2)::after{font-size:10px;}
+}
 </style>
 </head>
 
