@@ -745,6 +745,23 @@ padding:6px 5px 7px;
     transform:translateX(-6px);
   }
 }
+
+/* V81 — iPhone: raise the labels into the visible navigation area.
+   Desktop remains exactly as V80. Home keeps its left correction. */
+@media (max-width:700px){
+  .home-hotnav .hotnav-btn::after{
+    bottom:26px;
+  }
+  .home-hotnav .hotnav-btn:nth-child(1)::after{
+    transform:translate(-6px,0);
+  }
+  .home-hotnav .hotnav-btn:nth-child(2)::after{
+    transform:translateX(0);
+  }
+  .home-hotnav .hotnav-btn:nth-child(3)::after{
+    transform:translateX(0);
+  }
+}
 </style>
 </head>
 
