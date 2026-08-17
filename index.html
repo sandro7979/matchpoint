@@ -594,172 +594,35 @@ padding:6px 5px 7px;
   white-space:nowrap;
 }
 
-.home-hotnav{
-  background:rgba(4,14,17,.96);
-  align-items:center;
-}
-.home-hotnav .hotnav-btn{
-  color:#d3dddf;
-  font-size:12px;
-  line-height:1;
-  font-weight:800;
-  white-space:nowrap;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  min-width:0;
-  padding:0 4px;
-  font-family:inherit;
-}
-.home-hotnav .hotnav-btn:nth-child(1)::after{content:"Home";}
-.home-hotnav .hotnav-btn:nth-child(2)::after{content:"Le mie partite";}
-.home-hotnav .hotnav-btn:nth-child(3)::after{content:"Profilo";}
+/* V91 — iPhone-only correction based on V72.
+   Desktop/tablet: untouched. Original V72 icons are preserved. */
 @media (max-width:700px){
-  .home-hotnav .hotnav-btn{font-size:11px;}
-}
-
-/* V74: keep the original navigation icons from the Home artwork,
-   while replacing only the lower text area with responsive HTML labels. */
-.home-hotnav{
-  background:transparent;
-  align-items:stretch;
-}
-.home-hotnav .hotnav-btn{
-  position:relative;
-  color:transparent;
-  font-size:0;
-  display:block;
-  padding:0;
-}
-.home-hotnav .hotnav-btn::after{
-  position:absolute;
-  content:"";
-  left:7%;
-  right:7%;
-  bottom:0;
-  height:44%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(4,14,17,.96);
-  color:#d3dddf;
-  font-size:12px;
-  line-height:1;
-  font-weight:800;
-  white-space:nowrap;
-  font-family:inherit;
-}
-.home-hotnav .hotnav-btn:nth-child(1)::after{content:"Home";}
-.home-hotnav .hotnav-btn:nth-child(2)::after{content:"Le mie partite";}
-.home-hotnav .hotnav-btn:nth-child(3)::after{content:"Profilo";}
-.home-hotnav .hotnav-btn.active::after{color:#dfff00;}
-@media (max-width:700px){
+  .home-hotnav{
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    width:100% !important;
+    height:15% !important;
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    overflow:visible !important;
+    box-sizing:border-box !important;
+  }
+  .home-hotnav .hotnav-btn{
+    position:relative !important;
+    width:100% !important;
+    min-width:0 !important;
+    box-sizing:border-box !important;
+    padding:0 !important;
+    margin:0 !important;
+    display:block !important;
+    overflow:visible !important;
+  }
+  /* The artwork already contains the icons. Keep them untouched.
+     Only prevent any HTML label from wrapping/cropping. */
   .home-hotnav .hotnav-btn::after{
-    font-size:11px;
-    height:44%;
-  }
-}
-
-/* V75: hide only the baked-in label area of the artwork and render the
-   navigation labels as real text. Icons remain untouched above it. */
-.home-hotnav .hotnav-btn::after{
-  left:0;
-  right:0;
-  bottom:0;
-  height:48%;
-  background:#061317;
-  color:#d3dddf;
-  z-index:5;
-  overflow:visible;
-  box-sizing:border-box;
-  padding:0 2px;
-}
-.home-hotnav .hotnav-btn:nth-child(2)::after{
-  font-size:10px;
-  letter-spacing:-.1px;
-}
-@media (max-width:700px){
-  .home-hotnav .hotnav-btn:nth-child(2)::after{
-    font-size:10px;
-    letter-spacing:-.2px;
-  }
-}
-
-/* V76 — bottom navigation aligned to the original icons */
-.home-hotnav .hotnav-btn::after{
-  height:42%;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#061317;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-sizing:border-box;
-  padding:0 2px;
-  color:#d3dddf;
-  font-size:12px;
-  line-height:1;
-  font-weight:800;
-  white-space:nowrap;
-}
-.home-hotnav .hotnav-btn:nth-child(2)::after{font-size:11px;letter-spacing:-.1px;}
-.home-hotnav .hotnav-btn:nth-child(1)::after{content:"Home";}
-.home-hotnav .hotnav-btn:nth-child(2)::after{content:"Le mie partite";}
-.home-hotnav .hotnav-btn:nth-child(3)::after{content:"Profilo";}
-.home-hotnav .hotnav-btn.active::after{color:#dfff00;}
-@media (max-width:700px){
-  .home-hotnav .hotnav-btn::after{height:42%;font-size:11px;}
-  .home-hotnav .hotnav-btn:nth-child(2)::after{font-size:10px;}
-}
-
-/* V78 — iPhone only: fine alignment of labels, desktop V76 unchanged */
-@media (max-width:700px){
-  .home-hotnav .hotnav-btn:nth-child(1)::after{
-    transform:translateX(0);
-  }
-  .home-hotnav .hotnav-btn:nth-child(2)::after{
-    transform:translateX(0);
-  }
-  .home-hotnav .hotnav-btn:nth-child(3)::after{
-    transform:translateX(0);
-  }
-}
-
-/* V79 — only Home label alignment */
-.home-hotnav .hotnav-btn:nth-child(1)::after{
-  transform:translateX(6px);
-}
-@media (max-width:700px){
-  .home-hotnav .hotnav-btn:nth-child(1)::after{
-    transform:translateX(6px);
-  }
-}
-
-/* V80 — only Home label: move left */
-.home-hotnav .hotnav-btn:nth-child(1)::after{
-  transform:translateX(-6px);
-}
-@media (max-width:700px){
-  .home-hotnav .hotnav-btn:nth-child(1)::after{
-    transform:translateX(-6px);
-  }
-}
-
-/* V81 — iPhone: raise the labels into the visible navigation area.
-   Desktop remains exactly as V80. Home keeps its left correction. */
-@media (max-width:700px){
-  .home-hotnav .hotnav-btn::after{
-    bottom:26px;
-  }
-  .home-hotnav .hotnav-btn:nth-child(1)::after{
-    transform:translate(-6px,0);
-  }
-  .home-hotnav .hotnav-btn:nth-child(2)::after{
-    transform:translateX(0);
-  }
-  .home-hotnav .hotnav-btn:nth-child(3)::after{
-    transform:translateX(0);
+    white-space:nowrap !important;
+    overflow:visible !important;
   }
 }
 </style>
